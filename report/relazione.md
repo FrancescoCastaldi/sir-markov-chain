@@ -9,9 +9,9 @@
 
 ## 1. Introduzione
 
-Il presente lavoro esamina un modello epidemiologico di tipo SIR (Suscettibili–Infetti–Rimossi) interpretandolo rigorosamente come una **catena di Markov a tempo discreto**. L'obiettivo non è produrre una previsione realistica di un'epidemia, bensì offrire un esempio concreto in cui applicare le nozioni fondamentali della teoria delle catene di Markov sviluppate nel corso: processo markoviano, matrice di transizione, classificazione degli stati, stati assorbenti e comportamento asintotico [1].
+Il presente lavoro esamina un modello epidemiologico di tipo SIR (Suscettibili–Infetti–Rimossi) interpretandolo rigorosamente come una **catena di Markov a tempo discreto**. L’obiettivo non è produrre una previsione realistica di un’epidemia, bensì offrire un esempio concreto in cui applicare le nozioni fondamentali della teoria delle catene di Markov sviluppate nel corso: processo markoviano, matrice di transizione, classificazione degli stati, stati assorbenti e comportamento asintotico [1].
 
-La divisione della popolazione in tre compartimenti e l'ipotesi che l'evoluzione futura dipenda soltanto dallo stato presente rendono il modello SIR un candidato naturale per uno studio markoviano. La trattazione mantiene un taglio volutamente didattico, sacrificando dettagli di realismo biologico per mettere in luce la struttura probabilistica del sistema.
+La divisione della popolazione in tre compartimenti e l’ipotesi che l’evoluzione futura dipenda soltanto dallo stato presente rendono il modello SIR un candidato naturale per uno studio markoviano. La trattazione mantiene un taglio volutamente didattico, sacrificando dettagli di realismo biologico per mettere in luce la struttura probabilistica del sistema.
 
 ---
 
@@ -36,7 +36,7 @@ Vale il vincolo di conservazione
 S_t + I_t + R_t = N \qquad \forall t.
 \]
 
-Lo spazio degli stati è pertanto l'insieme finito  
+Lo spazio degli stati è pertanto l’insieme finito  
 
 \[
 E = \{(s,i,r) \in \mathbb{N}_0^3 : s+i+r = N\},
@@ -85,7 +85,7 @@ P\bigl((s,i,r), (s',i',r')\bigr) = \sum_{c=0}^{s} \sum_{g=0}^{i}
 
 Il modello adotta le seguenti ipotesi:
 - popolazione chiusa (nessuna nascita, morte o migrazione);
-- assenza di reinfezione (lo stato \(R\) è assorbente per l'individuo);
+- assenza di reinfezione (lo stato \(R\) è assorbente per l’individuo);
 - parametri \(\beta, \gamma\) costanti nel tempo;
 - mescolamento omogeneo (ogni suscettibile ha la stessa probabilità di incontrare un infetto).
 
@@ -118,11 +118,11 @@ Questo piccolo esempio mostra come la struttura markoviana sia completamente det
 
 ## 4. Simulazione Monte Carlo
 
-Per popolazioni di taglia realistica (\(N=100\)) il calcolo analitico dell'intera matrice di transizione è proibitivo, ma la simulazione numerica permette di esplorare il comportamento della catena.
+Per popolazioni di taglia realistica (\(N=100\)) il calcolo analitico dell’intera matrice di transizione è proibitivo, ma la simulazione numerica permette di esplorare il comportamento della catena.
 
 ### 4.1 Parametri e algoritmo
 
-Sono stati fissati i seguenti parametri, scelti in modo da ottenere una dinamica significativa senza esaurire immediatamente l'epidemia:
+Sono stati fissati i seguenti parametri, scelti in modo da ottenere una dinamica significativa senza esaurire immediatamente l’epidemia:
 
 **Tabella 2: Parametri della simulazione**
 
@@ -136,7 +136,7 @@ Sono stati fissati i seguenti parametri, scelti in modo da ottenere una dinamica
 | \(T_{\max}\) | 200 | Orizzonte temporale massimo (passi)      |
 | Numero simulazioni | 1000 | Replicazioni Monte Carlo         |
 
-L'algoritmo di simulazione, implementato in Python, esegue ad ogni passo:
+L’algoritmo di simulazione, implementato in Python, esegue ad ogni passo:
 1. Calcolare \(\lambda = \beta I_t / N\).
 2. Estrarre \(C_t \sim \text{Binomiale}(S_t, \lambda)\).
 3. Estrarre \(G_t \sim \text{Binomiale}(I_t, \gamma)\).
@@ -149,7 +149,7 @@ Per ogni simulazione sono state memorizzate:
 - la traiettoria completa di \(S_t, I_t, R_t\);
 - il tempo di estinzione \(\tau = \min\{t \ge 0 : I_t = 0\}\);
 - il picco massimo di infetti \(I_{\max} = \max_t I_t\);
-- il numero finale di rimossi \(R_\infty\), che coincide con il totale degli individui che hanno contratto l'infezione.
+- il numero finale di rimossi \(R_\infty\), che coincide con il totale degli individui che hanno contratto l’infezione.
 
 ---
 
@@ -167,7 +167,7 @@ La Figura 1 mostra una realizzazione tipica. Si osserva:
 
 ### 5.2 Comportamento medio e variabilità
 
-La Figura 2 presenta la media su 1000 simulazioni delle tre componenti, con bande di ±1 deviazione standard. L'andamento medio è più regolare e mostra un chiaro picco epidemico attorno a \(t \approx 25\). Le bande evidenziano una notevole variabilità tra le traiettorie, aspetto intrinseco della natura stocastica del modello.
+La Figura 2 presenta la media su 1000 simulazioni delle tre componenti, con bande di ±1 deviazione standard. L’andamento medio è più regolare e mostra un chiaro picco epidemico attorno a \(t \approx 25\). Le bande evidenziano una notevole variabilità tra le traiettorie, aspetto intrinseco della natura stocastica del modello.
 
 ![Figura 2: Traiettoria media e deviazione standard](img/mean_trajectory.png)  
 *Figura 2: Media (linea continua) e intervallo ±1 deviazione standard (area ombreggiata) delle componenti S, I, R su 1000 simulazioni.*
@@ -193,41 +193,41 @@ La Figura 3 mostra la distribuzione del tempo di estinzione: si osserva una form
 
 Come già accennato, gli stati con \(i=0\) costituiscono la **classe degli stati assorbenti**: per ognuno di essi si ha \(P((s,0,r),(s,0,r)) = 1\). Tutti gli altri stati sono **transitori**: da un qualsiasi stato con \(i>0\) esiste una probabilità positiva di raggiungere uno stato assorbente in un numero finito di passi, e una volta lasciati non possono più essere visitati.
 
-Di conseguenza, la catena **non è irriducibile**. L'unica classe chiusa è l'insieme degli stati assorbenti, che però non sono comunicanti tra loro.
+Di conseguenza, la catena **non è irriducibile**. L’unica classe chiusa è l’insieme degli stati assorbenti, che però non sono comunicanti tra loro.
 
 ### 6.2 Assorbimento e probabilità finale
 
-Poiché il processo parte da uno stato transitorio e la catena è finita, l'assorbimento in uno stato con \(I=0\) avviene con probabilità 1:
+Poiché il processo parte da uno stato transitorio e la catena è finita, l’assorbimento in uno stato con \(I=0\) avviene con probabilità 1:
 
 \[
 \mathbb{P}(\tau < \infty) = 1.
 \]
 
-La distribuzione di probabilità sullo stato assorbente finale \((S_\infty, 0, R_\infty)\) è concentrata su configurazioni che soddisfano \(S_\infty + R_\infty = N\) e dipende dai parametri \(\beta,\gamma\) e dallo stato iniziale. Per \(N\) grande, non esiste un'espressione analitica semplice; la simulazione fornisce una stima empirica di tale distribuzione (cfr. Tabella 3, colonna \(R_\infty\)).
+La distribuzione di probabilità sullo stato assorbente finale \((S_\infty, 0, R_\infty)\) è concentrata su configurazioni che soddisfano \(S_\infty + R_\infty = N\) e dipende dai parametri \(\beta,\gamma\) e dallo stato iniziale. Per \(N\) grande, non esiste un’espressione analitica semplice; la simulazione fornisce una stima empirica di tale distribuzione (cfr. Tabella 3, colonna \(R_\infty\)).
 
 ### 6.3 Tempo medio di assorbimento
 
-Il tempo di estinzione \(\tau\) è il tempo di assorbimento della catena. La teoria delle catene assorbenti [2] mostra che il vettore dei tempi medi di assorbimento a partire da ciascuno stato transitorio si ricava invertendo la matrice fondamentale:
+Il tempo di estinzione \(\tau\) è il tempo di assorbimento della catena. La teoria delle catene assorbenti [2] mostra che il vettore dei tempi medi di assorbimento a partire da ciascuno stato transitorio si ottiene risolvendo il sistema lineare
 
 \[
-\mathbf{t} = (I - Q)^{-1}\mathbf{1},
+\mathbf{t} = \mathbf{1} + Q \mathbf{t},
 \]
 
-dove \(Q\) è la sottomatrice di transizione ristretta agli stati transitori e \(\mathbf{1}\) è il vettore di tutti uno. La matrice \((I-Q)^{-1}\) è detta **matrice fondamentale** della catena assorbente e la sua entrata \((i,j)\) rappresenta il numero medio di visite allo stato transitorio \(j\) prima dell'assorbimento, partendo dallo stato \(i\). Per il modello SIR con \(N=100\) la matrice \(Q\) ha dimensioni enormi, ma il valore atteso \(\mathbb{E}[\tau]\) stimato via simulazione (68.3 passi) è una quantità che sarebbe teoricamente calcolabile se si disponesse della matrice completa.
+dove \(Q\) è la sottomatrice di transizione ristretta agli stati transitori e \(\mathbf{1}\) è il vettore di tutti uno. Per il modello SIR con \(N=100\) la matrice \(Q\) ha dimensioni enormi, ma il valore atteso \(\mathbb{E}[\tau]\) stimato via simulazione (68.3 giorni) è una quantità che sarebbe teoricamente calcolabile se si disponesse della matrice completa.
 
 ---
 
 ## 7. Conclusioni
 
-Il modello SIR discretizzato si è rivelato un efficace banco di prova per i concetti fondamentali delle catene di Markov a tempo discreto: spazio degli stati finito, matrice di transizione dipendente solo dallo stato corrente, presenza di stati assorbenti e transitori, assorbimento quasi certo. La simulazione Monte Carlo ha permesso di esplorare il comportamento globale del sistema, illustrando la differenza fra traiettorie individuali e comportamento medio, nonché l'incertezza intrinseca dovuta alla stocasticità.
+Il modello SIR discretizzato si è rivelato un efficace banco di prova per i concetti fondamentali delle catene di Markov a tempo discreto: spazio degli stati finito, matrice di transizione dipendente solo dallo stato corrente, presenza di stati assorbenti e transitori, assorbimento quasi certo. La simulazione Monte Carlo ha permesso di esplorare il comportamento globale del sistema, illustrando la differenza fra traiettorie individuali e comportamento medio, nonché l’incertezza intrinseca dovuta alla stocasticità.
 
 Da un punto di vista didattico, il lavoro offre una solida base per discutere oralmente argomenti quali:
 - la verifica della proprietà di Markov nella modellizzazione;
 - la costruzione esplicita della matrice di transizione (almeno per popolazioni piccole);
 - la classificazione degli stati e il concetto di catena assorbente;
-- l'interpretazione dei risultati simulativi alla luce della teoria.
+- l’interpretazione dei risultati simulativi alla luce della teoria.
 
-Restano ovviamente fuori dall'analisi aspetti epidemiologici più complessi (struttura di contatto, eterogeneità, demografia), la cui omissione è giustificata dallo scopo esclusivamente probabilistico-formale dello studio.
+Restano ovviamente fuori dall’analisi aspetti epidemiologici più complessi (struttura di contatto, eterogeneità, demografia), la cui omissione è giustificata dallo scopo esclusivamente probabilistico-formale dello studio.
 
 ---
 
@@ -238,4 +238,4 @@ Restano ovviamente fuori dall'analisi aspetti epidemiologici più complessi (str
 
 ---
 
-*Le figure menzionate (Figura 1, 2, 3) sono generate dal codice di simulazione e salvate in formato PNG nella cartella `img/`. In sede di esame orale si può fare riferimento ai grafici per commentare l'evoluzione dinamica e la variabilità del processo.*
+*Le figure menzionate (Figura 1, 2, 3) sono generate dal codice di simulazione e salvate in formato PNG nella cartella `img/`. In sede di esame orale si può fare riferimento ai grafici per commentare l’evoluzione dinamica e la variabilità del processo.*
