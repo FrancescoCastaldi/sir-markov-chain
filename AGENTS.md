@@ -29,7 +29,8 @@ sir-markov-chain/
 ├── img/                ← Output immagini per la relazione
 ├── plots/              ← Output grafici (runtime)
 ├── report/
-│   └── relazione.md    ← Relazione accademica (COMPLETA)
+│   ├── relazione.md    ← Relazione accademica (COMPLETA)
+│   └── presentazione.md ← Presentazione orale con Q&A, checklist, lavagna
 └── tests/
     ├── __init__.py      ← Per pytest
     └── test_model.py   ← Test unitari (11 test)
@@ -173,8 +174,8 @@ AGGIORNAMENTO: Quando un AI completa un task, deve:
 
 | ID          | Stato | Difficoltà | Task | Dipendenze |
 |-------------|-------|------------|------|------------|
-| **T-013** | 🔴 | Media | **Aggiungere type hints** — Tutte le funzioni: `def next_state(s: int, i: int, r: int, ...) -> tuple[int, int, int]` | nessuna |
-| **T-014** | 🔴 | Media | **Aggiungere docstring** — Tutte le funzioni pubbliche con parametri, returns, esempi. | T-013 |
+| **T-013** | 🟢 | Media | **Aggiungere type hints** — Tutte le funzioni pubbliche con annotazioni. | nessuna |
+| **T-014** | 🟢 | Media | **Aggiungere docstring** — Tutte le funzioni pubbliche con parametri, returns, esempi. | T-013 |
 | **T-015** | 🟢 | Media | **Aumentare copertura test** — Test per `run_single()`, per `transition_matrix()`, per casi edge (N=1, β=0, γ=1). 11 test totali. | T-005 |
 | **T-016** | ⭕ | Facile | **Aggiungere `requirements-dev.txt`** — Coperto da pyproject.toml `[project.optional-dependencies] dev`. | T-007 |
 | **T-017** | 🟢 | Media | **Refactor: separare plotting da simulation.py** — Creato `src/plotting.py` con tutte le funzioni di plot. | nessuna |
@@ -185,7 +186,7 @@ AGGIORNAMENTO: Quando un AI completa un task, deve:
 |-------------|-------|------------|------|------------|
 | **T-018** | 🟢 | Media | **Analisi sensibilità parametri** — `src/sensitivity.py` varia β, γ e mostra impatto su τ, R∞, picco. Genera tabella + grafico comparativo. | T-009, T-010 |
 | **T-019** | 🟢 | Difficile | **Confronto con ODE deterministica** — Soluzione ODE SIR con Eulero in `analysis.py`, confronto grafico con media MC. | T-017 |
-| **T-020** | 🔴 | Media | **Heatmap probabilità di transizione** — Per N piccolo, visualizzare matrice P come heatmap. | T-012 |
+| **T-020** | 🟢 | Media | **Heatmap probabilità di transizione** — Per N piccolo, visualizzare matrice P come heatmap. | T-012 |
 
 ---
 
@@ -269,6 +270,9 @@ def plot_*(...):
 |------|------|--------|------|
 | 2026-06-06 | T-001 → T-008, T-011 | OpenCode | Fix import rotto, import relativo, parametri README, duplicazione stats, init pacchetto/tests, pyproject.toml, opencode.jsonc, notebook esplorativo. |
 | 2026-06-06 | T-009, T-010, T-012, T-015, T-017, T-018, T-019 | OpenCode | CLI argparser, seed riproducibile, matrice transizione, test (3→11), refactor plotting, sensitivity.py, ODE comparison. |
+| 2026-06-06 | Presentazione orale | OpenCode | report/presentazione.md: 21 slide, testo orale, Q&A, checklist, lavagna. |
+| 2026-06-06 | T-013, T-014 | OpenCode | Type hints + docstring su tutti i moduli src/. Fix bug np.random.binomial.pmf → scipy.stats.binom.pmf. Risolto import circolare analysis.py. Unicode fix per Windows terminal. |
+| 2026-06-06 | T-020 | OpenCode | Heatmap matrice di transizione in plotting.py + badge classici GitHub su README.
 
 ---
 

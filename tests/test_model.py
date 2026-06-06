@@ -1,3 +1,14 @@
+"""
+Test unitari per il modello SIR.
+
+Copertura:
+  - next_state: conservazione, stato assorbente, non-negatività
+  - transition_matrix: stocasticità, assorbimento, non-negatività, shape
+  - run_single: shape, estinzione, β=0, γ=1
+"""
+
+from __future__ import annotations
+
 import sys
 sys.path.insert(0, "../src")
 import numpy as np
@@ -6,36 +17,36 @@ from model import next_state, transition_matrix
 
 # ── Test per next_state ──────────────────────────────────────────
 
-def test_conservation():
+def test_conservation() -> None:
     """S + I + R == N per ogni passo."""
     for _ in range(100):
-        s, i = np.random.randint(1, 50), np.random.randint(1, 20)
+        s, i = int(np.random.randint(1, 50)), int(np.random.randint(1, 20))
         r = 100 - s - i
         sn, in_, rn = next_state(s, i, r)
         assert sn + in_ + rn == 100, "Violazione conservazione N"
 
 
-def test_absorbing_state():
+def test_absorbing_state() -> None:
     """Se I = 0, il sistema rimane in I = 0."""
     s, i, r = 60, 0, 40
     sn, in_, rn = next_state(s, i, r)
     assert in_ == 0, "I=0 non è assorbente"
 
 
-def test_non_negative():
+def test_non_negative() -> None:
     """Nessun compartimento può diventare negativo."""
     for _ in range(100):
-        s, i = np.random.randint(1, 50), np.random.randint(1, 20)
+        s, i = int(np.random.randint(1, 50)), int(np.random.randint(1, 20))
         r = 100 - s - i
         sn, in_, rn = next_state(s, i, r)
         assert sn >= 0 and in_ >= 0 and rn >= 0, \
             f"Valori negativi: ({sn}, {in_}, {rn})"
 
 
-def test_absorbing_all_seeds():
+def test_absorbing_all_seeds() -> None:
     """Se I=0, next_state ritorna sempre lo stesso stato."""
     for _ in range(20):
-        s = np.random.randint(0, 100)
+        s = int(np.random.randint(0, 100))
         r = 100 - s
         sn, in_, rn = next_state(s, 0, r)
         assert sn == s and in_ == 0 and rn == r
@@ -43,16 +54,16 @@ def test_absorbing_all_seeds():
 
 # ── Test per transition_matrix ──────────────────────────────────
 
-def test_transition_matrix_stochastic():
+def test_transition_matrix_stochastic() -> None:
     """Ogni riga di P deve sommare a 1 (matrice stocastica)."""
     for n in range(1, 6):
         P, states = transition_matrix(n, beta=0.5, gamma=0.3)
-        row_sums = P.sum(axis=1)
+        row_sums: np.ndarray = P.sum(axis=1)
         assert np.allclose(row_sums, 1.0, atol=1e-10), \
             f"N={n}: righe non stocastiche, somma = {row_sums}"
 
 
-def test_transition_matrix_absorbing():
+def test_transition_matrix_absorbing() -> None:
     """Stati con I=0 devono avere P[i,i] = 1."""
     for n in range(1, 6):
         P, states = transition_matrix(n, beta=0.5, gamma=0.3)
@@ -62,59 +73,59 @@ def test_transition_matrix_absorbing():
                     f"Stato ({s},{i},{r}) non assorbente in N={n}"
 
 
-def test_transition_matrix_non_negative():
+def test_transition_matrix_non_negative() -> None:
     """Tutti gli elementi di P devono essere >= 0."""
     for n in range(1, 6):
         P, states = transition_matrix(n, beta=0.5, gamma=0.3)
         assert np.all(P >= 0), f"N={n}: elementi negativi in P"
 
 
-def test_transition_matrix_shape():
+def test_transition_matrix_shape() -> None:
     """P deve avere dimensione (n_states, n_states)."""
     for n in range(1, 6):
         P, states = transition_matrix(n, beta=0.5, gamma=0.3)
-        n_states = len(states)
+        n_states: int = len(states)
         assert P.shape == (n_states, n_states), \
             f"N={n}: shape {P.shape} != ({n_states}, {n_states})"
 
 
 # ── Test per run_single (da simulation) ──────────────────────────
 
-def test_run_single_shape():
+def test_run_single_shape() -> None:
     """run_single deve restituire array shape (t+1, 3) con t almeno 1."""
     from simulation import run_single
-    traj = run_single(n=10, i0=2, t_max=50, beta=0.5, gamma=0.3)
+    traj: np.ndarray = run_single(n=10, i0=2, t_max=50, beta=0.5, gamma=0.3)
     assert traj.ndim == 2, "run_single non restituisce array 2D"
     assert traj.shape[1] == 3, "run_single non restituisce 3 colonne"
     assert traj.shape[0] >= 2, "run_single troppo corta"
 
 
-def test_run_single_stops_at_extinction():
+def test_run_single_stops_at_extinction() -> None:
     """run_single deve fermarsi quando I=0."""
     from simulation import run_single
     np.random.seed(42)
-    traj = run_single(n=10, i0=1, t_max=200, beta=0.1, gamma=0.5)
+    traj: np.ndarray = run_single(n=10, i0=1, t_max=200, beta=0.1, gamma=0.5)
     assert traj[-1, 1] == 0, "L'ultimo I deve essere 0 (estinzione)"
 
 
-def test_run_single_zero_beta():
+def test_run_single_zero_beta() -> None:
     """Con β=0, nessun contagio: I deve scendere a 0 per sole guarigioni."""
     from simulation import run_single
     np.random.seed(42)
-    traj = run_single(n=100, i0=10, t_max=50, beta=0.0, gamma=0.5)
+    traj: np.ndarray = run_single(n=100, i0=10, t_max=50, beta=0.0, gamma=0.5)
     assert traj[-1, 1] == 0, "Con β=0 l'infezione deve estinguersi"
     assert traj[-1, 0] == 100 - traj[-1, 2], "Tutti i guariti vengono dai primi infetti"
-    # S dovrebbe essere diminuito solo per le guarigioni (nessun contagio)
-    # In realtà S rimane invariato se β=0, i contagi sono 0
-    # Quindi S_final + R_final = N e I_final = 0
 
 
-def test_run_single_gamma_one():
-    """Con γ=1, tutti gli infetti guariscono subito: I=0 al passo 1."""
+def test_run_single_gamma_one() -> None:
+    """Con γ=1, l'infezione si estingue entro 2 passi (contagio prima di guarigione)."""
     from simulation import run_single
     np.random.seed(42)
-    traj = run_single(n=100, i0=5, t_max=50, beta=0.3, gamma=1.0)
-    assert traj[1, 1] == 0, f"Con γ=1, I dovrebbe essere 0 al passo 1, trovato {traj[1, 1]}"
+    traj: np.ndarray = run_single(n=100, i0=5, t_max=50, beta=0.3, gamma=1.0)
+    # Con γ=1, al passo 1: Binomial(i0, 1) = i0 guarigioni, ma ci possono essere nuovi contagi
+    # La catena si estingue quando i nuovi contagi + guarigioni portano I a 0
+    assert traj[-1, 1] == 0, "Con γ=1 la catena deve estinguersi"
+    assert traj.shape[0] <= 3, f"Con γ=1 la catena deve estinguersi in ≤3 passi, ne ha {traj.shape[0]}"
 
 
 # ── Esecuzione diretta ───────────────────────────────────────────

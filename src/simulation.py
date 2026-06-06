@@ -8,16 +8,39 @@ Esempi:
   python src/simulation.py --seed 42 --N 200
 """
 
+from __future__ import annotations
+
 import argparse
 import numpy as np
+from typing import Optional
 from model import next_state, N, BETA, GAMMA, I0, T_MAX, M, SEED
 from plotting import plot_single_trajectory, plot_mean_trajectory, plot_tau_histogram
 
 
-def run_single(n=N, i0=I0, t_max=T_MAX, beta=BETA, gamma=GAMMA):
-    """Singola traiettoria SIR. Restituisce array shape (t+1, 3)."""
-    s, i, r = n - i0, i0, 0
-    traj = [(s, i, r)]
+def run_single(
+    n: int = N,
+    i0: int = I0,
+    t_max: int = T_MAX,
+    beta: float = BETA,
+    gamma: float = GAMMA,
+) -> np.ndarray:
+    """
+    Genera una singola traiettoria SIR.
+
+    Parametri:
+        n: popolazione totale
+        i0: infetti iniziali
+        t_max: orizzonte temporale massimo
+        beta: tasso di trasmissione
+        gamma: tasso di guarigione
+
+    Restituisce:
+        Array di shape (t+1, 3) con colonne [S, I, R] fino all'estinzione o t_max.
+    """
+    s: int = n - i0
+    i: int = i0
+    r: int = 0
+    traj: list[tuple[int, int, int]] = [(s, i, r)]
     for _ in range(t_max):
         s, i, r = next_state(s, i, r, n, beta, gamma)
         traj.append((s, i, r))
@@ -26,14 +49,43 @@ def run_single(n=N, i0=I0, t_max=T_MAX, beta=BETA, gamma=GAMMA):
     return np.array(traj)
 
 
-def run_montecarlo(m=M, n=N, i0=I0, t_max=T_MAX, beta=BETA, gamma=GAMMA):
-    """Lancia M simulazioni Monte Carlo. Restituisce lista di traiettorie."""
+def run_montecarlo(
+    m: int = M,
+    n: int = N,
+    i0: int = I0,
+    t_max: int = T_MAX,
+    beta: float = BETA,
+    gamma: float = GAMMA,
+) -> list[np.ndarray]:
+    """
+    Lancia M simulazioni Monte Carlo.
+
+    Parametri:
+        m: numero di simulazioni
+        n: popolazione totale
+        i0: infetti iniziali
+        t_max: orizzonte temporale massimo
+        beta: tasso di trasmissione
+        gamma: tasso di guarigione
+
+    Restituisce:
+        Lista di M array, ciascuno di shape (t_k+1, 3).
+    """
     return [run_single(n, i0, t_max, beta, gamma) for _ in range(m)]
 
 
 # ── CLI ──────────────────────────────────────────────────────────
 
-def parse_args(argv=None):
+def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
+    """
+    Analizza gli argomenti da riga di comando.
+
+    Parametri:
+        argv: lista di stringhe (default: sys.argv[1:])
+
+    Restituisce:
+        Namespace con attributi: N, beta, gamma, i0, t_max, sims, seed, no_plot.
+    """
     parser = argparse.ArgumentParser(
         description="Simulazione SIR come Catena di Markov"
     )
@@ -59,25 +111,25 @@ def parse_args(argv=None):
 # ── Entry point ──────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    args = parse_args()
+    args: argparse.Namespace = parse_args()
 
     # Seed per riproducibilità
     if args.seed is not None:
         np.random.seed(args.seed)
         print(f"[setup] Seed fissato a {args.seed}")
 
-    print(f"[setup] N={args.N}, β={args.beta}, γ={args.gamma}, "
-          f"I₀={args.i0}, T_MAX={args.t_max}, M={args.sims}")
+    print(f"[setup] N={args.N}, beta={args.beta}, gamma={args.gamma}, "
+          f"I0={args.i0}, T_MAX={args.t_max}, M={args.sims}")
 
     # Singola traiettoria
-    traj = run_single(args.N, args.i0, args.t_max, args.beta, args.gamma)
+    traj: np.ndarray = run_single(args.N, args.i0, args.t_max, args.beta, args.gamma)
     if not args.no_plot:
         plot_single_trajectory(traj)
         print("[1/4] single_trajectory.png salvato")
 
     # Monte Carlo
-    results = run_montecarlo(args.sims, args.N, args.i0,
-                             args.t_max, args.beta, args.gamma)
+    results: list[np.ndarray] = run_montecarlo(args.sims, args.N, args.i0,
+                                                args.t_max, args.beta, args.gamma)
 
     if not args.no_plot:
         plot_mean_trajectory(results)
@@ -88,10 +140,10 @@ if __name__ == "__main__":
 
     # Statistiche
     from analysis import compute_stats
-    stats = compute_stats(results)
+    stats: dict[str, float] = compute_stats(results)
     print(f"\n=== Statistiche su {args.sims} simulazioni ===")
     for k, v in stats.items():
         print(f"  {k}: {v:.2f}")
 
     R0 = args.beta / args.gamma
-    print(f"\n  R₀ = β/γ = {R0:.2f}")
+    print(f"\n  R0 = beta/gamma = {R0:.2f}")

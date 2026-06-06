@@ -8,23 +8,42 @@ Funzioni:
   - get_mc_mean_std()     : media e std da risultati MC allineati
 """
 
+from __future__ import annotations
+
 import numpy as np
-from src.simulation import run_montecarlo, M
+from typing import Any
+from model import M
 
 
 # ── Statistiche Monte Carlo ──────────────────────────────────────
 
-def extinction_time(traj):
-    """Primo istante t in cui I_t = 0."""
-    ext = np.where(traj[:, 1] == 0)[0]
+def extinction_time(traj: np.ndarray) -> int:
+    """
+    Primo istante t in cui I_t = 0.
+
+    Parametri:
+        traj: array di shape (t+1, 3) con colonne [S, I, R]
+
+    Restituisce:
+        Indice del primo passo con I=0, oppure len(traj)-1 se mai estinto.
+    """
+    ext: np.ndarray = np.where(traj[:, 1] == 0)[0]
     return int(ext[0]) if len(ext) > 0 else len(traj) - 1
 
 
-def compute_stats(results):
-    """Statistiche descrittive su una lista di traiettorie."""
-    peak = [np.max(r[:, 1]) for r in results]
-    taus = [extinction_time(r) for r in results]
-    r_inf = [r[-1, 2] for r in results]
+def compute_stats(results: list[np.ndarray]) -> dict[str, float]:
+    """
+    Statistiche descrittive su una lista di traiettorie MC.
+
+    Parametri:
+        results: lista di array, ciascuno di shape (t_k+1, 3)
+
+    Restituisce:
+        Dizionario con media e std di: picco infetti, tempo estinzione, rimossi finali.
+    """
+    peak: list[float] = [float(np.max(r[:, 1])) for r in results]
+    taus: list[int] = [extinction_time(r) for r in results]
+    r_inf: list[float] = [float(r[-1, 2]) for r in results]
     return {
         "mean_peak_infected":   np.mean(peak),
         "std_peak_infected":    np.std(peak),
@@ -38,32 +57,44 @@ def compute_stats(results):
 
 # ── ODE deterministica (Euler esplicito) ─────────────────────────
 
-def solve_ode_sir(n, beta, gamma, i0, t_max, dt=1.0):
+def solve_ode_sir(
+    n: int,
+    beta: float,
+    gamma: float,
+    i0: int,
+    t_max: int,
+    dt: float = 1.0,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
     """
     Risolve le ODE del modello SIR con metodo di Eulero esplicito.
 
     Parametri:
-      n, beta, gamma, i0, t_max  — come per la simulazione MC
-      dt                         — passo di integrazione (default: 1.0)
+        n: popolazione totale
+        beta: tasso di trasmissione
+        gamma: tasso di guarigione
+        i0: infetti iniziali
+        t_max: orizzonte temporale massimo
+        dt: passo di integrazione (default: 1.0)
 
-    Restituisce (t_array, s_array, i_array, r_array).
+    Restituisce:
+        (t_array, s_array, i_array, r_array) — array di shape (steps+1,).
     """
-    steps = int(t_max / dt)
-    s = float(n - i0)
-    i = float(i0)
-    r = 0.0
+    steps: int = int(t_max / dt)
+    s: float = float(n - i0)
+    i: float = float(i0)
+    r: float = 0.0
 
-    t_vals = np.zeros(steps + 1)
-    s_vals = np.zeros(steps + 1)
-    i_vals = np.zeros(steps + 1)
-    r_vals = np.zeros(steps + 1)
+    t_vals: np.ndarray = np.zeros(steps + 1)
+    s_vals: np.ndarray = np.zeros(steps + 1)
+    i_vals: np.ndarray = np.zeros(steps + 1)
+    r_vals: np.ndarray = np.zeros(steps + 1)
 
     t_vals[0], s_vals[0], i_vals[0], r_vals[0] = 0, s, i, r
 
     for k in range(1, steps + 1):
-        ds = -beta * s * i / n
-        di = beta * s * i / n - gamma * i
-        dr = gamma * i
+        ds: float = -beta * s * i / n
+        di: float = beta * s * i / n - gamma * i
+        dr: float = gamma * i
         s += ds * dt
         i += di * dt
         r += dr * dt
@@ -75,8 +106,18 @@ def solve_ode_sir(n, beta, gamma, i0, t_max, dt=1.0):
     return t_vals, s_vals, i_vals, r_vals
 
 
-def get_mc_mean_std(results):
-    """Media e std delle traiettorie MC allineate con padding NaN."""
+def get_mc_mean_std(
+    results: list[np.ndarray],
+) -> dict[str, Any]:
+    """
+    Media e std delle traiettorie MC allineate con padding NaN.
+
+    Parametri:
+        results: lista di array, ciascuno di shape (t_k+1, 3)
+
+    Restituisce:
+        Dizionario con t, s_mean, s_std, i_mean, i_std, r_mean, r_std.
+    """
     from plotting import pad_results
     s_mat, i_mat, r_mat, max_len = pad_results(results)
     return {
@@ -93,8 +134,9 @@ def get_mc_mean_std(results):
 # ── Entry point ──────────────────────────────────────────────────
 
 if __name__ == "__main__":
-    results = run_montecarlo()
-    stats = compute_stats(results)
+    from simulation import run_montecarlo
+    results: list[np.ndarray] = run_montecarlo()
+    stats: dict[str, float] = compute_stats(results)
     print(f"=== Statistiche su {M} simulazioni ===")
     for k, v in stats.items():
         print(f"  {k}: {v:.2f}")

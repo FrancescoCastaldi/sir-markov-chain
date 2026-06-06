@@ -11,40 +11,54 @@ Genera:
   - Confronto ODE vs MC in img/ode_comparison.png
 """
 
+from __future__ import annotations
+
 import argparse
 import numpy as np
+from typing import Optional
 from model import BETA, GAMMA, N, I0, T_MAX, M, SEED
-from simulation import run_montecarlo, parse_args as sim_parse_args
+from simulation import run_montecarlo
 from analysis import compute_stats, solve_ode_sir, get_mc_mean_std
 from plotting import plot_sensitivity_comparison, plot_ode_comparison
 
 
 # Scenari da confrontare: (label, beta, gamma, color)
-SCENARI = [
-    ("β=0.15, γ=0.1", 0.15, 0.1, "steelblue"),
-    ("β=0.20, γ=0.1", 0.20, 0.1, "firebrick"),
-    ("β=0.25, γ=0.1", 0.25, 0.1, "seagreen"),
-    ("β=0.20, γ=0.05", 0.20, 0.05, "darkorange"),
-    ("β=0.20, γ=0.15", 0.20, 0.15, "purple"),
+SCENARI: list[tuple[str, float, float, str]] = [
+    ("beta=0.15, gamma=0.1", 0.15, 0.1, "steelblue"),
+    ("beta=0.20, gamma=0.1", 0.20, 0.1, "firebrick"),
+    ("beta=0.25, gamma=0.1", 0.25, 0.1, "seagreen"),
+    ("beta=0.20, gamma=0.05", 0.20, 0.05, "darkorange"),
+    ("beta=0.20, gamma=0.15", 0.20, 0.15, "purple"),
 ]
 
 
-def run_sensitivity(n=N, i0=I0, t_max=T_MAX, sims=M, seed=None):
-    """Esegue analisi di sensibilità su tutti gli scenari."""
+def run_sensitivity(
+    n: int = N,
+    i0: int = I0,
+    t_max: int = T_MAX,
+    sims: int = M,
+    seed: Optional[int] = None,
+) -> None:
+    """
+    Esegue analisi di sensibilità su tutti gli scenari.
+
+    Per ogni scenario stampa R₀, picco medio, τ medio, R∞ medio con std.
+    Genera grafico comparativo img/sensitivity_comparison.png.
+    """
     if seed is not None:
         np.random.seed(seed)
 
-    print(f"{'Scenario':<22} {'R₀':>5} {'Picco I':>8} {'τ medio':>8} "
-          f"{'R∞ medio':>9} {'R∞ std':>7}")
+    print(f"{'Scenario':<22} {'R0':>5} {'Picco I':>8} {'tau medio':>8} "
+          f"{'Rinf medio':>9} {'Rinf std':>7}")
     print("-" * 62)
 
-    scenario_curves = []
+    scenario_curves: list[tuple[str, np.ndarray, str]] = []
 
     for label, beta, gamma, color in SCENARI:
-        r0 = beta / gamma
-        results = run_montecarlo(sims, n, i0, t_max, beta, gamma)
-        stats = compute_stats(results)
-        mc = get_mc_mean_std(results)
+        r0: float = beta / gamma
+        results: list[np.ndarray] = run_montecarlo(sims, n, i0, t_max, beta, gamma)
+        stats: dict[str, float] = compute_stats(results)
+        mc: dict = get_mc_mean_std(results)
 
         print(f"{label:<22} {r0:>5.2f} {stats['mean_peak_infected']:>8.1f} "
               f"{stats['mean_extinction_time']:>8.1f} "
@@ -57,16 +71,28 @@ def run_sensitivity(n=N, i0=I0, t_max=T_MAX, sims=M, seed=None):
     print("\n[grafico] sensitivity_comparison.png salvato")
 
 
-def run_ode_comparison(beta=BETA, gamma=GAMMA, n=N, i0=I0, t_max=T_MAX, sims=M, seed=None):
-    """Confronta la media Monte Carlo con la soluzione ODE deterministica."""
+def run_ode_comparison(
+    beta: float = BETA,
+    gamma: float = GAMMA,
+    n: int = N,
+    i0: int = I0,
+    t_max: int = T_MAX,
+    sims: int = M,
+    seed: Optional[int] = None,
+) -> None:
+    """
+    Confronta la media Monte Carlo con la soluzione ODE deterministica.
+
+    Genera grafico img/ode_comparison.png e stampa statistiche riassuntive.
+    """
     if seed is not None:
         np.random.seed(seed)
 
-    print(f"\n=== Confronto ODE vs MC (β={beta}, γ={gamma}) ===")
+    print(f"\n=== Confronto ODE vs MC (beta={beta}, gamma={gamma}) ===")
 
     # MC
-    results = run_montecarlo(sims, n, i0, t_max, beta, gamma)
-    mc = get_mc_mean_std(results)
+    results: list[np.ndarray] = run_montecarlo(sims, n, i0, t_max, beta, gamma)
+    mc: dict = get_mc_mean_std(results)
 
     # ODE
     t_ode, s_ode, i_ode, r_ode = solve_ode_sir(n, beta, gamma, i0, t_max)
@@ -77,12 +103,12 @@ def run_ode_comparison(beta=BETA, gamma=GAMMA, n=N, i0=I0, t_max=T_MAX, sims=M, 
     print("[grafico] ode_comparison.png salvato")
 
     # Statistiche ODE a t_max
-    r0 = beta / gamma
-    print(f"  R₀ = {r0:.2f}")
-    print(f"  ODE — picco I: {np.max(i_ode):.1f}")
-    print(f"  ODE — R∞:      {r_ode[-1]:.1f}")
-    print(f"  MC  — picco I: {mc['i_mean'].max():.1f} ± {mc['i_std'].max():.1f}")
-    print(f"  MC  — R∞:      {mc['r_mean'][-1]:.1f} ± {mc['r_std'][-1]:.1f}")
+    r0: float = beta / gamma
+    print(f"  R0 = {r0:.2f}")
+    print(f"  ODE - picco I: {np.max(i_ode):.1f}")
+    print(f"  ODE - Rinf:      {r_ode[-1]:.1f}")
+    print(f"  MC  - picco I: {mc['i_mean'].max():.1f} +/- {mc['i_std'].max():.1f}")
+    print(f"  MC  - Rinf:      {mc['r_mean'][-1]:.1f} +/- {mc['r_std'][-1]:.1f}")
 
 
 if __name__ == "__main__":
@@ -91,7 +117,7 @@ if __name__ == "__main__":
                         help="Simulazioni per scenario (default: 500)")
     parser.add_argument("--seed", type=int, default=42,
                         help="Seed per riproducibilità")
-    args = parser.parse_args()
+    args: argparse.Namespace = parser.parse_args()
 
     run_sensitivity(sims=args.sims, seed=args.seed)
     run_ode_comparison(sims=args.sims, seed=args.seed)
