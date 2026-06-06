@@ -9,3 +9,6 @@ venv/
 .venv/
 plots/*.png
 plots/*.pdf
+.opencode/
+AGENTS.md
+thoughts/
