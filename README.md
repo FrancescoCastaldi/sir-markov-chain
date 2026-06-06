@@ -37,7 +37,8 @@ sir-markov-chain/
 │   ├── analysis.py       # Statistiche + ODE deterministica
 │   └── sensitivity.py    # Analisi di sensibilità parametri
 ├── notebooks/
-│   └── exploration.ipynb # Analisi esplorativa interattiva
+│   ├── exploration.ipynb        # Analisi esplorativa interattiva
+│   └── pipeline_completo.ipynb  # Pipeline completa (10 sezioni)
 ├── img/                  # Output immagini per la relazione
 ├── plots/                # Output grafici (runtime)
 ├── report/
@@ -45,7 +46,7 @@ sir-markov-chain/
 │   └── presentazione.md  # Presentazione orale con Q&A, checklist, lavagna
 └── tests/
     ├── __init__.py
-    └── test_model.py     # Unit test (11 test: catena SIR, matrice P, edge case)
+    └── test_model.py     # Unit test (12 test: catena SIR, matrice P, edge case)
 ```
 
 ## Parametri del Modello
@@ -58,6 +59,7 @@ sir-markov-chain/
 | Infetti iniziali | I₀ | 5 |
 | Passi temporali | T_MAX | 200 |
 | Simulazioni MC | M | 1000 |
+| Riproduzione base | R₀ = β/γ | 2.0 |
 
 ## Installazione
 
