@@ -16,20 +16,25 @@ L'obiettivo è applicare il formalismo delle catene di Markov — non fare epide
 
 ```
 sir-markov-chain/
+├── .opencode/            # Configurazione agenti OpenCode
+├── AGENTS.md             # Knowledge base per AI agent
 ├── README.md
 ├── requirements.txt
+├── pyproject.toml        # Config moderna del progetto
 ├── src/
-│   ├── model.py          # Matrice di transizione e logica SIR
-│   ├── simulation.py     # Simulazione Monte Carlo
-│   └── analysis.py       # Statistiche: media infetti, tempo estinzione
+│   ├── __init__.py       # Export del pacchetto
+│   ├── model.py          # Nucleo SIR: next_state(), costanti
+│   ├── simulation.py     # Simulazione Monte Carlo + plotting
+│   └── analysis.py       # Statistiche: picco, τ, R∞
 ├── notebooks/
 │   └── exploration.ipynb # Analisi esplorativa interattiva
-├── plots/
-│   └── .gitkeep          # Output grafici (generati a runtime)
+├── img/                  # Output immagini per la relazione
+├── plots/                # Output grafici (generati a runtime)
 ├── report/
 │   └── relazione.md      # Relazione accademica
 └── tests/
-    └── test_model.py     # Unit test sulla matrice di transizione
+    ├── __init__.py
+    └── test_model.py     # Unit test sulla catena SIR
 ```
 
 ## Parametri del Modello
@@ -37,10 +42,10 @@ sir-markov-chain/
 | Parametro | Simbolo | Valore default |
 |-----------|---------|----------------|
 | Popolazione | N | 100 |
-| Prob. contagio | β | 0.3 |
+| Prob. contagio | β | 0.2 |
 | Prob. guarigione | γ | 0.1 |
 | Infetti iniziali | I₀ | 5 |
-| Passi temporali | T | 100 |
+| Passi temporali | T_MAX | 200 |
 | Simulazioni MC | M | 1000 |
 
 ## Installazione
@@ -55,7 +60,23 @@ pip install -r requirements.txt
 python src/simulation.py
 ```
 
-I grafici vengono salvati in `plots/`.
+I grafici per la relazione vengono salvati in `img/`.
+
+## Utilizzo
+
+```bash
+# Eseguire simulazione completa (3 plot + statistiche)
+python src/simulation.py
+
+# Eseguire analisi statistica
+python src/analysis.py
+
+# Eseguire test
+python -m pytest tests/ -v
+
+# Notebook interattivo
+jupyter notebook notebooks/exploration.ipynb
+```
 
 ## Riferimenti
 

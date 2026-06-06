@@ -1,0 +1,28 @@
+{
+  // ===== Configurazione OpenCode per SIR Markov Chain =====
+  // Questo file definisce le regole per gli AI agent su questo progetto.
+
+  "agent_rules": {
+    "language": "italian",
+    "read_agents_md_first": true,
+    "commit_convention": "agents: T-XXX — descrizione breve in inglese",
+    "test_before_edit": true,
+    "update_status_after_completion": true
+  },
+
+  "folder_aliases": {
+    "root": ".",
+    "sorgenti": "src/",
+    "test": "tests/",
+    "report": "report/",
+    "immagini": "img/",
+    "notebook": "notebooks/"
+  },
+
+  "glob_patterns": {
+    "source": "src/**/*.py",
+    "tests": "tests/**/*.py",
+    "report": "report/**/*.md",
+    "assets": "img/**/*.png"
+  }
+}
