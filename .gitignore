@@ -40,3 +40,6 @@ report/Lecture/*.pdf
 .DS_Store
 Thumbs.db
 
+*.nav
+*.snm
+*.vrb
