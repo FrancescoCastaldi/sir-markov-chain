@@ -1,21 +1,61 @@
-# Contenuto della cartella `report`
+# 📄 Academic Report (`report/`)
 
-| Nome file | Descrizione / Esempio |
-|-----------|------------------------|
-| `codemap.md` | File Markdown. Esempio:<br><code># report/ — Deliverable Accademici<br><br>## Responsibility<br><br>**Documentation & Presentation Layer**: contiene tutti i materiali destinati alla</code> |
-| `presentazione.aux` | File .aux. Esempio:<br><code>\relax <br>\providecommand\hyper@newdestlabel[2]{}<br>\providecommand\HyField@AuxAddToFields[1]{}<br>\providecommand\HyField@AuxAddToCoFields[2]{}<br>\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }</code> |
-| `presentazione.log` | File .log. Esempio:<br><code>This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12 Portable) (preloaded format=pdflatex 2026.7.1)  4 AUG 2026 19:56<br>entering extended mode<br> restricted \write18 enabled.<br> %&-line parsing enabled.<br>**./presentazione.tex</code> |
-| `presentazione.md` | File Markdown. Esempio:<br><code># Presentazione Orale — Modello SIR come Catena di Markov<br><br>**Corso**: Modelli Probabilistici — Università di Bologna  <br>**Docente**: Prof. Salvatore Federico  <br>**Studente**: Francesco Castaldi</code> |
-| `presentazione.nav` | File .nav. Esempio:<br><code>\headcommand {\slideentry {0}{0}{1}{1/1}{}{0}}<br>\headcommand {\beamer@framepages {1}{1}}<br>\headcommand {\slideentry {0}{0}{2}{2/2}{}{0}}<br>\headcommand {\beamer@framepages {2}{2}}<br>\headcommand {\slideentry {0}{0}{3}{3/3}{}{0}}</code> |
-| `presentazione.out` | File .out. File vuoto o senza contenuto testuale. |
-| `presentazione.pdf` | Documento PDF. File binario - anteprima non disponibile |
-| `presentazione.snm` | File .snm. File vuoto o senza contenuto testuale. |
-| `presentazione.tex` | File LaTeX. Esempio:<br><code>\documentclass[11pt, aspectratio=169]{beamer}<br>\usetheme{Madrid}<br><br>\usepackage[utf8]{inputenc}<br>\usepackage[italian]{babel}</code> |
-| `presentazione.toc` | File .toc. File vuoto o senza contenuto testuale. |
-| `presentazione.vrb` | File .vrb. Esempio:<br><code>\frametitle{Codice Python — Passo della catena}<br>\begin{verbatim}<br>import numpy as np<br><br>N, BETA, GAMMA, I0 = 100, 0.2, 0.1, 5</code> |
-| `relazione.aux` | File .aux. Esempio:<br><code>\relax <br>\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }<br>\@nameuse{bbl@beforestart}<br>\providecommand\hyper@newdestlabel[2]{}<br>\providecommand\HyField@AuxAddToFields[1]{}</code> |
-| `relazione.log` | File .log. Esempio:<br><code>This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12 Portable) (preloaded format=pdflatex 2026.7.1)  4 AUG 2026 19:56<br>entering extended mode<br> restricted \write18 enabled.<br> %&-line parsing enabled.<br>**./relazione.tex</code> |
-| `relazione.md` | File Markdown. Esempio:<br><code># Simulazione di un modello epidemiologico SIR come catena di Markov a tempo discreto<br><br>**Autore**: Francesco Castaldi  <br>**Corso**: Modelli Probabilistici — Università di Bologna  <br>**Docente**: Prof. Salvatore Federico</code> |
-| `relazione.out` | File .out. File vuoto o senza contenuto testuale. |
-| `relazione.tex` | File LaTeX. Esempio:<br><code>% ============================================================<br>%  Relazione Accademica — Modello SIR come Catena di Markov<br>%  Autore  : Francesco Castaldi<br>%  Corso   : Modelli Probabilistici — Università di Bologna<br>%  Docente : Prof. Salvatore Federico</code> |
-| `relazione.toc` | File .toc. File vuoto o senza contenuto testuale. |
+<p align="center">
+  <em>Asset documentali, presentazioni e tesine prodotte per il corso di Modelli Probabilistici (UniBo).</em>
+</p>
+
+## 📖 Table of Contents
+- [🚀 Features](#-features)
+- [🏗️ Architettura e Struttura dei File](#-architettura-e-struttura-dei-file)
+- [💻 Analisi dei Componenti Core](#-analisi-dei-componenti-core)
+- [🔗 Dipendenze e Flusso Dati](#-dipendenze-e-flusso-dati)
+- [⚙️ Usage](#-usage)
+- [⚠️ Developer Notes](#-developer-notes)
+
+## 🚀 Features
+- **Typesetting Matematico (LaTeX)**: Formattazione rigorosa per equazioni alle differenze finite e catene di Markov.
+- **High-Quality Deliverables**: Produzione del PDF finale ufficiale (tesina) pronto per l'invio al docente.
+- **Beamer Slides**: Generazione automatizzata (opzionale) per le slide dell'esame orale di Settembre.
+
+## 🏗️ Architettura e Struttura dei File
+
+```text
+report/
+├── relazione.tex       # Il documento sorgente LaTeX principale
+├── relazione.pdf       # Artifact pre-compilato (PDF Finale)
+├── presentazione.pdf   # Artifact per l'esame orale
+└── codemap.md          # Informazioni interne sul tracciamento (solo per AI)
+```
+
+Il paradigma qui non è "eseguibile", bensì compilabile (TeTeX / pdfLaTeX).
+
+## 💻 Analisi dei Componenti Core
+
+### `relazione.tex`
+Costituisce l'intera impalcatura del paper.
+```latex
+% snippet da report/relazione.tex
+\section{Il Modello Stocastico SIR}
+Definiamo lo spazio degli stati come:
+$$ E = \{ (S,I,R) \in \mathbb{N}^3 : S+I+R = N \} $$
+La transizione da uno stato al successivo segue una distribuzione Binomiale per modellare le probabilità indipendenti di infezione $\beta$ e guarigione $\gamma$.
+```
+
+## 🔗 Dipendenze e Flusso Dati
+- **Input**: Importa le immagini ad alta risoluzione direttamente da `../img/`. Qualsiasi cambiamento al codice in `src/` rifletterà la matematica o le immagini discusse in questo documento.
+- **Toolchain**: Richiede un compilatore LaTeX (es. `pdflatex` o `lualatex`).
+
+## ⚙️ Usage
+Se si possiede una distribuzione TeX locale installata:
+```bash
+# Compilazione (può richiedere doppio giro per i reference)
+pdflatex report/relazione.tex
+```
+
+## ⚠️ Developer Notes
+
+> [!IMPORTANT]
+> Non includere alcun file PDF nel repository Git generato dinamicamente a meno che non si tratti del deliverable finale statico pre-consegna. In questo repository il PDF compilato funge da "Release Asset" per facilitare la correzione al Prof. Federico.
+
+> [!NOTE]
+> Quando vengono modificati script in `src/` che cambiano il layout o il colore dei grafici (DPI = 150), assicurarsi che la formattazione `\includegraphics[width=\textwidth]{../img/X.png}` su LaTeX rimanga centrata o non sfori i margini.
