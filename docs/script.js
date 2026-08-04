@@ -1,77 +1,101 @@
-/**
- * script.js
- * Logic for Academic Scrollytelling Presentation
- */
+// docs/script.js
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
+
+    /* =========================================================================
+     * 1. PROGRESSIVE ENHANCEMENT: Scroll Animations
+     * ========================================================================= 
+     * Il CSS moderno (animation-timeline: view()) gestisce l'animazione al 100% 
+     * su GPU per i browser moderni (Chrome 115+, Safari 26+).
+     * 
+     * Se il browser NON lo supporta, eseguiamo il fallback basato su JS (IntersectionObserver).
+     */
     
-    // --- Intersection Observer for Scroll Animations ---
-    const animatedElements = document.querySelectorAll('.animate-on-scroll');
-    const slides = document.querySelectorAll('.slide');
+    const supportsNativeScrollAnimations = CSS.supports('(animation-timeline: scroll()) and (animation-range: 0% 100%)');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Observer per gli elementi che appaiono (fade in up)
-    const fadeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Aggiungiamo una classe al parent slide per triggerare i child
-                entry.target.classList.add('is-visible');
-            } else {
-                // Rimuoviamo per far ripartire l'animazione tornando indietro
-                entry.target.classList.remove('is-visible');
-            }
+    if (!supportsNativeScrollAnimations && !prefersReducedMotion) {
+        // Fallback: IntersectionObserver
+        const observerOptions = {
+            root: null, // usa la viewport come root
+            rootMargin: '0px',
+            threshold: 0.2 // attiva l'effetto quando il 20% dell'elemento è visibile
+        };
+
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Opzionale: de-osservare l'elemento se si vuole animare una volta sola
+                    // observer.unobserve(entry.target); 
+                } else {
+                    // Rimuovi questa riga se vuoi che l'elemento resti visibile per sempre
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, observerOptions);
+
+        const scrollElements = document.querySelectorAll('.animate-on-scroll');
+        scrollElements.forEach((el) => {
+            scrollObserver.observe(el);
         });
-    }, {
-        threshold: 0.2 // Triggera quando il 20% della slide è visibile
-    });
-
-    // Osserviamo tutte le slide
-    slides.forEach(slide => {
-        fadeObserver.observe(slide);
-    });
-
-    // --- Modal Logic for Image Presentation ---
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImageSrc');
-    const closeModalBtn = document.getElementById('closeModal');
-    const triggerImages = document.querySelectorAll('.js-modal-trigger');
-
-    // Apri modale
-    triggerImages.forEach(container => {
-        container.addEventListener('click', () => {
-            const imgSrc = container.getAttribute('data-img');
-            modalImg.src = imgSrc;
-            modal.classList.add('visible');
-            document.body.style.overflow = 'hidden'; // Blocco scroll accidentale in modale
-        });
-    });
-
-    // Chiudi modale
-    function closeModal() {
-        modal.classList.remove('visible');
-        document.body.style.overflow = '';
-        setTimeout(() => {
-            modalImg.src = '';
-        }, 300);
+        
+        console.log("JavaScript Scroll Observer initialized (CSS Scroll-Driven Animations non supportate).");
+    } else {
+        console.log("Native CSS Scroll-Driven Animations in uso, o Prefers Reduced Motion abilitato. (JS Observer bypassed).");
     }
 
-    closeModalBtn.addEventListener('click', closeModal);
+    /* =========================================================================
+     * 2. IMAGE MODAL LOGIC
+     * ========================================================================= 
+     * Apre e chiude una modale full-screen per i grafici
+     */
 
+    const frames = document.querySelectorAll('.plot-frame');
+    const modal = document.createElement('div');
+    modal.classList.add('modal');
+    modal.innerHTML = `
+        <button class="modal-close" aria-label="Close modal">&times;</button>
+        <div class="modal-content">
+            <img class="modal-img" src="" alt="Zoomed Plot">
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    const modalImg = modal.querySelector('.modal-img');
+    const closeBtn = modal.querySelector('.modal-close');
+
+    // Open Modal
+    frames.forEach(frame => {
+        frame.addEventListener('click', () => {
+            const img = frame.querySelector('img');
+            if(img) {
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+                modal.classList.add('visible');
+            }
+        });
+    });
+
+    // Close Modal Logic
+    const closeModal = () => {
+        modal.classList.remove('visible');
+        setTimeout(() => { modalImg.src = ''; }, 300); // Wait for transition
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    
+    // Chiudi cliccando fuori dall'immagine
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModal();
         }
     });
 
+    // Chiudi con ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modal.classList.contains('visible')) {
             closeModal();
-        }
-        
-        // --- Accessibilità Navigazione da Tastiera per le slide ---
-        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-            if (!modal.classList.contains('visible')) {
-                // Lasciamo gestire lo scroll nativo, oppure potremmo forzare il salto
-            }
         }
     });
 });

@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software or project materials, please cite it as below."
+authors:
+  - family-names: "Castaldi"
+    given-names: "Francesco"
+title: "Simulazione SIR come Catena di Markov"
+abstract: "Modellazione di un'epidemia su popolazione limitata (N=100) tramite Catena di Markov a tempo discreto con stati Suscettibili, Infetti e Rimossi (SIR), simulazione Monte Carlo e analisi di sensibilità per il corso di Modelli Probabilistici (Università di Bologna)."
+version: "1.0.0"
+date-released: 2026-08-04
+repository-code: "https://github.com/francceco-/sir-markov-chain"
+keywords:
+  - markov-chain
+  - sir-model
+  - monte-carlo-simulation
+  - stochastic-processes
+  - probabilistic-models
+license: MIT
