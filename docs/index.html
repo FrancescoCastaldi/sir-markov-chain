@@ -3,211 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIR Markov Chain Analysis</title>
-    <!-- Google Fonts for Modern Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="style.css">
+    <title>SIR Markov Chain | Analytics</title>
+    <link rel="stylesheet" href="./style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    
-    <!-- Background Elements -->
-    <div class="bg-shape shape-1"></div>
-    <div class="bg-shape shape-2"></div>
-    <div class="bg-shape shape-3"></div>
 
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="brand">
-                <i class="fa-solid fa-virus-covid text-accent"></i>
-                <span class="brand-text">SIR Markov Simulation</span>
-            </div>
-            <div class="nav-links">
-                <a href="#overview" class="nav-link active" data-target="overview">
-                    <i class="fa-solid fa-circle-info"></i> Overview
-                </a>
-                <a href="#analysis" class="nav-link" data-target="analysis">
-                    <i class="fa-solid fa-chart-line"></i> Analysis & Plots
-                </a>
-                <a href="https://github.com/FrancescoCastaldi/sir-markov-chain" target="_blank" class="nav-btn">
-                    <i class="fa-brands fa-github"></i> Repository
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Stochastic Epidemic Simulation</h1>
-            <p class="hero-subtitle">A discrete-time Markov chain approach to the SIR model on a finite population. Explore the stochastic behavior, extinction times, and sensitivity analysis.</p>
-        </div>
-    </header>
-
-    <main class="container">
+    <div class="app-container">
         
-        <!-- Overview Section -->
-        <section id="overview" class="section-content active-section">
-            <div class="card-grid">
-                <!-- Card 1 -->
-                <div class="glass-card">
-                    <div class="card-glow glow-primary"></div>
-                    <div class="card-header">
-                        <div class="icon-box icon-primary"><i class="fa-solid fa-book-open"></i></div>
-                        <h2>The Model</h2>
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i data-lucide="activity"></i>
+                </div>
+                <h1>SIR Analytics</h1>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li>
+                        <a class="nav-item active" data-target="dashboard">
+                            <i data-lucide="layout-dashboard"></i>
+                            <span>Dashboard Overview</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" data-target="trajectories">
+                            <i data-lucide="trending-up"></i>
+                            <span>Trajectories</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" data-target="distributions">
+                            <i data-lucide="bar-chart-2"></i>
+                            <span>Distributions</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-item" data-target="sensitivity">
+                            <i data-lucide="sliders"></i>
+                            <span>Sensitivity Analysis</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Viewport -->
+        <main class="main-content">
+            
+            <!-- Tab: Dashboard -->
+            <section id="dashboard" class="tab-pane active">
+                <header class="page-header">
+                    <h2>Epidemiological Overview</h2>
+                    <p>Live metrics and macro-analysis of the Stochastic SIR Markov Chain.</p>
+                </header>
+
+                <div class="grid-3">
+                    <div class="glass-card stat-block">
+                        <div class="stat-label">Initial Population (N)</div>
+                        <div class="stat-value">100</div>
+                        <div class="badge blue mt-2">Constant Mass</div>
                     </div>
-                    <div class="card-body">
-                        <p>The SIR (Susceptible-Infectious-Removed) model is implemented as an absorbing discrete-time Markov chain. The state of the system is tracked as the number of susceptible and infectious individuals.</p>
-                        <div class="stat-box mt-20">
-                            <span class="stat-value">100</span>
-                            <span class="stat-label">Population Size (N)</span>
-                        </div>
+                    <div class="glass-card stat-block">
+                        <div class="stat-label">Basic Reproduction Number (R₀)</div>
+                        <div class="stat-value">1.5</div>
+                        <div class="badge red mt-2">Endemic Threshold</div>
+                    </div>
+                    <div class="glass-card stat-block">
+                        <div class="stat-label">Absorbing State</div>
+                        <div class="stat-value rem">I = 0</div>
+                        <div class="badge green mt-2">Markov Property</div>
                     </div>
                 </div>
 
-                <!-- Card 2 -->
                 <div class="glass-card">
-                    <div class="card-glow glow-secondary"></div>
                     <div class="card-header">
-                        <div class="icon-box icon-secondary"><i class="fa-solid fa-sliders"></i></div>
-                        <h2>Key Parameters</h2>
+                        <h3 class="card-title">
+                            <i data-lucide="info"></i>
+                            Model Architecture
+                        </h3>
                     </div>
-                    <div class="card-body">
-                        <ul class="parameter-list">
-                            <li>
-                                <div class="param-icon"><i class="fa-solid fa-virus"></i></div>
-                                <div class="param-details">
-                                    <span class="param-name">&beta; (Beta): Infection rate</span>
-                                    <span class="param-value">0.3 (Default)</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="param-icon"><i class="fa-solid fa-shield-virus"></i></div>
-                                <div class="param-details">
-                                    <span class="param-name">&gamma; (Gamma): Recovery rate</span>
-                                    <span class="param-value">0.1 (Default)</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="param-icon"><i class="fa-solid fa-hourglass-start"></i></div>
-                                <div class="param-details">
-                                    <span class="param-name">Initial State</span>
-                                    <span class="param-value">I=1, S=99</span>
-                                </div>
-                            </li>
+                    <div class="prose">
+                        <p>This analytics dashboard visualizes the outputs of a highly optimized discrete-time stochastic SIR model built in Python. The simulation does not rely on continuous differential equations (ODEs), but rather tracks exact integer populations through probabilistic state transitions at each timestep.</p>
+                        <ul>
+                            <li><strong>S (Susceptible):</strong> Individuals capable of contracting the virus.</li>
+                            <li><strong>I (Infected):</strong> Individuals currently shedding the virus.</li>
+                            <li><strong>R (Removed):</strong> Individuals recovered or deceased (immune).</li>
                         </ul>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Analysis Section -->
-        <section id="analysis" class="section-content">
-            <div class="plot-grid">
-                
-                <!-- Plot Item -->
-                <div class="plot-card">
-                    <div class="plot-image-container">
-                        <img src="img/mean_trajectory.png" alt="Mean Trajectory" class="plot-img" loading="lazy">
-                        <div class="plot-overlay">
-                            <button class="expand-btn" onclick="openModal('img/mean_trajectory.png')"><i class="fa-solid fa-expand"></i></button>
+            <!-- Tab: Trajectories -->
+            <section id="trajectories" class="tab-pane">
+                <header class="page-header">
+                    <h2>System Trajectories</h2>
+                    <p>Inspection of discrete stochastic paths vs continuous approximations.</p>
+                </header>
+
+                <div class="grid-2">
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="git-commit"></i> Single Stochastic Path</h3>
+                        </div>
+                        <div class="plot-container js-modal-trigger" data-img="./img/single_trajectory.png">
+                            <img src="./img/single_trajectory.png" alt="Single Trajectory">
+                            <div class="plot-overlay"><span>Expand Plot</span></div>
                         </div>
                     </div>
-                    <div class="plot-info">
-                        <h3>Mean Trajectory</h3>
-                        <p>Average epidemic curve over 1000 Monte Carlo simulations, showing the expected behavior.</p>
+
+                    <div class="glass-card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i data-lucide="git-merge"></i> Mean Trajectory (N=100)</h3>
+                        </div>
+                        <div class="plot-container js-modal-trigger" data-img="./img/mean_trajectory.png">
+                            <img src="./img/mean_trajectory.png" alt="Mean Trajectory">
+                            <div class="plot-overlay"><span>Expand Plot</span></div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Plot Item -->
-                <div class="plot-card">
-                    <div class="plot-image-container">
-                        <img src="img/ode_comparison.png" alt="ODE vs Markov" class="plot-img" loading="lazy">
-                        <div class="plot-overlay">
-                            <button class="expand-btn" onclick="openModal('img/ode_comparison.png')"><i class="fa-solid fa-expand"></i></button>
-                        </div>
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i data-lucide="copy"></i> ODE vs Stochastic Comparison</h3>
                     </div>
-                    <div class="plot-info">
-                        <h3>ODE vs Markov</h3>
-                        <p>Comparison between the deterministic Ordinary Differential Equation approach and the stochastic Markov chain.</p>
+                    <div class="plot-container js-modal-trigger" data-img="./img/ode_comparison.png">
+                        <img src="./img/ode_comparison.png" alt="ODE Comparison">
+                        <div class="plot-overlay"><span>Expand Plot</span></div>
                     </div>
-                </div>
-
-                <!-- Plot Item -->
-                <div class="plot-card">
-                    <div class="plot-image-container">
-                        <img src="img/single_trajectory.png" alt="Single Trajectory" class="plot-img" loading="lazy">
-                        <div class="plot-overlay">
-                            <button class="expand-btn" onclick="openModal('img/single_trajectory.png')"><i class="fa-solid fa-expand"></i></button>
-                        </div>
-                    </div>
-                    <div class="plot-info">
-                        <h3>Single Trajectory</h3>
-                        <p>One specific realization of the stochastic epidemic process highlighting its random nature.</p>
+                    <div class="prose" style="margin-top: 1rem;">
+                        <p>This plot validates the stochastic model against the standard Runge-Kutta ODE solver. While the ODE represents the theoretical fluid limit, the stochastic paths demonstrate actual variance in small populations.</p>
                     </div>
                 </div>
+            </section>
 
-                <!-- Plot Item -->
-                <div class="plot-card">
-                    <div class="plot-image-container">
-                        <img src="img/tau_histogram.png" alt="Extinction Time" class="plot-img" loading="lazy">
-                        <div class="plot-overlay">
-                            <button class="expand-btn" onclick="openModal('img/tau_histogram.png')"><i class="fa-solid fa-expand"></i></button>
-                        </div>
-                    </div>
-                    <div class="plot-info">
-                        <h3>Extinction Time (&tau;)</h3>
-                        <p>Distribution of the random time until the epidemic dies out completely (I=0).</p>
-                    </div>
-                </div>
+            <!-- Tab: Distributions -->
+            <section id="distributions" class="tab-pane">
+                <header class="page-header">
+                    <h2>Statistical Distributions</h2>
+                    <p>Analysis of stopping times and absorption probabilities.</p>
+                </header>
 
-                <!-- Plot Item -->
-                <div class="plot-card">
-                    <div class="plot-image-container">
-                        <img src="img/transition_heatmap.png" alt="Transition Heatmap" class="plot-img" loading="lazy">
-                        <div class="plot-overlay">
-                            <button class="expand-btn" onclick="openModal('img/transition_heatmap.png')"><i class="fa-solid fa-expand"></i></button>
-                        </div>
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i data-lucide="clock"></i> Absorption Time (τ) Histogram</h3>
                     </div>
-                    <div class="plot-info">
-                        <h3>Transition Probabilities</h3>
-                        <p>Heatmap representing the probability matrix of state transitions within the Markov framework.</p>
+                    <div class="plot-container js-modal-trigger" data-img="./img/tau_histogram.png">
+                        <img src="./img/tau_histogram.png" alt="Tau Histogram">
+                        <div class="plot-overlay"><span>Expand Plot</span></div>
+                    </div>
+                    <div class="prose" style="margin-top: 1rem;">
+                        <p>The empirical distribution of the time to absorption (when $I_t = 0$). Driven by the Markov chain's structural properties, the system always reaches an absorbing state in finite time, halting the epidemic.</p>
                     </div>
                 </div>
+            </section>
 
-                <!-- Plot Item -->
-                <div class="plot-card">
-                    <div class="plot-image-container">
-                        <img src="img/sensitivity_comparison.png" alt="Sensitivity Analysis" class="plot-img" loading="lazy">
-                        <div class="plot-overlay">
-                            <button class="expand-btn" onclick="openModal('img/sensitivity_comparison.png')"><i class="fa-solid fa-expand"></i></button>
-                        </div>
+            <!-- Tab: Sensitivity -->
+            <section id="sensitivity" class="tab-pane">
+                <header class="page-header">
+                    <h2>Sensitivity Analysis</h2>
+                    <p>Behavior under varied epidemiological parameters.</p>
+                </header>
+
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h3 class="card-title"><i data-lucide="thermometer"></i> R₀ Sensitivity Heatmap</h3>
                     </div>
-                    <div class="plot-info">
-                        <h3>Sensitivity Analysis</h3>
-                        <p>Impact of varying infection (&beta;) and recovery (&gamma;) rates on the peak and duration of the epidemic.</p>
+                    <div class="plot-container js-modal-trigger" data-img="./img/sensitivity_comparison.png">
+                        <img src="./img/sensitivity_comparison.png" alt="Sensitivity Comparison">
+                        <div class="plot-overlay"><span>Expand Plot</span></div>
+                    </div>
+                    <div class="prose" style="margin-top: 1rem;">
+                        <p>By shifting the contagion probability parameters, we observe radical phase transitions in the total fraction of the population infected before the disease dies out.</p>
                     </div>
                 </div>
+            </section>
 
-            </div>
-        </section>
-
-    </main>
-
-    <footer>
-        <p>&copy; 2026 - Modelli Probabilistici. Built with highly detailed Vanilla HTML/CSS.</p>
-    </footer>
-
-    <!-- Image Modal -->
-    <div id="imageModal" class="modal">
-        <span class="close-modal" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="expandedImg">
+        </main>
     </div>
 
-    <!-- Scripts -->
-    <script src="script.js"></script>
+    <!-- Image Expansion Modal -->
+    <div id="imageModal" class="modal">
+        <button class="modal-close" id="closeModal">
+            <i data-lucide="x"></i>
+        </button>
+        <div class="modal-content">
+            <img id="modalImageSrc" src="" alt="Expanded View" class="modal-img">
+        </div>
+    </div>
+
+    <!-- Application Logic -->
+    <script src="./script.js"></script>
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>
