@@ -1,58 +1,55 @@
 # 📊 Visual Assets (`img/`)
 
 <p align="center">
-  <em>Esportazione e stoccaggio degli output grafici e vettoriali finali della simulazione.</em>
+  <em>Artifact repository per la storicizzazione, l'esportazione e la fruizione di output visivi vettoriali e raster generati dalla logica matematica.</em>
 </p>
 
-## 📖 Table of Contents
-- [🚀 Features](#-features)
-- [🏗️ Architettura e Struttura dei File](#-architettura-e-struttura-dei-file)
-- [💻 Analisi dei Componenti Core](#-analisi-dei-componenti-core)
-- [🔗 Dipendenze e Flusso Dati](#-dipendenze-e-flusso-dati)
-- [⚙️ Usage](#-usage)
-- [⚠️ Developer Notes](#-developer-notes)
+---
 
-## 🚀 Features
-- **High-Resolution Graphics**: Target specifico (DPI=150+) richiesto dalla stampa su foglio A4 (per la relazione accademica).
-- **Tracciabilità via Git**: Mantenimento di versioni "pulite" e riproducibili delle pipeline stocastiche.
-- **Supporto multi-media**: Formato PNG primario per garantire compatibilità con LaTeX (pdflatex) e i frontend web HTML (incluso GitHub Pages).
+## 📖 Indice dei Contenuti
+1. [L'Importanza dello Strato Visivo](#1-limportanza-dello-strato-visivo)
+2. [Albero Architetturale](#2-albero-architetturale)
+3. [Tipologia degli Asset Condivisi](#3-tipologia-degli-asset-condivisi)
+4. [Flusso Esterno (Write-Only / Read-Only)](#4-flusso-esterno-write-only--read-only)
+5. [Invarianti e Developer Gotchas](#5-invarianti-e-developer-gotchas)
 
-## 🏗️ Architettura e Struttura dei File
+---
+
+## 1. L'Importanza dello Strato Visivo
+Tutti i tensori N-dimensionali aggregati dalle migliaia di run di iterazione del modello di Markov stocastico sono opachi se visti nel terminale. Per dimostrare empiricamente le proprietà teoriche della catena discreta serve estrapolare il dato.
+La cartella `img/` costituisce la cassaforte statica finale. L'unico formato ammesso qui è di altissima qualità e finalizzato all'erogazione diretta in documenti accademici e dashboard web.
+
+## 2. Albero Architetturale
 
 ```text
 img/
-├── mean_trajectory.png          # Plot aggregato M-simulazioni con barre d'errore (std)
-├── single_trajectory.png        # Plot campione di un'estrazione casuale
-├── tau_histogram.png            # Distribuzione empirica del tempo di fine epidemia
-├── ode_comparison.png           # Confronto tra traiettoria stocastica media ed equazione deterministica
-└── sensitivity_comparison.png   # Studio sull'influenza del parametro R_0 = beta/gamma
+├── .gitkeep                     # Previene che Git elimini la cartella se svuotata
+├── mean_trajectory.png          # Evidenza visiva della legge dei grandi numeri (Media/STD)
+├── ode_comparison.png           # Validazione ibrida (Curve Continue vs Curve Stocastiche Discrete)
+├── sensitivity_comparison.png   # Risultati della parametrizzazione di R_0 sulle 5 ipotesi di contagio
+├── single_trajectory.png        # Ispezione del rumore stocastico nudo e crudo di 1 simulazione
+└── tau_histogram.png            # Distribuzione empirica gaussiana (approssimata) del tempo di assorbimento
 ```
 
-A differenza di una directory di codice, questa directory costituisce il *Sink* (pozzo) della pipeline di dati. Non contiene logica o comportamento, ma rappresenta l'evidenza scientifica del corretto funzionamento della libreria.
+## 3. Tipologia degli Asset Condivisi
+Ogni file è un Portable Network Graphic (`.png`) generato mediante backend specifici (`AGG`) con un fattore di ridimensionamento profondo (`DPI >= 150`). Questo serve per evitare lo sgradevole "sgranamento" che si osserva solitamente nelle tesi in LaTeX compilate con grafici in bassa definizione copiati e incollati a schermo intero.
 
-## 💻 Analisi dei Componenti Core
+## 4. Flusso Esterno (Write-Only / Read-Only)
 
-(N/A - Non vi sono file di codice eseguibile, ma output passivi gestiti dal modulo `plotting.py`).
+Dal momento che `img/` non contiene un bit di codice logicamente eseguibile, il suo diagramma di comunicazione col resto del repo è netto:
 
-## 🔗 Dipendenze e Flusso Dati
-- **Scrittura**: Aggiornata in sola scrittura (`Write-Only`) da `src/plotting.py` invocato da `src/simulation.py` o `src/sensitivity.py`.
-- **Lettura**: Consumata in lettura (`Read-Only`) dai file LaTeX in `report/` e dai file HTML/JS in `docs/`.
+* **Sorgenti in Scrittura (Write-Only Destinazione):** Moduli astratti come `src/plotting.py` scrivono distruttivamente e silenziosamente in questa cartella. Le vecchie immagini vengono polverizzate.
+* **Consumatori in Lettura (Read-Only Sorgente):** Moduli passivi e frontend assorbono queste immagini:
+  - Il documento in `report/relazione.tex` lo fa tramite primitive macro `\includegraphics`.
+  - Il frontend web `docs/index.html` consuma copie speculari di questi grafici per il DOM.
 
-## ⚙️ Usage
-Per rigenerare tutte le immagini da zero usando i medesimi seed (riproducibilità):
-
-```bash
-# Esegui le simulazioni (rigenera mean_trajectory, single_trajectory, tau_histogram, ode_comparison)
-python src/simulation.py --seed 42 --sims 1000
-
-# Esegui la sensibilità (rigenera sensitivity_comparison)
-python src/sensitivity.py --seed 42 --sims 500
-```
-
-## ⚠️ Developer Notes
+## 5. Invarianti e Developer Gotchas
 
 > [!WARNING]  
-> Poiché questi file binari causano problemi nell'history di Git se vengono aggiornati continuamente e con leggere variazioni impercettibili, consigliamo caldamente di generarli solo nelle versioni finali, usando i seed impostati. Modifiche temporanee per scopi di debugging dovrebbero essere salvate in `plots/` (che è opportunamente ignorata in `.gitignore`).
+> Mai committare in questa directory plot temporanei o fallati (generati durante sessioni di puro debugging del core `src/`). A tale scopo, la repository mette a disposizione la directory nascosta **`plots/`**, esente dal versioning Git tramite `.gitignore`. Usa `img/` come una sorta di *Artifact Registry Pubblico*: salvi qui solo i risultati pronti per la pubblicazione della tesi.
+
+> [!IMPORTANT]
+> Quando le immagini in questa cartella cambiano (dopo un run di simulazione aggiornato), il nuovo hash del file PNG viene marcato modificato da Git. Eseguire un push di questi file triggera *automaticamente* le pipeline configurate (`.github/workflows`) e l'immagine si aggiornerà sul cloud (GitHub Pages) entro un minuto solare, senza dover toccare HTML o configurazioni server.
 
 > [!NOTE]
-> Su GitHub, puoi visualizzare in tempo reale questi asset cliccandoci sopra, ma per lo studio complessivo si raccomanda la navigazione della dashboard interattiva su GitHub Pages (vedi `docs/README.md`).
+> Per ottenere un set riproducibile di questi grafici, invocare la master CLI esplicitando il flag entropico costante: `$ python src/simulation.py --seed 42`

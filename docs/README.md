@@ -1,78 +1,74 @@
 # 🌐 Web Frontend (`docs/`)
 
 <p align="center">
-  <em>Landing page e dashboard interattiva ospitata nativamente su GitHub Pages per la presentazione dei risultati.</em>
+  <em>Dashboard web ed esperienza visiva sviluppata in purissimo ecosistema Vanilla (zero-framework) con stile Glassmorphic, pubblicata automaticamente tramite CI/CD.</em>
 </p>
 
-## 📖 Table of Contents
-- [🚀 Features](#-features)
-- [🏗️ Architettura e Struttura dei File](#-architettura-e-struttura-dei-file)
-- [💻 Analisi dei Componenti Core](#-analisi-dei-componenti-core)
-- [🔗 Dipendenze e Flusso Dati](#-dipendenze-e-flusso-dati)
-- [⚙️ Usage](#-usage)
-- [⚠️ Developer Notes](#-developer-notes)
+---
 
-## 🚀 Features
-- **Zero-Build Vanilla Stack**: Sviluppato interamente in HTML, CSS e JS puri, senza l'uso di bundler (no Vite, no Webpack) o framework JS pesanti (no React).
-- **Glassmorphism Design**: Interfaccia grafica mozzafiato che usa gradienti avanzati e filtri `backdrop-filter: blur` per creare effetti traslucidi.
-- **Image Modals & Tabs**: Sistema di navigazione tra analisi a schede con espansione modale per i grafici e animazioni fluide, il tutto codificato da zero.
-- **Auto-Deploy GitHub Actions**: La pipeline invia automaticamente la cartella `docs/` online tramite `.github/workflows/deploy-pages.yml`.
+## 📖 Indice dei Contenuti
+1. [L'Obiettivo del Modulo Web](#1-lobiettivo-del-modulo-web)
+2. [Albero Architetturale](#2-albero-architetturale)
+3. [Deep-Dive nell'Implementazione Client-Side](#3-deep-dive-nellimplementazione-client-side)
+   - [Zero-Build Layout (`index.html`)](#zero-build-layout-indexhtml)
+   - [Design System (`style.css`)](#design-system-stylecss)
+   - [Stato e Interattività (`script.js`)](#stato-e-interattività-scriptjs)
+4. [Infrastruttura CI/CD e Deployment](#4-infrastruttura-cicd-e-deployment)
+5. [Gotchas sul Routing Relativo](#5-gotchas-sul-routing-relativo)
 
-## 🏗️ Architettura e Struttura dei File
+---
+
+## 1. L'Obiettivo del Modulo Web
+Il web è lo strato di presentazione finale della repository. Molto del focus computazionale nei tool statistici (es. Python, R) è penalizzato dalla scarsa manutenibilità delle interfacce grafiche legacy (es. Tkinter). 
+Abbiamo superato questo limite bypassando framework pesanti come React.js, adottando una struttura Vanilla pura, veloce, sicura e compatibile nativamente per il web-hosting statico fornito da GitHub.
+
+## 2. Albero Architetturale
 
 ```text
 docs/
-├── index.html       # Entry-point HTML5 semantico
-├── style.css        # Variabili CSS, layout Grid/Flex e design system Glassmorphic
-├── script.js        # Gestore di stato per i Tab, le Modali e gli event listener
-└── img/             # (Copia in sync) Assets grafici serviti pubblicamente
+├── index.html       # Documento DOM primario (scheletro semantico accessibile)
+├── style.css        # Folio di stile per il theming Glassmorphism e layout responsive
+├── script.js        # Controller JavaScript per modali di espansione immagini e Tab navigazionali
+└── img/             # Asset binari consumati dal DOM (copia esatta the root img/ per sandboxing)
 ```
 
-Il design pattern è un frontend statico classico. Gli stili (CSS) e i comportamenti (JS) sono separati rigorosamente dall'impalcatura (HTML) per massimizzare la leggibilità.
+## 3. Deep-Dive nell'Implementazione Client-Side
 
-## 💻 Analisi dei Componenti Core
+L'ecosistema non richiede alcun build step (niente bundler o traspiratori come Webpack o Babel). Tutto è interpretato direttamente dal browser.
 
-### `style.css`
-Il CSS utilizza variabili CSS native per il theming e funzioni moderne per l'ancoraggio e l'adattabilità.
+### Zero-Build Layout (`index.html`)
+L'impalcatura definisce chiaramente sezioni isolate tramite i tag `id`. Questo permette all'interfaccia interattiva di saltare logicamente tra la sezione "Overview Statistica" e i diagrammi approfonditi.
+
+### Design System (`style.css`)
+La punta di diamante dell'esperienza utente.
+Implementa un engine "Glassmorphism" che crea layer semi-trasparenti con blurring (offuscamento) dinamico dello sfondo (che è una geometria a gradienti animati), in stile iOS/macOS moderno.
 ```css
-/* snippet da docs/style.css */
+/* snippet core del design in docs/style.css */
 :root {
-  --bg-color: #0f172a;
-  --glass-bg: rgba(30, 41, 59, 0.7);
+  --bg-color: #0f172a;               /* Tailwind Slate-900 equivalente */
+  --glass-bg: rgba(30, 41, 59, 0.7); /* Background traslucido */
   --glass-border: rgba(255, 255, 255, 0.1);
-  --accent: #38bdf8;
-  --text-main: #f8fafc;
 }
+
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);       /* Magia grafica per l'effetto vetro satinato */
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 ```
 
-### `script.js`
-Il JavaScript ascolta gli eventi di interazione, garantendo la pulizia dello stato precedente e applicando le classi per scatenare i reflow CSS.
+### Stato e Interattività (`script.js`)
+L'applicativo JavaScript è delegato alla mutazione procedurale delle classi CSS per mostrare e nascondere (fade) il contenuto dei container (logica `data-target`). Questo modulo cattura anche i clic per l'espansione dei grafici su un viewport Modal oscurato, prevenendo un caricamento separato in nuove schede browser fastidiose.
 
-## 🔗 Dipendenze e Flusso Dati
-- Non ci sono dipendenze `npm`.
-- Il frontend dipende dalle immagini generate dagli script Python.
-- Tutte le immagini contenute in `c:\Users\franc\Documents\sir-markov-chain\img\` devono essere sincronizzate dentro `docs/img/` prima del deploy, per poter essere risolte dal path statico di GitHub Pages.
+## 4. Infrastruttura CI/CD e Deployment
+Il sistema è autonomo (Self-Driving). Quando una qualsiasi patch va in merge su `master` e altera i plot Python o questo sorgente `docs/`, i workflow `.github/workflows/deploy-pages.yml` entrano in gioco, montano la cartella come artefatto web, allocano un server cloud runner tramite l'API `actions/deploy-pages` ed erogano in push l'URL finale del sito. Zero configurazione server richiesta (No-Ops).
 
-## ⚙️ Usage
-Puoi servire o visualizzare il sito in locale molto semplicemente:
-```bash
-# Entra nella directory e avvia il server python
-cd docs/
-python -m http.server 8000
-# Apri http://localhost:8000
-```
-*(Oppure puoi fare doppio clicca su `index.html` per aprirlo direttamente dal browser!)*
-
-## ⚠️ Developer Notes
+## 5. Gotchas sul Routing Relativo
 
 > [!WARNING]  
-> Mantenere `base: '/'` per i path degli asset statici. Poiché la root del dominio su GitHub Pages coincide con la radice del repo (se l'azione è configurata correttamente), non usare path assoluti. Usa sempre path relativi (es. `img/grafico.png`).
+> Quando crei i collegamenti a script, link ai fogli di stile o riferimenti d'immagine in `index.html`, **NON usare mai path assoluti (es. `/img/plot.png`)**. Su GitHub Pages, la repository è spesso servita tramite una sotto-cartella URL del domain account (es. `user.github.io/sir-markov-chain/`). Usare path assoluti distruggerebbe il fetch degli asset risolvendoli nella radice del tuo dominio GitHub al posto del repo. Usa stringhe come `./img/plot.png`.
 
-> [!IMPORTANT]
-> L'aggiornamento automatico e il deploy in CI su GitHub avvengono solo tramite workflow. Qualsiasi modifica in questa directory andrà automaticamente online pochi secondi dopo un `git push`.
+> [!NOTE]
+> Il browser impone policy di cache rigorose sui file CSS e JS. Se si testa localmente usando un web server python nativo (`python -m http.server`), ricordarsi di inibire la cache dalle impostazioni di sviluppo o fare `CTRL+F5` massivo per forzare il fetch delle nuove direttive glassmorphism.
