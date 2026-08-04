@@ -63,7 +63,7 @@
                 <div class="two-col">
                     <div class="animate-on-scroll delay-1">
                         <p class="text-large" style="margin-bottom: 1.5rem;">
-                            A differenza delle approssimazioni fluide basate su ODE, in questa simulazione trattiamo l'epidemia come un **Processo Stocastico Discreto** su un numero finito di individui $N$.
+                            A differenza delle approssimazioni fluide basate su ODE, in questa simulazione trattiamo l'epidemia come un **Processo Stocastico Discreto** su un numero finito di individui \(N\).
                         </p>
                         <p class="text-large">
                             La transizione di stato tra i compartimenti Suscettibili (S), Infetti (I) e Rimossi (R) è governata da estrazioni casuali basate su distribuzioni binomiali condizionate allo stato precedente.
@@ -72,10 +72,10 @@
                     <div class="glass-box animate-on-scroll delay-2">
                         <h3 style="margin-bottom: 1rem; color: var(--accent);">Spazio degli Stati Fisici</h3>
                         <div class="equation">
-                            $$E = \{ (S, I, R) \in \mathbb{N}^3 : S+I+R = N \}$$
+                            \[E = \{ (S, I, R) \in \mathbb{N}^3 : S+I+R = N \}\]
                         </div>
                         <p style="text-align: center; color: var(--text-secondary); margin-top: 1rem;">
-                            La conservazione della massa è garantita strutturalmente. Se $I_t = 0$, il sistema raggiunge lo <strong>Stato Assorbente</strong>.
+                            La conservazione della massa è garantita strutturalmente. Se \(I_t = 0\), il sistema raggiunge lo <strong>Stato Assorbente</strong>.
                         </p>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
         <!-- SLIDE 3: DINAMICA DI BASE -->
         <section id="dynamics" class="slide">
             <div class="slide-content">
-                <h2 class="slide-title animate-on-scroll">La Dinamica Epidemica ($N=100$)</h2>
+                <h2 class="slide-title animate-on-scroll">La Dinamica Epidemica (\(N=100\))</h2>
                 <div class="two-col">
                     <div class="glass-box animate-on-scroll delay-1">
                         <div class="badge">Traiettoria Singola</div>
@@ -117,7 +117,7 @@
                         </p>
                         <ul class="text-large" style="margin-left: 1.5rem; color: var(--text-secondary);">
                             <li style="margin-bottom: 1rem;">La media stocastica approssima quasi perfettamente il modello ODE.</li>
-                            <li style="margin-bottom: 1rem;">Per popolazioni $N \to \infty$ la varianza collassa a zero.</li>
+                            <li style="margin-bottom: 1rem;">Per popolazioni \(N \to \infty\) la varianza collassa a zero.</li>
                         </ul>
                     </div>
                     <div class="plot-frame animate-on-scroll delay-2 js-modal-trigger" data-img="./img/ode_comparison.png">
@@ -130,17 +130,17 @@
         <!-- SLIDE 5: DISTRIBUZIONI FINALI -->
         <section id="analysis" class="slide">
             <div class="slide-content">
-                <h2 class="slide-title animate-on-scroll">Analisi Finale: Assorbimento e $R_0$</h2>
+                <h2 class="slide-title animate-on-scroll">Analisi Finale: Assorbimento e \(R_0\)</h2>
                 <div class="two-col">
                     <div class="glass-box animate-on-scroll delay-1">
-                        <div class="badge">Tempo di Assorbimento ($\tau$)</div>
-                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Distribuzione empirica del tempo necessario affinché $I = 0$. Il sistema finisce <strong>sempre</strong> in uno stato assorbente in tempo finito.</p>
+                        <div class="badge">Tempo di Assorbimento (\(\tau\))</div>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Distribuzione empirica del tempo necessario affinché \(I = 0\). Il sistema finisce <strong>sempre</strong> in uno stato assorbente in tempo finito.</p>
                         <div class="plot-frame js-modal-trigger" data-img="./img/tau_histogram.png">
                             <img src="./img/tau_histogram.png" alt="Tau Histogram">
                         </div>
                     </div>
                     <div class="glass-box animate-on-scroll delay-2">
-                        <div class="badge">Sensibilità a $R_0$</div>
+                        <div class="badge">Sensibilità a \(R_0\)</div>
                         <p style="margin-bottom: 1rem; color: var(--text-secondary);">Transizione di fase. Modificando il numero di riproduzione di base, osserviamo l'esplosione o il collasso della dimensione finale dell'epidemia.</p>
                         <div class="plot-frame js-modal-trigger" data-img="./img/sensitivity_comparison.png">
                             <img src="./img/sensitivity_comparison.png" alt="Sensitivity Comparison">
@@ -163,7 +163,7 @@
                         
                         <div class="control-group">
                             <label for="sliderBeta">
-                                Tasso di Infezione ($\beta$)
+                                Tasso di Infezione (\(\beta\))
                                 <span id="valBeta" class="val-badge">0.30</span>
                             </label>
                             <input type="range" id="sliderBeta" min="0.05" max="1.0" step="0.01" value="0.30">
@@ -171,7 +171,7 @@
                         
                         <div class="control-group">
                             <label for="sliderGamma">
-                                Tasso di Guarigione ($\gamma$)
+                                Tasso di Guarigione (\(\gamma\))
                                 <span id="valGamma" class="val-badge">0.10</span>
                             </label>
                             <input type="range" id="sliderGamma" min="0.05" max="0.5" step="0.01" value="0.10">
@@ -179,7 +179,7 @@
 
                         <div class="control-group">
                             <label for="sliderN">
-                                Popolazione Totale ($N$)
+                                Popolazione Totale (\(N\))
                                 <span id="valN" class="val-badge">1000</span>
                             </label>
                             <input type="range" id="sliderN" min="100" max="10000" step="100" value="1000">
@@ -187,14 +187,14 @@
 
                         <div class="control-group">
                             <label for="sliderI0">
-                                Infetti Iniziali ($I_0$)
+                                Infetti Iniziali (\(I_0\))
                                 <span id="valI0" class="val-badge">10</span>
                             </label>
                             <input type="range" id="sliderI0" min="1" max="100" step="1" value="10">
                         </div>
 
                         <div class="r0-indicator">
-                            <span class="r0-label">Riproduzione Base ($R_0$)</span>
+                            <span class="r0-label">Riproduzione Base (\(R_0\))</span>
                             <span id="valR0" class="r0-value">3.00</span>
                         </div>
                     </div>
