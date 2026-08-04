@@ -24,8 +24,8 @@ L'obiettivo è applicare il formalismo delle catene di Markov — non fare epide
 
 ```
 sir-markov-chain/
-├── .opencode/            # Configurazione agenti OpenCode
-├── AGENTS.md             # Knowledge base per AI agent
+├── AGENTS.md             # Knowledge base per AI agent (regole operative)
+├── codemap.md            # Atlas architetturale del repository
 ├── README.md
 ├── requirements.txt
 ├── pyproject.toml        # Config moderna del progetto
@@ -39,11 +39,12 @@ sir-markov-chain/
 ├── notebooks/
 │   ├── exploration.ipynb        # Analisi esplorativa interattiva
 │   └── pipeline_completo.ipynb  # Pipeline completa (10 sezioni)
-├── img/                  # Output immagini per la relazione
-├── plots/                # Output grafici (runtime)
+├── img/                  # Output immagini per la relazione (dpi=150)
+├── plots/                # Output grafici runtime (ignorati da git)
 ├── report/
-│   ├── relazione.md      # Relazione accademica
-│   └── presentazione.md  # Presentazione orale con Q&A, checklist, lavagna
+│   ├── relazione.tex     # Relazione accademica (LaTeX, pronta per pdflatex)
+│   ├── relazione.md      # Versione Markdown legacy (riferimento)
+│   └── presentazione.md  # Presentazione orale con Q&A, checklist, script lavagna
 └── tests/
     ├── __init__.py
     └── test_model.py     # Unit test (12 test: catena SIR, matrice P, edge case)

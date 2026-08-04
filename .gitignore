@@ -9,6 +9,34 @@ venv/
 .venv/
 plots/*.png
 plots/*.pdf
+
+# AI & Local Agent artifacts (private / not for public repo)
 .opencode/
-AGENTS.md
+.agents/
 thoughts/
+EXAM_INFO.md
+PROJECT_STATUS.md
+
+# LaTeX build outputs
+*.aux
+*.log
+*.synctex.gz
+*.out
+*.toc
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+
+# Data & Model Checkpoints (Git LFS or Zenodo target)
+*.h5
+*.pt
+*.ckpt
+*.onnx
+*.parquet
+report/Lecture/*.pdf
+
+# OS files
+.DS_Store
+Thumbs.db
+
