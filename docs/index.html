@@ -1,205 +1,151 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIR Markov Chain | Analytics</title>
+    <title>SIR Markov Chain | Esame Modelli Probabilistici</title>
     <link rel="stylesheet" href="./style.css">
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- MathJax per renderizzare le formule LaTeX nativamente -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
-    <div class="app-container">
-        
-        <!-- Sidebar Navigation -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-icon">
-                    <i data-lucide="activity"></i>
+    <div class="presentation-container" id="presentation">
+
+        <!-- SLIDE 1: HERO (Copertina) -->
+        <section class="slide hero-slide">
+            <div class="slide-content">
+                <div class="badge animate-on-scroll">Esame Orale - Settembre 2026</div>
+                <h1 class="slide-title animate-on-scroll delay-1">Simulazione SIR come<br>Catena di Markov Discreta</h1>
+                <p class="slide-subtitle animate-on-scroll delay-2">Un approccio stocastico alla modellizzazione epidemiologica compartimentale.</p>
+                
+                <div class="meta-info animate-on-scroll delay-3">
+                    <div class="meta-item">
+                        <span>Corso</span>
+                        <strong>Modelli Probabilistici</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>Docente</span>
+                        <strong>Prof. Salvatore Federico</strong>
+                    </div>
+                    <div class="meta-item">
+                        <span>Candidato</span>
+                        <strong>Francesco Castaldi</strong>
+                    </div>
                 </div>
-                <h1>SIR Analytics</h1>
+
+                <div class="scroll-hint animate-on-scroll delay-3">
+                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Scorri per iniziare</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
             </div>
+        </section>
 
-            <nav>
-                <ul class="nav-menu">
-                    <li>
-                        <a class="nav-item active" data-target="dashboard">
-                            <i data-lucide="layout-dashboard"></i>
-                            <span>Dashboard Overview</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-item" data-target="trajectories">
-                            <i data-lucide="trending-up"></i>
-                            <span>Trajectories</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-item" data-target="distributions">
-                            <i data-lucide="bar-chart-2"></i>
-                            <span>Distributions</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="nav-item" data-target="sensitivity">
-                            <i data-lucide="sliders"></i>
-                            <span>Sensitivity Analysis</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-
-        <!-- Main Viewport -->
-        <main class="main-content">
-            
-            <!-- Tab: Dashboard -->
-            <section id="dashboard" class="tab-pane active">
-                <header class="page-header">
-                    <h2>Epidemiological Overview</h2>
-                    <p>Live metrics and macro-analysis of the Stochastic SIR Markov Chain.</p>
-                </header>
-
-                <div class="grid-3">
-                    <div class="glass-card stat-block">
-                        <div class="stat-label">Initial Population (N)</div>
-                        <div class="stat-value">100</div>
-                        <div class="badge blue mt-2">Constant Mass</div>
+        <!-- SLIDE 2: IL MODELLO MATEMATICO -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title animate-on-scroll">Il Modello Stocastico</h2>
+                <div class="two-col">
+                    <div class="animate-on-scroll delay-1">
+                        <p class="text-large" style="margin-bottom: 1.5rem;">
+                            A differenza delle approssimazioni fluide basate su ODE, in questa simulazione trattiamo l'epidemia come un **Processo Stocastico Discreto** su un numero finito di individui $N$.
+                        </p>
+                        <p class="text-large">
+                            La transizione di stato tra i compartimenti Suscettibili (S), Infetti (I) e Rimossi (R) è governata da estrazioni casuali basate su distribuzioni binomiali condizionate allo stato precedente.
+                        </p>
                     </div>
-                    <div class="glass-card stat-block">
-                        <div class="stat-label">Basic Reproduction Number (R₀)</div>
-                        <div class="stat-value">1.5</div>
-                        <div class="badge red mt-2">Endemic Threshold</div>
-                    </div>
-                    <div class="glass-card stat-block">
-                        <div class="stat-label">Absorbing State</div>
-                        <div class="stat-value rem">I = 0</div>
-                        <div class="badge green mt-2">Markov Property</div>
+                    <div class="glass-box animate-on-scroll delay-2">
+                        <h3 style="margin-bottom: 1rem; color: var(--accent);">Spazio degli Stati Fisici</h3>
+                        <div class="equation">
+                            $$E = \{ (S, I, R) \in \mathbb{N}^3 : S+I+R = N \}$$
+                        </div>
+                        <p style="text-align: center; color: var(--text-secondary); margin-top: 1rem;">
+                            La conservazione della massa è garantita strutturalmente. Se $I_t = 0$, il sistema raggiunge lo <strong>Stato Assorbente</strong>.
+                        </p>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h3 class="card-title">
-                            <i data-lucide="info"></i>
-                            Model Architecture
-                        </h3>
+        <!-- SLIDE 3: DINAMICA DI BASE -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title animate-on-scroll">La Dinamica Epidemica ($N=100$)</h2>
+                <div class="two-col">
+                    <div class="glass-box animate-on-scroll delay-1">
+                        <div class="badge">Traiettoria Singola</div>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Osserviamo il forte rumore stocastico tipico delle piccole popolazioni. La curva non è liscia ma soggetta alle fluttuazioni dei contagi individuali.</p>
+                        <div class="plot-frame js-modal-trigger" data-img="./img/single_trajectory.png">
+                            <img src="./img/single_trajectory.png" alt="Single Trajectory">
+                        </div>
                     </div>
-                    <div class="prose">
-                        <p>This analytics dashboard visualizes the outputs of a highly optimized discrete-time stochastic SIR model built in Python. The simulation does not rely on continuous differential equations (ODEs), but rather tracks exact integer populations through probabilistic state transitions at each timestep.</p>
-                        <ul>
-                            <li><strong>S (Susceptible):</strong> Individuals capable of contracting the virus.</li>
-                            <li><strong>I (Infected):</strong> Individuals currently shedding the virus.</li>
-                            <li><strong>R (Removed):</strong> Individuals recovered or deceased (immune).</li>
+                    <div class="glass-box animate-on-scroll delay-2">
+                        <div class="badge">Traiettoria Media (Monte Carlo)</div>
+                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Iterando migliaia di estrazioni indipendenti, la Legge dei Grandi Numeri stabilizza la media verso il comportamento atteso teorico.</p>
+                        <div class="plot-frame js-modal-trigger" data-img="./img/mean_trajectory.png">
+                            <img src="./img/mean_trajectory.png" alt="Mean Trajectory">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SLIDE 4: FLUID LIMIT E ODE -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title animate-on-scroll">Limite Fluido: ODE vs Stocastico</h2>
+                <div class="two-col">
+                    <div class="animate-on-scroll delay-1">
+                        <h3 class="serif" style="font-size: 2rem; margin-bottom: 1.5rem;">Validazione del Modello</h3>
+                        <p class="text-large" style="margin-bottom: 1.5rem;">
+                            Confrontando le traiettorie generate stocasticamente con le curve continue risolte tramite integrazione <strong>Runge-Kutta (RK4)</strong> sulle classiche equazioni differenziali ordinarie.
+                        </p>
+                        <ul class="text-large" style="margin-left: 1.5rem; color: var(--text-secondary);">
+                            <li style="margin-bottom: 1rem;">La media stocastica approssima quasi perfettamente il modello ODE.</li>
+                            <li style="margin-bottom: 1rem;">Per popolazioni $N \to \infty$ la varianza collassa a zero.</li>
                         </ul>
                     </div>
-                </div>
-            </section>
-
-            <!-- Tab: Trajectories -->
-            <section id="trajectories" class="tab-pane">
-                <header class="page-header">
-                    <h2>System Trajectories</h2>
-                    <p>Inspection of discrete stochastic paths vs continuous approximations.</p>
-                </header>
-
-                <div class="grid-2">
-                    <div class="glass-card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i data-lucide="git-commit"></i> Single Stochastic Path</h3>
-                        </div>
-                        <div class="plot-container js-modal-trigger" data-img="./img/single_trajectory.png">
-                            <img src="./img/single_trajectory.png" alt="Single Trajectory">
-                            <div class="plot-overlay"><span>Expand Plot</span></div>
-                        </div>
-                    </div>
-
-                    <div class="glass-card">
-                        <div class="card-header">
-                            <h3 class="card-title"><i data-lucide="git-merge"></i> Mean Trajectory (N=100)</h3>
-                        </div>
-                        <div class="plot-container js-modal-trigger" data-img="./img/mean_trajectory.png">
-                            <img src="./img/mean_trajectory.png" alt="Mean Trajectory">
-                            <div class="plot-overlay"><span>Expand Plot</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h3 class="card-title"><i data-lucide="copy"></i> ODE vs Stochastic Comparison</h3>
-                    </div>
-                    <div class="plot-container js-modal-trigger" data-img="./img/ode_comparison.png">
+                    <div class="plot-frame animate-on-scroll delay-2 js-modal-trigger" data-img="./img/ode_comparison.png">
                         <img src="./img/ode_comparison.png" alt="ODE Comparison">
-                        <div class="plot-overlay"><span>Expand Plot</span></div>
-                    </div>
-                    <div class="prose" style="margin-top: 1rem;">
-                        <p>This plot validates the stochastic model against the standard Runge-Kutta ODE solver. While the ODE represents the theoretical fluid limit, the stochastic paths demonstrate actual variance in small populations.</p>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Tab: Distributions -->
-            <section id="distributions" class="tab-pane">
-                <header class="page-header">
-                    <h2>Statistical Distributions</h2>
-                    <p>Analysis of stopping times and absorption probabilities.</p>
-                </header>
-
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h3 class="card-title"><i data-lucide="clock"></i> Absorption Time (τ) Histogram</h3>
+        <!-- SLIDE 5: DISTRIBUZIONI FINALI -->
+        <section class="slide">
+            <div class="slide-content">
+                <h2 class="slide-title animate-on-scroll">Analisi Finale: Assorbimento e $R_0$</h2>
+                <div class="two-col">
+                    <div class="glass-box animate-on-scroll delay-1">
+                        <div class="badge">Tempo di Assorbimento ($\tau$)</div>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Distribuzione empirica del tempo necessario affinché $I = 0$. Il sistema finisce <strong>sempre</strong> in uno stato assorbente in tempo finito.</p>
+                        <div class="plot-frame js-modal-trigger" data-img="./img/tau_histogram.png">
+                            <img src="./img/tau_histogram.png" alt="Tau Histogram">
+                        </div>
                     </div>
-                    <div class="plot-container js-modal-trigger" data-img="./img/tau_histogram.png">
-                        <img src="./img/tau_histogram.png" alt="Tau Histogram">
-                        <div class="plot-overlay"><span>Expand Plot</span></div>
-                    </div>
-                    <div class="prose" style="margin-top: 1rem;">
-                        <p>The empirical distribution of the time to absorption (when $I_t = 0$). Driven by the Markov chain's structural properties, the system always reaches an absorbing state in finite time, halting the epidemic.</p>
+                    <div class="glass-box animate-on-scroll delay-2">
+                        <div class="badge">Sensibilità a $R_0$</div>
+                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Transizione di fase. Modificando il numero di riproduzione di base, osserviamo l'esplosione o il collasso della dimensione finale dell'epidemia.</p>
+                        <div class="plot-frame js-modal-trigger" data-img="./img/sensitivity_comparison.png">
+                            <img src="./img/sensitivity_comparison.png" alt="Sensitivity Comparison">
+                        </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Tab: Sensitivity -->
-            <section id="sensitivity" class="tab-pane">
-                <header class="page-header">
-                    <h2>Sensitivity Analysis</h2>
-                    <p>Behavior under varied epidemiological parameters.</p>
-                </header>
-
-                <div class="glass-card">
-                    <div class="card-header">
-                        <h3 class="card-title"><i data-lucide="thermometer"></i> R₀ Sensitivity Heatmap</h3>
-                    </div>
-                    <div class="plot-container js-modal-trigger" data-img="./img/sensitivity_comparison.png">
-                        <img src="./img/sensitivity_comparison.png" alt="Sensitivity Comparison">
-                        <div class="plot-overlay"><span>Expand Plot</span></div>
-                    </div>
-                    <div class="prose" style="margin-top: 1rem;">
-                        <p>By shifting the contagion probability parameters, we observe radical phase transitions in the total fraction of the population infected before the disease dies out.</p>
-                    </div>
-                </div>
-            </section>
-
-        </main>
     </div>
 
-    <!-- Image Expansion Modal -->
+    <!-- Modale per Espansione Immagini (Focus per Discussione Professore) -->
     <div id="imageModal" class="modal">
-        <button class="modal-close" id="closeModal">
-            <i data-lucide="x"></i>
-        </button>
+        <button class="modal-close" id="closeModal">&times;</button>
         <div class="modal-content">
             <img id="modalImageSrc" src="" alt="Expanded View" class="modal-img">
         </div>
     </div>
 
-    <!-- Application Logic -->
     <script src="./script.js"></script>
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-    </script>
 </body>
 </html>
