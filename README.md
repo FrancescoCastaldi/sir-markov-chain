@@ -1,103 +1,13 @@
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white)](https://python.org)
-[![CLI](https://img.shields.io/badge/CLI-argparse-black?logo=gnubash&logoColor=white)](src/simulation.py)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
-[![Last commit](https://img.shields.io/github/last-commit/francceco-/sir-markov-chain?logo=git)](https://github.com/francceco-/sir-markov-chain)
-[![Repo size](https://img.shields.io/github/repo-size/francceco-/sir-markov-chain?logo=github)](https://github.com/francceco-/sir-markov-chain)
-[![Tests](https://img.shields.io/badge/tests-12%2F12-brightgreen?logo=pytest)](tests/)
-[![DOI](https://img.shields.io/badge/status-completo-success)](https://github.com/francceco-/sir-markov-chain)
+# Contenuto della cartella `.`
 
-# Simulazione SIR come Catena di Markov
-
-**Corso**: Modelli Probabilistici — Università di Bologna  
-**Docente**: Prof. Salvatore Federico  
-**Studente**: Francesco Castaldi
-
----
-
-## Descrizione
-
-Modellazione di una epidemia su popolazione piccola (N=100) tramite catena di Markov a tempo discreto con stati **S** (Suscettibili), **I** (Infetti), **R** (Rimossi).
-
-L'obiettivo è applicare il formalismo delle catene di Markov — non fare epidemiologia — usando una matrice di transizione stocastica e simulazione Monte Carlo.
-
-## Struttura del Progetto
-
-```
-sir-markov-chain/
-├── AGENTS.md             # Knowledge base per AI agent (regole operative)
-├── codemap.md            # Atlas architetturale del repository
-├── README.md
-├── requirements.txt
-├── pyproject.toml        # Config moderna del progetto
-├── src/
-│   ├── __init__.py       # Export del pacchetto
-│   ├── model.py          # Nucleo SIR: next_state, transition_matrix, costanti
-│   ├── simulation.py     # Simulazione Monte Carlo + CLI con argparse + seed
-│   ├── plotting.py       # Funzioni di plotting separate
-│   ├── analysis.py       # Statistiche + ODE deterministica
-│   └── sensitivity.py    # Analisi di sensibilità parametri
-├── notebooks/
-│   ├── exploration.ipynb        # Analisi esplorativa interattiva
-│   └── pipeline_completo.ipynb  # Pipeline completa (10 sezioni)
-├── img/                  # Output immagini per la relazione (dpi=150)
-├── plots/                # Output grafici runtime (ignorati da git)
-├── report/
-│   ├── relazione.tex     # Relazione accademica (LaTeX, pronta per pdflatex)
-│   ├── relazione.md      # Versione Markdown legacy (riferimento)
-│   └── presentazione.md  # Presentazione orale con Q&A, checklist, script lavagna
-└── tests/
-    ├── __init__.py
-    └── test_model.py     # Unit test (12 test: catena SIR, matrice P, edge case)
-```
-
-## Parametri del Modello
-
-| Parametro | Simbolo | Valore default |
-|-----------|---------|----------------|
-| Popolazione | N | 100 |
-| Prob. contagio | β | 0.2 |
-| Prob. guarigione | γ | 0.1 |
-| Infetti iniziali | I₀ | 5 |
-| Passi temporali | T_MAX | 200 |
-| Simulazioni MC | M | 1000 |
-| Riproduzione base | R₀ = β/γ | 2.0 |
-
-## Installazione
-
-```bash
-pip install -r requirements.txt
-```
-
-## Esecuzione
-
-```bash
-# Simulazione completa con parametri default
-python src/simulation.py
-
-# Simulazione con parametri custom e seed per riproducibilità
-python src/simulation.py --beta 0.3 --gamma 0.2 --sims 500 --seed 42
-
-# Solo simulazione senza plot
-python src/simulation.py --no-plot
-
-# Analisi di sensibilità (5 scenari + confronto con ODE)
-python src/sensitivity.py
-
-# Analisi statistica
-python src/analysis.py
-
-# Eseguire test
-python -m pytest tests/ -v
-
-# Notebook interattivo
-jupyter notebook notebooks/exploration.ipynb
-```
-
-I grafici per la relazione vengono salvati in `img/` con dpi=150.
-I risultati della simulazione (picco medio, tempo di estinzione, rimossi finali)
-vengono stampati a terminale.
-
-## Riferimenti
-
-- Dispensa del corso (*Fullesame.pdf*), Capitolo 7 — Catene di Markov
-- Norris, J.R. — *Markov Chains*, Cambridge University Press
+| Nome file | Descrizione / Esempio |
+|-----------|------------------------|
+| `AGENTS.md` | File Markdown. Esempio:<br><code># AGENTS.md — sir-markov-chain<br><br>Questo file viene caricato automaticamente dall'agente AI ad ogni sessione.<br>Contiene istruzioni di contesto per operare efficacemente su questo repository.</code> |
+| `build.ps1` | Script PowerShell. Esempio:<br><code>$ErrorActionPreference = "Stop"<br><br>Write-Host "Inizio Build del Progetto SIR Markov Chain..." -ForegroundColor Cyan<br><br>Write-Host "`n1. Installazione Dipendenze" -ForegroundColor Yellow</code> |
+| `CITATION.cff` | File .cff. Esempio:<br><code>cff-version: 1.2.0<br>message: "If you use this software or project materials, please cite it as below."<br>authors:<br>  - family-names: "Castaldi"<br>    given-names: "Francesco"</code> |
+| `codemap.md` | File Markdown. Esempio:<br><code># Repository Atlas: `sir-markov-chain`<br><br>&gt; **Generato**: 2026-08-04 &#124; **Versione**: 1.0.0 &#124; **Linguaggio**: Python 3.10+<br><br>---</code> |
+| `EXAM_INFO.md` | File Markdown. Esempio:<br><code># Scheda Informativa Esame & Linee Guida Progetto<br><br>**Insegnamento**: Metodi Probabilistici per Le Applicazioni - Modelli Probabilistici (Codice: 518512)  <br>**Corso di Laurea**: Informatica — Università di Bologna (Alma Mater Studiorum)  <br>**Docente**: Prof. Salvatore Federico (`s.federico@unibo.it`)</code> |
+| `LICENSE` | File. Esempio:<br><code>MIT License<br><br>Copyright (c) 2026 Francesco Castaldi<br><br>Permission is hereby granted, free of charge, to any person obtaining a copy</code> |
+| `PROJECT_STATUS.md` | File Markdown. Esempio:<br><code># PROJECT_STATUS — sir-markov-chain<br><br>&gt; Ultimo aggiornamento: 2026-08-04 19:45<br><br>## Contesto del Progetto</code> |
+| `pyproject.toml` | File di configurazione TOML. Esempio:<br><code>[build-system]<br>requires = ["setuptools&gt;=68.0"]<br>build-backend = "setuptools.build_meta"<br><br>[project]</code> |
+| `requirements.txt` | File di testo. File vuoto o senza contenuto testuale. |
