@@ -370,3 +370,171 @@ h1, h2, h3, .serif {
   .slide { padding: 4rem 5vw; }
   .equation { font-size: 1.4rem; }
 }
+
+
+/* =========================================================================
+ * NAVIGATION & INTERACTIVE PLAYGROUND
+ * ========================================================================= 
+ */
+
+/* Side Navigation (Dots) */
+.side-nav {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+}
+.side-nav ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.side-nav a {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: transparent;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.side-nav a:hover,
+.side-nav a.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+/* Tooltip on hover */
+.side-nav a::after {
+  content: attr(title);
+  position: absolute;
+  right: 25px;
+  top: 50%;
+  transform: translateY(-50%) translateX(10px);
+  background: var(--bg-card);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-light);
+  backdrop-filter: blur(5px);
+}
+.side-nav a:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-50%) translateX(0);
+}
+
+/* Playground Layout */
+.playground-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 2rem;
+  width: 100%;
+  align-items: stretch;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.control-group label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.val-badge {
+  background: rgba(255,255,255,0.1);
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: monospace;
+}
+
+/* Custom Range Slider Styling */
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: transparent;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  margin-top: -6px;
+  box-shadow: 0 0 10px var(--accent-muted);
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 4px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+.r0-indicator {
+  margin-top: auto;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 3px solid var(--accent);
+}
+
+.r0-label {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.r0-value {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  padding: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .playground-layout {
+    grid-template-columns: 1fr;
+  }
+  .chart-container {
+    height: 350px;
+  }
+  .side-nav {
+    display: none; /* Hide side nav on mobile */
+  }
+}
