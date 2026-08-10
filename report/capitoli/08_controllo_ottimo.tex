@@ -1,0 +1,79 @@
+
+\chapter{Controllo Ottimo Stocastico a Tempo Discreto}
+
+In questo capitolo introduciamo la teoria del controllo ottimo stocastico a tempo discreto e illustriamo il metodo della \textbf{Programmazione Dinamica} per risolverlo.
+
+\section{Formulazione Generale del Problema}
+
+Molti problemi applicati (finanza, economia, gestione scorte) rientrano in questo schema generale.
+Gli elementi costitutivi sono:
+\begin{enumerate}
+    \item \textbf{Spazio degli stati} $S \subset \R^k$: dove vive il sistema.
+    \item \textbf{Spazio dei controlli} $C \subset \R^d$: le azioni a disposizione dell'agente.
+    \item Un \textbf{processo stocastico} $\xi = (\xi_n)_{n \in \N}$ i.i.d., che rappresenta l'alea del sistema (il caso).
+    \item La \textbf{dinamica} del sistema, data da una funzione $f$:
+    \[ X_{n+1} = f(X_n, c_n, \xi_{n+1}) \]
+    dove $X_n$ è lo stato attuale, $c_n$ l'azione scelta e $\xi_{n+1}$ lo shock casuale in ingresso.
+    \item I \textbf{vincoli} sulle azioni ammissibili $c_n \in \mathcal{A}(x)$.
+    \item Un \textbf{payoff corrente} (funzione di running cost/reward) $g(X_n, c_n)$ e un \textbf{payoff finale} $\Phi(X_N)$.
+\end{enumerate}
+
+L'obiettivo è massimizzare (o minimizzare) il valore atteso della somma dei payoff, solitamente scontati con un fattore $\beta \in (0, 1]$:
+\[ \sup_{c \in \mathcal{A}(x)} \E \left[ \sum_{n=0}^{N-1} \beta^n g(X_n, c_n) + \beta^N \Phi(X_N) \right] \]
+
+\begin{spiegazione}[Anello Aperto vs Anello Chiuso]
+Il controllo $c_n$ deve essere non-anticipante, ovvero deciso basandosi solo sulle informazioni disponibili fino al tempo $n$. 
+Si dice "in anello aperto" se dipende dall'intera storia passata, o "in anello chiuso" (di feedback markoviano) se $c_n = \gamma(X_n)$, cioè l'azione ottimale dipende solo dallo stato \emph{corrente}.
+\end{spiegazione}
+
+\section{Esempi Classici}
+
+\subsection{Crescita Economica Stocastica Ottima}
+Un agente (o nazione) produce una ricchezza $Q_n$ ad ogni anno. Tale ricchezza dipende da un fattore di produttività casuale (es. clima, tecnologia) $Z_n$. Ad ogni anno, l'agente sceglie quanta parte della ricchezza $c_n$ consumare. La parte non consumata viene reinvestita e produce la ricchezza dell'anno successivo. L'obiettivo è massimizzare l'utilità attesa dei consumi nel tempo: $\E \sum \beta^n U(c_n)$.
+
+\subsection{Allocazione di Portafoglio}
+Hai un conto in banca a tasso privo di rischio $r$ e un asset rischioso (es. azioni) i cui ritorni aleatori sono $\mu_n$. Il tuo stato è il valore totale del portafoglio $W_n$. Il controllo $\pi_n$ è la frazione di ricchezza che investi nel titolo rischioso. L'obiettivo è massimizzare l'utilità della ricchezza finale: $\E [ U(W_N) ]$.
+
+\subsection{Gestione Scorte (Inventory)}
+Un magazzino deve rifornirsi ordinando $c_n$ unità di merce ad ogni intervallo. Esiste una domanda casuale $D_n$. C'è un costo di acquisto per $c_n$ e un costo di penalità se le scorte finali $Q_n$ si discostano troppo dalla domanda. L'obiettivo è minimizzare i costi attesi totali.
+
+\section{Programmazione Dinamica (DP)}
+
+L'idea geniale della Programmazione Dinamica (di Richard Bellman) è di "rompere" il problema su tutto l'orizzonte in una sequenza di problemi a singolo passo, procedendo a ritroso nel tempo.
+
+\subsection{La Funzione Valore e l'Equazione di Bellman}
+
+Definiamo la \textbf{Funzione Valore} $V_k(x)$ come il massimo payoff atteso che si può ottenere \emph{se al tempo $k$ ci troviamo nello stato $x$}.
+
+\begin{theorem}[Principio di Ottimalità di Bellman]
+La funzione valore soddisfa la seguente relazione ricorsiva (Equazione di Bellman):
+\[ V_k(x) = \sup_{\gamma \in \Gamma(x)} \left\{ g(x, \gamma) + \beta \E \left[ V_{k+1}(f(x, \gamma, \xi_{k+1})) \right] \right\} \]
+\end{theorem}
+
+\begin{hint}[Come Leggere Bellman]
+Il significato intuitivo è: il valore ottimale al tempo $k$ si ottiene scegliendo la mossa $\gamma$ che massimizza la somma tra il guadagno immediato oggi ($g(x, \gamma)$) e il valore atteso che avrò da domani in poi, considerando che mi ritroverò nel nuovo stato generato da $\gamma$ e dal caso.
+\end{hint}
+
+\subsection{Algoritmo in Orizzonte Finito}
+Se il tempo $N$ è finito, il problema si risolve partendo dalla fine.
+\begin{enumerate}
+    \item Si pone $V_N(x) = \Phi(x)$ (al momento terminale, incasso semplicemente il payoff finale).
+    \item Per $k = N-1, N-2, \dots, 0$, si calcola $V_k(x)$ applicando l'Equazione di Bellman, supponendo noto $V_{k+1}$.
+    \item Al contempo, la mossa ottimale $\gamma^*_k(x)$ è quella che realizza il sup nell'equazione di Bellman.
+\end{enumerate}
+
+\subsection{Orizzonte Infinito e Teorema di Verifica}
+Se $N = \infty$, il tempo scompare ($V_k(x) = V(x)$ per ogni $k$, dato che la dinamica è stazionaria). L'Equazione di Bellman diventa una equazione a punto fisso per una singola funzione $V(x)$:
+\[ V(x) = \sup_{\gamma \in \Gamma(x)} \left\{ g(x, \gamma) + \beta \E \left[ V(f(x, \gamma, \xi_1)) \right] \right\} \]
+
+Poiché procedere a ritroso dall'infinito è impossibile, in questo caso si usa un approccio \emph{Guess \& Verify}:
+\begin{enumerate}
+    \item "Indovino" una funzione $v_0(x)$ che risolve l'equazione di Bellman.
+    \item Trovo la strategia di feedback ottima $\gamma^*(x)$.
+    \item Verifico una condizione di \emph{trasversalità} (o crescita controllata all'infinito): $\lim_{N \to \infty} \E[v_0(X_N)] \le 0$ (o equazione simile, a seconda dei segni del payoff).
+    \item Il \textbf{Teorema di Verifica} assicura allora che $v_0(x)$ è \emph{la} vera funzione valore e $\gamma^*$ è il vero controllo ottimo.
+\end{enumerate}
+
+\begin{esempio}[Esempio di Orizzonte Infinito]
+Nel problema di crescita (Sect 8.4.1), se supponiamo che la funzione valore abbia la forma $v_0(x) = v_0(q, z) = \alpha(z) \ln q$, sostituendola nell'equazione di Bellman otteniamo i coefficienti ottimi, trovando così analiticamente sia il valore atteso massimo sia la porzione di ricchezza esatta da consumare ogni anno in base allo stato.
+\end{esempio}

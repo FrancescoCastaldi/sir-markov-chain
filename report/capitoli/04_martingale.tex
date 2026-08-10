@@ -1,0 +1,87 @@
+
+\chapter{Martingale}
+
+In questo capitolo assumiamo fissato uno spazio di probabilità di riferimento $(\Omega, \F, \PP)$. A meno che non sia specificato altrimenti, $\xi = (\xi_n)_{n \in \N}$ sarà un processo stocastico e $(\F_n)_{n \in \N_0}$ la filtrazione generata da $\xi$.
+
+\section{Nozione di Martingala}
+
+Introduciamo una nozione importantissima nella teoria dei processi stocastici, utilizzata per descrivere giochi "equi".
+
+\begin{definition}[Martingala, Submartingala, Supermartingala]
+Sia $X = (X_n)_{n \in \N_0}$ un processo stocastico a valori reali, adattato a $(\F_n)$. Si dice che $X$ è una \emph{submartingala} (rispetto alla filtrazione data e alla probabilità $\PP$) se:
+\begin{enumerate}
+    \item $X_n \in L^1$ per ogni $n$ (ha valore atteso finito);
+    \item $\E[X_{n+1} | \F_n] \ge X_n$ quasi certamente, per ogni $n$.
+\end{enumerate}
+Si dice \emph{supermartingala} se la disuguaglianza è inversa ($\le$). \\
+Si dice \emph{martingala} se vale l'uguaglianza:
+\[ \E[X_{n+1} | \F_n] = X_n \quad \text{q.c.} \]
+\end{definition}
+
+\begin{spiegazione}
+Immagina che $X_n$ sia il tuo capitale al tempo $n$ in un gioco d'azzardo. 
+Se $X$ è una \emph{martingala}, condizionatamente a tutto quello che sai fino ad oggi ($\F_n$), ti aspetti che domani il tuo capitale sia esattamente quello di oggi: stai facendo un \textbf{gioco equo}.
+Se è una \emph{submartingala}, ti aspetti di avere di più: il gioco è \textbf{favorevole} (il prefisso sub- si riferisce al fatto che sta \emph{sotto} al valore futuro atteso).
+Se è una \emph{supermartingala}, ti aspetti di avere di meno: il gioco è \textbf{sfavorevole} (come al casinò).
+\end{spiegazione}
+
+\subsection*{Esempi fondamentali}
+
+\begin{esempio}[Passeggiata aleatoria]
+Sia $\xi_n \in L^1$ una successione di variabili i.i.d. con $\E[\xi_n] = 0$. Definiamo $X_0 \in L^1$ e $X_n = X_{n-1} + \xi_n$. Allora:
+\[ \E[X_n | \F_{n-1}] = \E[X_{n-1} + \xi_n | \F_{n-1}] = X_{n-1} + \E[\xi_n] = X_{n-1} \]
+Questo processo (la somma di incrementi a media nulla) è una martingala.
+\end{esempio}
+
+\begin{esempio}[Martingala geometrica]
+Sia $\xi_n$ una successione i.i.d. con $\E[\xi_n] = 1$. Se definiamo il processo moltiplicativo $X_n = X_{n-1} \cdot \xi_n$, allora:
+\[ \E[X_n | \F_{n-1}] = X_{n-1} \E[\xi_n] = X_{n-1} \]
+Anche questa è una martingala (modello base per la finanza).
+\end{esempio}
+
+\begin{esempio}[Martingala chiusa]
+Sia $Z \in L^1$ una variabile aleatoria (il risultato di un esperimento che avverrà alla fine del tempo). Se definiamo la nostra stima ad ogni istante come $X_n = \E[Z | \F_n]$, allora per la Tower Property:
+\[ \E[X_{n+1} | \F_n] = \E[\E[Z | \F_{n+1}] | \F_n] = \E[Z | \F_n] = X_n \]
+$X_n$ è una martingala. Rappresenta l'aggiornamento dell'informazione su un target fisso.
+\end{esempio}
+
+\begin{theorem}[Media di una martingala]
+Se $X$ è una submartingala, la funzione $n \mapsto \E[X_n]$ è non decrescente.
+Se è supermartingala, è non crescente.
+Se è una martingala, $\E[X_n]$ è \textbf{costante} nel tempo.
+\end{theorem}
+\begin{hint}[Condizione non sufficiente]
+Avere la media costante \emph{non} basta per essere una martingala! La proprietà di martingala è un'uguaglianza condizionata (vale percorso per percorso, in media rispetto agli scenari futuri partendo da un punto preciso), non solo un'uguaglianza numerica assoluta. Un processo può avere media globale costante ma oscillare in modo prevedibile.
+\end{hint}
+
+\section{Risultati Utili sulle Martingale}
+
+Alcuni risultati algebrici e teorici sono strumenti di lavoro quotidiano nella teoria.
+
+\begin{theorem}[Compensatore Prevedibile]
+Sia $X$ una martingala a quadrato integrabile ($\E[X_n^2] < \infty$). Allora:
+\begin{enumerate}
+    \item $X^2$ è una \emph{submartingala}. (Applicazione diretta della Disuguaglianza di Jensen condizionata per $\phi(x)=x^2$).
+    \item Esiste un processo $C_n = \sum_{k=1}^n \E[(X_k - X_{k-1})^2 | \F_{k-1}]$, chiamato \emph{compensatore prevedibile}, tale che:
+    \[ M_n = X_n^2 - C_n \]
+    è una \textbf{martingala}. (Nota: prevedibile significa che $C_n$ è misurabile già al tempo $n-1$).
+\end{enumerate}
+\end{theorem}
+
+\begin{theorem}[Trasformata di Martingala (Strategie di trading)]
+Sia $X$ una martingala (i prezzi di mercato), e sia $h = (h_n)_{n \in \N}$ un processo limitato e \emph{prevedibile} (cioè $h_n$ è $\F_{n-1}$-misurabile, ovvero decido quanto investire $h_n$ basandomi sull'informazione di ieri).
+Il guadagno cumulato $Y$ (o trasformata di martingala) è:
+\[ Y_n = Y_0 + \sum_{k=1}^n h_k (X_k - X_{k-1}) \]
+Allora \textbf{$Y$ è una martingala}.
+\end{theorem}
+\begin{spiegazione}
+Significato profondo: non esiste alcuna strategia di scommessa (anche astuta e basata sul passato come il raddoppio), finché non sbircia il futuro, che possa trasformare un gioco equo (martingala $X$) in un gioco favorevole (submartingala $Y$). Il capitale risulterà sempre una martingala (gioco equo cumulato).
+\end{spiegazione}
+
+\begin{theorem}[Martingala arrestata (Stopped Martingale)]
+Sia $X$ una martingala e $\tau$ un tempo di arresto. Il processo arrestato $X_n^\tau = X_{\min(n, \tau)}$ è anch'esso una martingala.
+\end{theorem}
+\begin{hint}[Riflessione strategica]
+Questo teorema è un corollario della trasformata di martingala ponendo $h_n = \mathbf{1}_{\{\tau \ge n\}}$.
+Il processo $h_n$ vale 1 finché non decidi di fermarti, poi vale 0. È ovviamente prevedibile (se ti sei fermato prima di oggi, lo sai già ieri). Di conseguenza, "smettere di giocare a un tempo di arresto" non altera l'equità del gioco.
+\end{hint}
