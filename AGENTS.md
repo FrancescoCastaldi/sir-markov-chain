@@ -18,6 +18,7 @@ Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` 
 - [`src/codemap.md`](src/codemap.md) — Modello Markov, simulatore, plotting, analisi
 - [`tests/codemap.md`](tests/codemap.md) — Suite pytest e invarianti verificati
 - [`report/codemap.md`](report/codemap.md) — Deliverable LaTeX e struttura della relazione
+- [`references/codemap.md`](references/codemap.md) — Dispense per l'orale e progetti d'esempio
 - [`notebooks/codemap.md`](notebooks/codemap.md) — Pipeline Jupyter end-to-end
 
 ---

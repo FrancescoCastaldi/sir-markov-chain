@@ -332,16 +332,29 @@ def next_state(s, i, r, n=N, beta=BETA, gamma=GAMMA):
     \textbf{Ma}: questi limiti sono \textbf{voluti}. Il fine primario non è prevedere un'epidemia reale, ma fornire un \textit{sandbox} rigoroso per il formalismo delle Catene di Markov.
 \end{frame}
 
-% SLIDE 20
+% SLIDE 20 - Sviluppi futuri
 \begin{frame}{Sviluppi futuri}
     \begin{itemize}
-        \item \textbf{Modello SIS o SIRS}: reintrodurre i guariti nei suscettibili per studiare l'endemicità (la catena non sarebbe più assorbente).
+        \item \textbf{Modello SEIR / SIRS}: aggiungere compartimento Esposti ($E$) o la perdita di immunità per studiare l'endemicità.
         \item \textbf{Parametri tempo-dipendenti}: $\beta(t)$ per simulare interventi non farmacologici (lockdown).
-        \item \textbf{Matrice sparsa}: costruire la matrice $P$ esplicita per $N=100$ sfruttando la sparsità, per calcolare la soluzione esatta del sistema $(I-Q)\mathbf{t} = \uno$ invece che per via simulativa.
+        \item \textbf{Analisi di sensibilità avanzata}: esplorazione sistematica dello spazio dei parametri $(\beta, \gamma, N)$.
+        \item \textbf{Matrice sparsa}: calcolo esatto delle probabilità di assorbimento tramite inversione numerica sparsa di $(I-Q)$.
     \end{itemize}
 \end{frame}
 
-% SLIDE 21
+% SLIDE 21 - Preparazione Orale: Domande Teoriche sulle Dispense
+\begin{frame}{Preparazione Orale: Teoremi e Dimostrazioni}
+    \begin{block}{Domande Tipiche del Prof. S. Federico (Dispense)}
+        \begin{enumerate}
+            \item \textbf{Proprietà di Markov}: Enunciare e dimostrare l'assenza di memoria $\Prob(X_{n+1} \mid X_n, \dots, X_0) = \Prob(X_{n+1} \mid X_n)$.
+            \item \textbf{Equazioni di Chapman-Kolmogorov}: Dimostrare $P^{n+m} = P^n P^m$.
+            \item \textbf{Teorema di Assorbimento Quasi Certo}: Dimostrare $\Prob(\tau < \infty) = 1$ per catene finite con stati assorbenti.
+            \item \textbf{Martingale e Optional Stopping Theorem}: Condizioni per $\E[X_T] = \E[X_0]$.
+        \end{enumerate}
+    \end{block}
+\end{frame}
+
+% SLIDE 22 - Conclusioni
 \begin{frame}{Conclusioni}
     \begin{itemize}
         \item Il formalismo delle \textbf{Catene di Markov a tempo discreto} fornisce una cornice matematica solida per lo studio di processi stocastici discreti come il modello SIR su popolazioni finite.

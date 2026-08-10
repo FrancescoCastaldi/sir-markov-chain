@@ -73,8 +73,9 @@ sensitivity.py::run_ode_comparison()
 | Directory | Responsabilità | Mappa dettagliata |
 |-----------|---------------|-------------------|
 | [`src/`](src/) | Core library: modello Markov, simulatore MC, plotting, analisi statistica | [View Map](src/codemap.md) |
-| [`tests/`](tests/) | Suite pytest (12 test): next_state, transition_matrix, run_single | [View Map](tests/codemap.md) |
+| [`tests/`](tests/) | Suite pytest (16 test): next_state, transition_matrix, run_single | [View Map](tests/codemap.md) |
 | [`report/`](report/) | Deliverable accademici: relazione LaTeX, presentazione Beamer, dispense | [View Map](report/codemap.md) |
+| [`references/`](references/) | Materiali di riferimento: dispense per l'orale, progetti d'esempio | [View Map](references/codemap.md) |
 | [`notebooks/`](notebooks/) | Analisi esplorativa interattiva Jupyter (exploration + pipeline completa) | [View Map](notebooks/codemap.md) |
 | [`img/`](img/) | Output figure PNG ad alta risoluzione per relazione (dpi=150) | — |
 | [`plots/`](plots/) | Output runtime temporanei (ignorati da git) | — |

@@ -28,6 +28,36 @@ PROJECT_STATUS.md
 *.fdb_latexmk
 *.fls
 
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.ipynb_checkpoints/
+.env
+venv/
+.venv/
+plots/*.png
+plots/*.pdf
+
+# AI & Local Agent artifacts (private / not for public repo)
+.opencode/
+.agents/
+thoughts/
+EXAM_INFO.md
+PROJECT_STATUS.md
+
+# LaTeX build outputs
+*.aux
+*.log
+*.synctex.gz
+*.out
+*.toc
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+
 # Data & Model Checkpoints (Git LFS or Zenodo target)
 *.h5
 *.pt
@@ -35,10 +65,14 @@ PROJECT_STATUS.md
 *.onnx
 *.parquet
 report/Lecture/*.pdf
+references/
+
 
 # OS files
 .DS_Store
 Thumbs.db
+
+fix.py
 
 *.nav
 *.snm

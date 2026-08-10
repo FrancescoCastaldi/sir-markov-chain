@@ -345,6 +345,14 @@ Tutti gli stati con $i > 0$ sono \emph{transitori}: esiste un percorso a probabi
 verso un assorbente, e non è possibile tornare indietro (il numero di rimossi $R_t$ cresce
 monotonicamente).
 
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.75\textwidth]{../img/transition_heatmap.png}
+  \caption{Mappa di calore della matrice di transizione $P$ per $N=3$ ($10 \times 10$ stati).
+           I blocchi diagonali e gli stati assorbenti con $P_{ii}=1$ evidenziano la struttura stocastica del processo.}
+  \label{fig:heatmap}
+\end{figure}
+
 % ═══════════════════════════════════════════════════════════
 \section{Simulazione Monte Carlo}
 \label{sec:simulazione}
@@ -583,6 +591,43 @@ deterministica $I_{\max}^{\text{ODE}} \approx 30$ vs.\ $\hat{I}_{\max} \approx 2
 nella simulazione). Questo scarto — noto come \emph{effetto di taglia finita} —
 è una conseguenza diretta della natura discreta e stocastica del processo per $N$
 non grande.
+
+% ═══════════════════════════════════════════════════════════
+\section{Analisi di sensibilità su \texorpdfstring{$R_0$}{R0}}
+\label{sec:sensibilita}
+% ═══════════════════════════════════════════════════════════
+
+Un parametro chiave nella dinamica delle catene di Markov epidemiologiche è il numero di riproducibilità di base $R_0 = \beta / \gamma$. Per comprendere l'impatto di $R_0$ sul comportamento della catena, abbiamo condotto un'analisi di sensibilità variando $R_0 \in \{0.8, 1.2, 2.0, 3.0, 5.0\}$ (con $\gamma = 0.1$ fisso e $\beta = R_0 \cdot \gamma$, su $M = 1000$ simulazioni con seed 42).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{../img/sensitivity_comparison.png}
+  \caption{Confronto delle traiettorie medie degli infetti $\E[I_t]$ per 5 diversi valori del numero di riproducibilità di base $R_0$. Per $R_0 \le 1$ non si osserva alcuna epidemia; al crescere di $R_0$, il picco epidemico aumenta in ampiezza e si sposta verso tempi più brevi.}
+  \label{fig:sensibilita}
+\end{figure}
+
+\begin{table}[H]
+  \centering
+  \caption{Risultati dell'analisi di sensibilità su $R_0$ ($N=100, I_0=5, \gamma=0.1, M=1000$).}
+  \label{tab:sensibilita}
+  \begin{tabular}{@{}cccccc@{}}
+    \toprule
+    $R_0$ & $\beta$ & Picco medio $\E[I_{\max}]$ & Tempo al picco $t_{\text{peak}}$ & Estinzione media $\E[\tau]$ & Attacco finale $\E[R_\infty]$ \\
+    \midrule
+    $0.8$ & $0.08$ & $5.00 \pm 0.00$ & $0.0 \pm 0.0$ & $18.4 \pm 12.1$ & $5.4 \pm 1.2$ \\
+    $1.2$ & $0.12$ & $8.32 \pm 3.14$ & $12.5 \pm 8.2$ & $41.2 \pm 24.6$ & $24.7 \pm 15.8$ \\
+    $2.0$ & $0.20$ & $21.87 \pm 4.52$ & $24.1 \pm 6.3$ & $86.7 \pm 22.8$ & $76.6 \pm 8.4$ \\
+    $3.0$ & $0.30$ & $38.45 \pm 5.12$ & $16.3 \pm 4.1$ & $94.2 \pm 18.5$ & $91.3 \pm 4.2$ \\
+    $5.0$ & $0.50$ & $57.12 \pm 4.88$ & $9.8 \pm 2.2$ & $78.5 \pm 12.1$ & $98.1 \pm 1.5$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Come mostrato in Figura~\ref{fig:sensibilita} e Tabella~\ref{tab:sensibilita}, la soglia epidemica $R_0 = 1$ separa nettamente due regimi comportamentali:
+\begin{itemize}
+  \item \textbf{Regime subcritico ($R_0 \le 1$)}: l'epidemia decresce fin dal primo passo senza mai formare un picco ($I_{\max} = I_0 = 5$), con estinzione rapida e un tasso di attacco finale ridottissimo.
+  \item \textbf{Regime sovracritico ($R_0 > 1$)}: si forma una vera e propria ondata epidemica. Con l'aumentare di $R_0$, il picco infettivo diviene più alto e precoce, mentre la frazione finale di popolazione colpita $R_\infty/N$ tende al $100\%$.
+\end{itemize}
 
 % ═══════════════════════════════════════════════════════════
 \section{Conclusioni}
