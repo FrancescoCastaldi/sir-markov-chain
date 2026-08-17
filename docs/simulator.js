@@ -1,4 +1,4 @@
-// docs/simulator.js
+﻿// docs/simulator.js
 
 document.addEventListener('DOMContentLoaded', () => {
     // === 1. Element References ===

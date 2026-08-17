@@ -1,4 +1,4 @@
-// docs/script.js
+﻿// docs/script.js
 
 document.addEventListener('DOMContentLoaded', () => {
 
