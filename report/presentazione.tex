@@ -1,43 +1,116 @@
-\documentclass[11pt, aspectratio=169]{beamer}
+% ============================================================
+%  Presentazione Orale — Modello SIR come Catena di Markov
+%  Autore  : Francesco Castaldi
+%  Corso   : Modelli Probabilistici — Università di Bologna
+%  Docente : Prof. Salvatore Federico
+%  A.A.    : 2025/2026
+% ============================================================
+
+\documentclass[10pt, aspectratio=169]{beamer}
+
+% ── Tema e Colori ──────────────────────────────────────────
 \usetheme{Madrid}
+\usecolortheme{default} % Il default di Madrid è blu (tipico universitario)
 
+% ── Encoding & Lingua ──────────────────────────────────────
 \usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
 \usepackage[italian]{babel}
-\usepackage{amsmath, amssymb}
-\usepackage{graphicx}
+
+% ── Matematica ─────────────────────────────────────────────
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+
+% ── Tabelle e Grafici ──────────────────────────────────────
 \usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{pgfpages}
 
-% Comandi personalizzati
-\newcommand{\uno}{\mathbf{1}}
-\newcommand{\Prob}{\mathbb{P}}
-\newcommand{\N}{\mathbb{N}}
+% Se vuoi stampare le note (con la slide sopra e il testo sotto) decomenta:
+% \setbeameroption{show notes on second screen=bottom} 
+% Attenzione: alcuni visualizzatori PDF gestiscono il second screen in modo diverso,
+% per avere semplicemente un documento da stampare puoi usare:
+% \setbeameroption{show notes}
+% Al momento lo lasciamo standard (le note ci sono nel codice ma non nel pdf normale).
 
-\title{Modello SIR come Catena di Markov a Tempo Discreto}
-\subtitle{Modelli Probabilistici}
+% ── Codice Sorgente ────────────────────────────────────────
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% ── Informazioni Titolo ────────────────────────────────────
+\title[SIR come Catena di Markov]{Modello SIR come Catena di Markov a Tempo Discreto}
+\subtitle{Progetto per il corso di Modelli Probabilistici}
 \author{Francesco Castaldi}
-\institute{Università di Bologna}
+\institute[Unibo]{Università di Bologna\\Docente: Prof. Salvatore Federico}
 \date{A.A. 2025/2026}
 
+% ============================================================
 \begin{document}
+% ============================================================
 
-% SLIDE 1
+% SLIDE 1 — Titolo
 \begin{frame}
     \titlepage
+    \note{
+        Buongiorno professore. Oggi vi presento il mio progetto dal titolo
+        'Modello SIR come Catena di Markov a Tempo Discreto'.
+        L'idea è quella di prendere un modello epidemiologico molto semplice,
+        quello SIR, e interpretarlo rigorosamente come una catena di Markov.
+        L'obiettivo non è fare epidemiologia, ma dimostrare di saper applicare
+        il formalismo markoviano a un caso concreto, utilizzando il capitolo 7
+        del Suo materiale come riferimento teorico.
+    }
 \end{frame}
 
-% SLIDE 2
+% SLIDE 2 — Introduzione
 \begin{frame}{Introduzione}
     \begin{itemize}
         \item Il modello SIR descrive la diffusione di un'infezione in una popolazione chiusa.
         \item L'evoluzione futura dipende \textbf{solo dallo stato presente} $\rightarrow$ proprietà di Markov.
         \item Lo spazio degli stati è \textbf{finito} $\rightarrow$ catena di Markov a tempo discreto.
-        \item Il problema non è epidemiologico: è un pretesto per applicare il formalismo matematico.
+        \item Il problema non è epidemiologico: è un pretesto per applicare il formalismo.
     \end{itemize}
     \vspace{0.5cm}
     \textbf{Riferimento}: Capitolo 7 del corso — Catene di Markov a tempo discreto.
+    
+    \note{
+        Perché studiare un'epidemia con le catene di Markov?
+        Il motivo è semplice: il modello SIR si presta naturalmente a essere
+        descritto come un processo markoviano. La popolazione è divisa in tre
+        gruppi: Suscettibili, Infetti e Rimossi. L'evoluzione futura dipende
+        solo dallo stato presente, non dalla storia passata. Questa è
+        esattamente la proprietà di Markov. Inoltre lo spazio degli stati
+        è finito, quindi siamo nel caso classico delle catene a tempo discreto
+        con spazio finito, che è esattamente l'argomento del capitolo 7.
+    }
 \end{frame}
 
-% SLIDE 3
+% SLIDE 3 — Obiettivo
 \begin{frame}{Obiettivo}
     \begin{enumerate}
         \item \textbf{Costruire} la catena di Markov SIR: spazio degli stati, probabilità di transizione, matrice $P$.
@@ -49,47 +122,91 @@
             \item numero finale di rimossi $R_\infty$.
         \end{itemize}
     \end{enumerate}
+
+    \note{
+        L'obiettivo di questo lavoro è triplice.
+        Primo: costruire rigorosamente la catena di Markov associata al
+        modello SIR, definendo spazio degli stati, probabilità di transizione
+        e matrice di transizione.
+        Secondo: classificare gli stati della catena, identificando stati
+        assorbenti e transitori.
+        Terzo: simulare numericamente l'evoluzione della catena con il metodo
+        Monte Carlo per stimare quantità di interesse come il tempo medio di
+        estinzione dell'infezione e il numero medio di infetti.
+        Tutto questo viene fatto senza mai perdere di vista il legame con la
+        teoria delle catene di Markov.
+    }
 \end{frame}
 
-% SLIDE 4
+% SLIDE 4 — Richiamo: Catene di Markov
 \begin{frame}{Catene di Markov (Cap. 7)}
     \textbf{Definizione}: Processo stocastico $\{X_t\}$ a tempo discreto con la \textbf{proprietà di Markov}:
-    \[ \Prob(X_{t+1} \mid X_t, X_{t-1}, \dots, X_0) = \Prob(X_{t+1} \mid X_t) \]
+    \[ \mathbb{P}(X_{t+1} | X_t, X_{t-1}, \dots, X_0) = \mathbb{P}(X_{t+1} | X_t) \]
     
-    \textbf{Matrice di transizione P}: $P(i,j) =$ probabilità di andare da $i$ a $j$ in un passo.
+    \textbf{Matrice di transizione $P$}: $P(i,j) =$ probabilità di andare da $i$ a $j$ in un passo.
     \begin{itemize}
         \item $P$ è \textbf{stocastica}: $\sum_j P(i,j) = 1$ per ogni $i$.
     \end{itemize}
     
-    \textbf{Stato assorbente}: $P(i,i) = 1$. Una volta entrato, non si esce più.
+    \vspace{0.3cm}
+    \textbf{Stato assorbente}: $P(i,i) = 1$.\\
+    Una volta entrato, non si esce più.
+
+    \note{
+        Richiamiamo brevemente i concetti fondamentali delle catene di Markov,
+        così come li abbiamo studiati nel capitolo 7.
+        Una catena di Markov a tempo discreto è un processo stocastico
+        {X_t} con la proprietà che la distribuzione
+        dello stato futuro dipende solo dallo stato presente e non da
+        quelli passati. Questa si chiama proprietà di Markov.
+        La catena è descritta da una matrice di transizione P, dove
+        l'elemento P(i,j) è la probabilità di passare dallo stato i
+        allo stato j in un passo.
+        La matrice P è stocastica: ogni riga contiene probabilità non
+        negative che sommano a 1.
+        Un concetto fondamentale per questo progetto è quello di
+        stato assorbente. Uno stato i si dice assorbente se, una volta
+        raggiunto, non lo si abbandona mai più.
+    }
 \end{frame}
 
-% SLIDE 5
+% SLIDE 5 — Modello SIR
 \begin{frame}{Modello SIR}
-    Popolazione chiusa di \textbf{N individui}. Tre compartimenti:
+    Popolazione chiusa di \textbf{$N$ individui}. Tre compartimenti:
     
-    \vspace{0.3cm}
     \begin{center}
     \begin{tabular}{lll}
-        \toprule
-        Simbolo & Nome & Descrizione \\
-        \midrule
-        $S_t$ & Suscettibili & Possono essere infettati \\
-        $I_t$ & Infetti & Possono trasmettere l'infezione \\
-        $R_t$ & Rimossi & Guariti, immuni, non infettivi \\
-        \bottomrule
+    \toprule
+    Simbolo & Nome & Descrizione \\
+    \midrule
+    $S_t$ & Suscettibili & Possono essere infettati \\
+    $I_t$ & Infetti & Possono trasmettere l'infezione \\
+    $R_t$ & Rimossi & Guariti, immuni, non infettivi \\
+    \bottomrule
     \end{tabular}
     \end{center}
+    
     \vspace{0.3cm}
-    
-    \textbf{Vincolo}: $S_t + I_t + R_t = N$ per ogni $t$.
-    
+    \textbf{Vincolo}: $S_t + I_t + R_t = N$ per ogni $t$.\\
     \textbf{Stato}: $X_t = (S_t, I_t, R_t)$.
+
+    \note{
+        Veniamo al modello SIR. Consideriamo una popolazione chiusa di
+        dimensione costante N. In ogni istante discreto t, la popolazione
+        è suddivisa in tre compartimenti:
+        S_t (Suscettibili), I_t (Infetti) e R_t (Rimossi).
+        Vale il vincolo di conservazione: S_t + I_t + R_t = N per ogni t.
+        Questo perché la popolazione è chiusa: non ci sono nascite, morti
+        o migrazioni.
+        Lo stato del sistema al tempo t è il vettore X_t = (S_t, I_t, R_t).
+        La dinamica è governata da due meccanismi casuali indipendenti:
+        il contagio e la guarigione.
+    }
 \end{frame}
 
-% SLIDE 6
+% SLIDE 6 — Spazio degli stati
 \begin{frame}{Spazio degli stati}
-    \textbf{Definizione}: $E = \{(s, i, r) \in \N_0^3 : s + i + r = N\}$
+    \textbf{Definizione}: $E = \{(s, i, r) \in \mathbb{N}_0^3 : s + i + r = N\}$
     
     \textbf{Cardinalità}: $|E| = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2}$
     
@@ -99,15 +216,26 @@
         \item $N = 100 \Rightarrow |E| = 5151$ stati
     \end{itemize}
     
-    Lo spazio è \textbf{finito} $\rightarrow$ siamo nel caso classico delle catene a spazio finito (Cap. 7).
-    
-    \vspace{0.2cm}
+    Lo spazio è \textbf{finito} $\rightarrow$ siamo nel caso classico delle catene a spazio finito (Cap. 7).\\
     Per $N$ piccolo la matrice $P$ si calcola esplicitamente. Per $N$ grande si usa la simulazione Monte Carlo.
+
+    \note{
+        Lo spazio degli stati della catena è l'insieme di tutte le terne
+        (s, i, r) di numeri interi non negativi la cui somma è N.
+        Quanti sono gli stati? Il numero di modi di distribuire N oggetti
+        indistinguibili in 3 scatole è dato dalla formula scritta sulla slide.
+        Per N = 100, abbiamo 5151 stati. È uno spazio
+        finito, come richiesto dalla teoria delle catene di Markov, ma
+        troppo grande per calcolare esplicitamente la matrice di transizione.
+        Attenzione: il fatto che lo spazio sia grande non è un problema
+        concettuale. La teoria delle catene di Markov vale per qualsiasi
+        spazio finito.
+    }
 \end{frame}
 
-% SLIDE 7
+% SLIDE 7 — Probabilità di transizione
 \begin{frame}{Probabilità di transizione}
-    \textbf{Contagio}: $C_t \sim \text{Binomiale}\left(S_t, \beta \frac{I_t}{N}\right)$
+    \textbf{Contagio}: $C_t \sim \text{Binomiale}(S_t, \beta \cdot I_t / N)$
     
     \textbf{Guarigione}: $G_t \sim \text{Binomiale}(I_t, \gamma)$
     
@@ -124,94 +252,154 @@
         \item $\gamma \in [0,1]$ : tasso di guarigione
     \end{itemize}
     
-    Contagio e guarigione sono \textbf{indipendenti}. La probabilità di transizione è il prodotto delle due Binomiali.
+    Contagio e guarigione sono \textbf{indipendenti}. Probabilità composta: prodotto delle due Binomiali.
+
+    \note{
+        Come evolve il sistema da un passo al successivo? Abbiamo due
+        fenomeni casuali indipendenti.
+        Primo: il contagio. La probabilità che un singolo Suscettibile diventi infetto
+        in un passo è β·I_t/N. Quindi il numero di nuovi contagi C_t segue una Binomiale.
+        Secondo: la guarigione. Ogni Infetto guarisce con probabilità γ. 
+        Il numero di guarigioni G_t segue anch'esso una Binomiale.
+        L'aggiornamento dello stato è semplice aritmetica.
+        Notate che i due meccanismi sono indipendenti. La probabilità
+        di passare da uno stato all'altro è il prodotto delle probabilità
+        Binomiali.
+    }
 \end{frame}
 
-% SLIDE 8
-\begin{frame}{Esempio: N=3, $\beta=0.5, \gamma=0.3$}
+% SLIDE 8 — Esempio N=3
+\begin{frame}{Esempio: N=3, $\beta=0.5$, $\gamma=0.3$}
     Stato iniziale: \textbf{(2, 1, 0)}
     
-    \vspace{0.3cm}
     \begin{center}
-    \begin{tabular}{ccll}
-        \toprule
-        $C$ (contagi) & $G$ (guarigioni) & Stato finale & Probabilità \\
-        \midrule
-        0 & 0 & (2, 1, 0) & 0.486 \\
-        0 & 1 & (2, 0, 1) & 0.208 \\
-        1 & 0 & (1, 2, 0) & 0.194 \\
-        1 & 1 & (1, 1, 1) & 0.083 \\
-        \bottomrule
+    \begin{tabular}{cccc}
+    \toprule
+    $C$ (contagi) & $G$ (guarigioni) & Stato finale & Probabilità \\
+    \midrule
+    0 & 0 & (2, 1, 0) & 0.486 \\
+    0 & 1 & (2, 0, 1) & 0.208 \\
+    1 & 0 & (1, 2, 0) & 0.194 \\
+    1 & 1 & (1, 1, 1) & 0.083 \\
+    \bottomrule
     \end{tabular}
     \end{center}
-    \vspace{0.3cm}
     
-    $\sum \text{probabilità} = 1$ \checkmark \textemdash \ riga stocastica.
+    \vspace{0.3cm}
+    $\sum \text{probabilità} = 1$ \checkmark — riga stocastica
+
+    \note{
+        Facciamo un esempio concreto con N=3. Prendiamo β = 0.5 e γ = 0.3. 
+        Partiamo dallo stato (2, 1, 0): cioè 2 Suscettibili, 1 Infetto, 0 Rimossi.
+        La probabilità di contagio per ogni Suscettibile è 0.5 · 1/3.
+        Quindi il numero di contagi C può essere 0 o 1.
+        La probabilità che nessuno si infetti è circa 0.694.
+        La probabilità che un Suscettibile si infetti è circa 0.278.
+        Per la guarigione: l'unico Infetto guarisce con prob. 0.3, non guarisce con 0.7.
+        Combinando i due eventi indipendenti, otteniamo 4 casi possibili,
+        le cui probabilità sommano a 1.
+        La riga della matrice di transizione corrispondente a questo stato è
+        completamente determinata.
+    }
 \end{frame}
 
-% SLIDE 9
-\begin{frame}{Matrice di transizione P}
+% SLIDE 9 — Matrice di transizione
+\begin{frame}{Matrice di transizione $P$}
     \textbf{Elemento generico}:
-    \begin{equation*}
-    P((s,i,r), (s',i',r')) = \sum_c \sum_g \text{Bin}\left(s; c, \frac{\beta i}{N}\right) \cdot \text{Bin}(i; g, \gamma) \cdot \uno_{A}
-    \end{equation*}
-    dove $A = \{s' = s-c, i' = i+c-g, r' = r+g\}$.
+    \[ P((s,i,r), (s',i',r')) = \sum_c \sum_g \text{Bin}(s, c, \beta i/N) \cdot \text{Bin}(i, g, \gamma) \cdot \mathbf{1}_{\{s' = s-c, i' = i+c-g, r' = r+g\}} \]
     
     \textbf{Proprietà}:
     \begin{itemize}
-        \item $P$ è \textbf{stocastica}: le righe sommano a 1.
+        \item $P$ è \textbf{stocastica}: righe sommano a 1.
         \item Per $N=3$: $P$ è $10 \times 10$, calcolabile esplicitamente.
-        \item Per $N=100$: $5151$ stati $\rightarrow \sim 26\text{M}$ elementi $\rightarrow$ si procede per simulazione.
+        \item Per $N=100$: $5151$ stati $\rightarrow$ $\sim 26$ milioni di elementi $\rightarrow$ simulazione.
     \end{itemize}
     
-    \textit{La matrice esiste sempre matematicamente, anche quando non la scriviamo per intero in memoria.}
+    \vspace{0.3cm}
+    \textit{La matrice esiste sempre, anche quando non la scriviamo per intero.}
+
+    \note{
+        La matrice di transizione P è una matrice quadrata di dimensione
+        |E| × |E|. Per N=3 abbiamo 10 stati. La matrice P è quindi 10 × 10. 
+        Un elemento generico si calcola come scritto sulla slide, dove la
+        funzione indicatrice seleziona solo le combinazioni
+        (c, g) che portano allo stato desiderato.
+        Per N=100 avremmo 5151 stati e la matrice
+        avrebbe circa 26 milioni di elementi — possibile in teoria ma
+        dispendioso in pratica.
+    }
 \end{frame}
 
-% SLIDE 10
+% SLIDE 10 — Classificazione stati
 \begin{frame}{Classificazione degli stati}
-    \textbf{Stato $(s, i, r)$ con $i = 0 \rightarrow$ assorbente}
+    \textbf{Stato $(s, i, r)$ con $i = 0$} $\rightarrow$ \textbf{assorbente}
     \begin{itemize}
         \item $P((s,0,r), (s,0,r)) = 1$
         \item Non ci sono infetti: nessun contagio, nessuna guarigione.
     \end{itemize}
     
-    \textbf{Stato $(s, i, r)$ con $i > 0 \rightarrow$ transitorio}
+    \textbf{Stato $(s, i, r)$ con $i > 0$} $\rightarrow$ \textbf{transitorio}
     \begin{itemize}
         \item Da ogni stato con $I>0$ si raggiunge un assorbente.
         \item Non si può tornare a $I>0$ dopo l'assorbimento.
     \end{itemize}
     
-    \textbf{Conseguenza}: l'estinzione dell'infezione è \textbf{certa}: $\Prob(\tau < \infty) = 1$. \\
+    \vspace{0.3cm}
+    \textbf{Conseguenza}: l'estinzione dell'infezione è \textbf{certa}: $\mathbb{P}(\tau < \infty) = 1$.\\
     \textit{La catena è una catena assorbente (Cap. 7).}
+
+    \note{
+        Classifichiamo ora gli stati della catena. Se i = 0, il tasso di contagio 
+        è zero. Quindi C = 0. Anche le guarigioni sono 0
+        perché non ci sono infetti. Quindi lo stato non cambia mai:
+        P((s, 0, r), (s, 0, r)) = 1.
+        Questo significa che tutti gli stati con i = 0 sono assorbenti.
+        Tutti gli stati con i > 0 sono transitori: da essi si può
+        raggiungere uno stato assorbente in un numero finito di passi,
+        e non si può tornare indietro.
+        La catena è quindi assorbente: l'assorbimento in
+        uno stato con I=0 avviene con probabilità 1. Questo è coerente
+        con l'idea che l'epidemia prima o poi si estingue.
+    }
 \end{frame}
 
-% SLIDE 11
-\begin{frame}{Algoritmo di simulazione (Monte Carlo)}
+% SLIDE 11 — Algoritmo simulazione
+\begin{frame}{Algoritmo di simulazione}
     \begin{enumerate}
-        \item Inizializza: $S_0 = N - I_0, I_0 = I_0, R_0 = 0$
-        \item \textbf{Loop} per $t = 0, 1, \dots, T_{max}$:
+        \item Inizializza: $S = N - I_0$, $I = I_0$, $R = 0$
+        \item Loop $t = 0, 1, \dots, T_{\max}$:
         \begin{enumerate}
-            \item Se $I_t = 0 \rightarrow$ fermati (estinzione)
-            \item $C_t \sim \text{Binomiale}(S_t, \beta \cdot I_t / N)$
-            \item $G_t \sim \text{Binomiale}(I_t, \gamma)$
-            \item $S_{t+1} = S_t - C_t$
-            \item $I_{t+1} = I_t + C_t - G_t$
-            \item $R_{t+1} = R_t + G_t$
+            \item Se $I = 0 \rightarrow$ fermati
+            \item $C \sim \text{Binomiale}(S, \beta \cdot I/N)$
+            \item $G \sim \text{Binomiale}(I, \gamma)$
+            \item $S \leftarrow S - C$, $I \leftarrow I + C - G$, $R \leftarrow R + G$
+            \item Se $I = 0 \rightarrow$ fermati
         \end{enumerate}
-        \item Restituisci traiettoria $(S_t, I_t, R_t)$
+        \item Restituisci traiettoria $(S, I, R)$
     \end{enumerate}
     
-    \textbf{Parametri}: $N=100, \beta=0.2, \gamma=0.1, I_0=5, T_{max}=200, M=1000$ \\
-    \textbf{Numero Riproduttivo}: $R_0 = \beta/\gamma = 2.0$ (ogni infetto genera 2 nuovi infetti in media).
+    \textbf{Parametri}: $N=100$, $\beta=0.2$, $\gamma=0.1$, $I_0=5$, $T_{\max}=200$, $M=1000$\\
+    \textbf{$R_0 = \beta/\gamma = 2.0$} — ogni infetto genera 2 nuovi infetti in media.
+
+    \note{
+        Passiamo ora alla simulazione. L'algoritmo per generare una
+        traiettoria è riportato sulla slide.
+        Ripetendo questo procedimento molte volte (diciamo M = 1000),
+        otteniamo un campione di traiettorie. Su questo campione possiamo
+        calcolare medie, deviazioni standard, distribuzioni empiriche.
+        Con i parametri scelti, il numero riproduttivo di base è
+        R₀ = β/γ = 2. Questo significa che, nelle fasi iniziali,
+        ogni infetto genera in media 2 nuovi infetti.
+    }
 \end{frame}
 
-% SLIDE 12
+% SLIDE 12 — Codice Python
 \begin{frame}[fragile]{Codice Python — Passo della catena}
-\begin{verbatim}
+\begin{lstlisting}[language=Python]
 import numpy as np
 
-N, BETA, GAMMA, I0 = 100, 0.2, 0.1, 5
-T_MAX, M = 200, 1000
+N, BETA, GAMMA = 100, 0.2, 0.1
+I0, T_MAX, M = 5, 200, 1000
 
 def next_state(s, i, r, n=N, beta=BETA, gamma=GAMMA):
     if i == 0:
@@ -219,153 +407,262 @@ def next_state(s, i, r, n=N, beta=BETA, gamma=GAMMA):
     p_si = beta * i / n
     new_infections = np.random.binomial(s, p_si)
     recoveries = np.random.binomial(i, gamma)
-    
-    return (s - new_infections, 
-            i + new_infections - recoveries, 
-            r + recoveries)
-\end{verbatim}
+    return s - new_infections, i + new_infections - recoveries, r + recoveries
+\end{lstlisting}
+
+    \note{
+        Ecco il codice Python che implementa quanto descritto. È volutamente
+        essenziale: la funzione next\_state esegue un singolo passo della
+        catena, sfruttando np.random.binomial per generare le transizioni.
+        Il codice riflette esattamente la struttura della catena di Markov:
+        next\_state è l'analogo di un passo della catena.
+    }
 \end{frame}
 
-% SLIDE 13
+% SLIDE 13 — Risultati numerici
 \begin{frame}{Risultati numerici ($M=1000$)}
     \begin{center}
     \begin{tabular}{lcccc}
-        \toprule
-        Indicatore & Media & Dev.std & Min & Max \\
-        \midrule
-        Picco $I_{max}$ & 29.4 & 8.7 & 6 & 52 \\
-        $\tau$ (tempo estinzione) & 68.3 & 18.2 & 12 & 124 \\
-        $R_\infty$ (rimossi finali) & 87.2 & 9.5 & 34 & 100 \\
-        \bottomrule
+    \toprule
+    Indicatore & Media & Dev.std & Min & Max \\
+    \midrule
+    Picco $I_{\max}$ & 29.4 & 8.7 & 6 & 52 \\
+    $\tau$ (tempo estinzione) & 68.3 & 18.2 & 12 & 124 \\
+    $R_\infty$ (rimossi finali) & 87.2 & 9.5 & 34 & 100 \\
+    \bottomrule
     \end{tabular}
     \end{center}
     
+    \vspace{0.3cm}
     \textbf{Osservazioni}:
     \begin{itemize}
-        \item Forte variabilità tra simulazioni (natura stocastica del processo markoviano).
+        \item Forte variabilità tra simulazioni (natura stocastica).
         \item In media l'87\% della popolazione viene infettata.
         \item Il tempo di estinzione varia da 12 a 124 passi.
     \end{itemize}
+
+    \note{
+        Ecco i risultati della simulazione su 1000 repliche.
+        Il picco medio degli infetti è di circa 29 individui, con una
+        deviazione standard di circa 9. Questo significa che, pur con
+        gli stessi parametri, traiettorie diverse possono dare picchi
+        molto diversi.
+        Il tempo medio di estinzione è di circa 68 passi temporali,
+        con deviazione standard di 18.
+        Il numero medio di rimossi finali, che rappresenta il totale
+        di persone che hanno contratto l'infezione, è di circa 87 su 100.
+        Questo significa che, in media, l'87\% della popolazione viene
+        infettata prima che l'epidemia si estingua.
+    }
 \end{frame}
 
-% SLIDE 14
+% SLIDE 14 — Grafico singola
 \begin{frame}{Singola traiettoria SIR}
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{../img/single_trajectory.png}
+        \includegraphics[height=0.6\textheight]{../img/single_trajectory.png}
     \end{center}
+    
     \begin{itemize}
-        \item Curva blu ($S$): decresce irregolarmente.
-        \item Curva rossa ($I$): sale al picco, poi scende a zero.
-        \item Curva verde ($R$): cresce monotonamente fino a saturazione.
+        \item Curva blu (S): decresce irregolarmente.
+        \item Curva rossa (I): sale al picco, poi scende a zero.
+        \item Curva verde (R): cresce monotonamente fino a saturazione.
     \end{itemize}
     \textit{La stocasticità è visibile nell'irregolarità delle curve.}
+
+    \note{
+        Mostriamo ora i grafici. Il primo è una singola traiettoria.
+        Notate l'irregolarità delle curve: è l'effetto della stocasticità.
+        A ogni passo, il numero di contagi e guarigioni è casuale, e questo
+        si riflette nell'andamento frastagliato delle curve.
+        L'epidemia si estingue quando la curva rossa degli Infetti tocca
+        lo zero. A quel punto, S e R si stabilizzano.
+    }
 \end{frame}
 
-% SLIDE 15
+% SLIDE 15 — Grafico media
 \begin{frame}{Traiettoria media $\pm$ 1 dev. std}
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{../img/mean_trajectory.png}
+        \includegraphics[height=0.6\textheight]{../img/mean_trajectory.png}
     \end{center}
+    
     \begin{itemize}
         \item Linee continue: medie su 1000 simulazioni.
         \item Aree trasparenti: $\pm 1$ deviazione standard.
         \item Variabilità massima nella fase di picco.
     \end{itemize}
+
+    \note{
+        Il secondo grafico mostra la media su 1000 simulazioni, con le
+        bande di ±1 deviazione standard. Qui l'andamento è molto più
+        regolare perché la media cancella le fluttuazioni casuali.
+        Notate che le bande sono più larghe dove il processo è più
+        variabile, cioè intorno al picco epidemico. Questo è intuitivo:
+        è proprio nel momento di massima diffusione che le traiettorie
+        differiscono di più.
+    }
 \end{frame}
 
-% SLIDE 16
+% SLIDE 16 — Grafico istogramma
 \begin{frame}{Distribuzione del tempo di estinzione $\tau$}
     \begin{center}
-        \includegraphics[width=0.7\textwidth]{../img/tau_histogram.png}
+        \includegraphics[height=0.6\textheight]{../img/tau_histogram.png}
     \end{center}
+    
     \begin{itemize}
         \item Forma campanulare con coda destra.
         \item Asimmetria positiva: alcune epidemie durano molto più della media.
         \item \textit{Distribuzione empirica stimata via Monte Carlo.}
     \end{itemize}
+
+    \note{
+        Il terzo grafico è l'istogramma del tempo di estinzione tau.
+        Si vede una forma approssimativamente campanulare, ma con una
+        coda destra più lunga. Questo significa che esistono epidemie
+        di lunga durata, anche se sono meno frequenti.
+        La media è circa 68, come abbiamo visto, ma ci sono code fino
+        a oltre 120. La distribuzione non è simmetrica.
+    }
 \end{frame}
 
-% SLIDE 17
+% SLIDE 17 — Interpretazione
 \begin{frame}{Interpretazione}
     \begin{enumerate}
         \item \textbf{Estinzione certa}: 100\% delle simulazioni $\rightarrow$ catena assorbente.
-        \item \textbf{Variabilità}: scarto tipo del picco $= 8.7$ su media $29.4$.
+        \item \textbf{Variabilità}: scarto tipo del picco = 8.7 su media 29.4.
         \item \textbf{Picco}: $\sim 29\%$ della popolazione infetta contemporaneamente.
-        \item \textbf{$R_\infty$ medio}: $87\%$ della popolazione contratta l'infezione. (Coerente con $R_0 = 2$).
+        \item \textbf{$R_\infty$ medio}: $87\%$ della popolazione contratta l'infezione.
     \end{enumerate}
+    \vspace{0.3cm}
+    \textit{Coerente con $R_0 = 2$.}
+
+    \note{
+        Cosa ci dicono questi numeri?
+        Primo: l'epidemia si estingue sempre, confermando la previsione
+        teorica che la catena è assorbente.
+        Secondo: c'è una forte variabilità. Pur con gli stessi parametri,
+        due simulazioni possono dare risultati molto diversi. Questo è
+        intrinseco alla natura stocastica del processo.
+        Terzo: il numero medio di infetti al picco è 29 su 100.
+        Quarto: in media, l'87\% della popolazione viene infettata prima
+        dell'estinzione. Questo è coerente con R₀ = 2.
+    }
 \end{frame}
 
-% SLIDE 18
+% SLIDE 18 — Teoria vs Simulazione
 \begin{frame}{Teoria vs Simulazione}
     \begin{center}
     \begin{tabular}{ll}
-        \toprule
-        Previsione teorica & Verifica simulativa \\
-        \midrule
-        Assorbimento certo ($\Prob(\tau < \infty)=1$) & \checkmark 1000/1000 casi \\
-        $\tau = \text{soluzione di } (I-Q)\mathbf{t} = \uno$ & \checkmark $\tau \text{ medio} \approx 68$ (stimato) \\
-        $R_\infty$ è una variabile casuale & \checkmark Distribuzione empirica ottenuta \\
-        \bottomrule
+    \toprule
+    Previsione teorica & Verifica simulativa \\
+    \midrule
+    Assorbimento certo ($\mathbb{P}=1$) & \checkmark 1000/1000 casi \\
+    $\tau = $ soluzione di $(I-Q)t = 1$ & \checkmark $\tau$ medio $\approx 68$ (stimato) \\
+    $R_\infty$ è una variabile casuale & \checkmark Distribuzione empirica ottenuta \\
+    \bottomrule
     \end{tabular}
     \end{center}
     
     \vspace{0.5cm}
-    \textbf{Punto chiave}: La simulazione NON sostituisce la teoria. La simulazione \textbf{stima} quantità che la teoria definisce matematicamente. È la teoria che dà significato ai numeri.
+    \textbf{Punto chiave}: La simulazione NON sostituisce la teoria. La simulazione \textbf{stima} quantità che la teoria definisce. È la teoria che dà significato ai numeri.
+
+    \note{
+        Confrontiamo ora i risultati della simulazione con le previsioni
+        teoriche. La teoria delle catene assorbenti ci dice che l'assorbimento
+        avviene con probabilità 1 (confermato).
+        Il tempo medio di assorbimento si ricaverebbe dalla matrice Q, 
+        ma per N=100 calcolarla esplicitamente è proibitivo. 
+        La simulazione ci fornisce una stima: tau medio = 68.
+        La matrice di transizione esiste anche se non la
+        calcoliamo esplicitamente. La simulazione Monte Carlo è un modo
+        di campionare da questa matrice senza doverla costruire per intero.
+    }
 \end{frame}
 
-% SLIDE 19
+% SLIDE 19 — Limiti
 \begin{frame}{Limiti del modello}
     \begin{center}
     \begin{tabular}{ll}
-        \toprule
-        Limite & Impatto \\
-        \midrule
-        Popolazione chiusa & Ignora dinamiche demografiche \\
-        $\beta, \gamma$ costanti & Ignora stagionalità e interventi \\
-        Mescolamento omogeneo & Ignora reti sociali reali \\
-        Nessuna reinfezione & Non sempre realistico \\
-        \bottomrule
+    \toprule
+    Limite & Impatto \\
+    \midrule
+    Popolazione chiusa & Ignora dinamiche demografiche \\
+    $\beta, \gamma$ costanti & Ignora stagionalità e interventi \\
+    Mescolamento omogeneo & Ignora reti sociali \\
+    Nessuna reinfezione & Non sempre realistico \\
+    \bottomrule
     \end{tabular}
     \end{center}
     
     \vspace{0.5cm}
-    \textbf{Ma}: questi limiti sono \textbf{voluti}. Il fine primario non è prevedere un'epidemia reale, ma fornire un \textit{sandbox} rigoroso per il formalismo delle Catene di Markov.
+    \textbf{Ma}: questi limiti sono \textbf{voluti}. Il focus è sulla struttura markoviana, non sull'accuratezza epidemiologica.
+
+    \note{
+        È importante essere onesti sui limiti del modello.
+        Primo: la popolazione è chiusa.
+        Secondo: i parametri β e γ sono costanti.
+        Terzo: il mescolamento è omogeneo. Ogni Suscettibile ha la stessa probabilità di incontrare ogni Infetto.
+        Quarto: non c'è reinfezione.
+        Tutti questi limiti sono accettabili perché il nostro obiettivo
+        non è fare previsioni epidemiologiche, ma dimostrare l'applicazione
+        del formalismo delle catene di Markov. Anzi, la semplicità del
+        modello aiuta a mettere in luce la struttura markoviana.
+    }
 \end{frame}
 
-% SLIDE 20 - Sviluppi futuri
+% SLIDE 20 — Sviluppi futuri
 \begin{frame}{Sviluppi futuri}
-    \begin{itemize}
-        \item \textbf{Modello SEIR / SIRS}: aggiungere compartimento Esposti ($E$) o la perdita di immunità per studiare l'endemicità.
-        \item \textbf{Parametri tempo-dipendenti}: $\beta(t)$ per simulare interventi non farmacologici (lockdown).
-        \item \textbf{Analisi di sensibilità avanzata}: esplorazione sistematica dello spazio dei parametri $(\beta, \gamma, N)$.
-        \item \textbf{Matrice sparsa}: calcolo esatto delle probabilità di assorbimento tramite inversione numerica sparsa di $(I-Q)$.
-    \end{itemize}
+    \begin{enumerate}
+        \item \textbf{Modello SEIR}: aggiungere compartimento Esposti.
+        \item \textbf{Parametri tempo-varianti}: $\beta(t), \gamma(t)$ per simulare misure di contenimento.
+        \item \textbf{Confronto con ODE}: limite deterministico per $N \to \infty$.
+        \item \textbf{Matrice P per N piccolo}: heatmap della matrice di transizione.
+    \end{enumerate}
+    
+    \vspace{0.5cm}
+    Tutte le estensioni mantengono la \textbf{struttura di catena di Markov}.
+
+    \note{
+        Quali estensioni sarebbero possibili?
+        Una prima estensione è aggiungere un compartimento E di Esposti,
+        ottenendo un modello SEIR. Questo aggiunge uno stato in più e
+        arricchisce la dinamica, ma la struttura markoviana rimane invariata.
+        Una seconda estensione è rendere β e γ dipendenti dal tempo, per
+        simulare l'effetto di misure di contenimento che riducono i contatti.
+        Una terza estensione è confrontare la simulazione stocastica con
+        la soluzione delle equazioni differenziali ordinarie SIR nel
+        limite di popolazione grande.
+        Tutte queste estensioni mantengono la struttura di catena di Markov.
+    }
 \end{frame}
 
-% SLIDE 21 - Preparazione Orale: Domande Teoriche sulle Dispense
-\begin{frame}{Preparazione Orale: Teoremi e Dimostrazioni}
-    \begin{block}{Domande Tipiche del Prof. S. Federico (Dispense)}
-        \begin{enumerate}
-            \item \textbf{Proprietà di Markov}: Enunciare e dimostrare l'assenza di memoria $\Prob(X_{n+1} \mid X_n, \dots, X_0) = \Prob(X_{n+1} \mid X_n)$.
-            \item \textbf{Equazioni di Chapman-Kolmogorov}: Dimostrare $P^{n+m} = P^n P^m$.
-            \item \textbf{Teorema di Assorbimento Quasi Certo}: Dimostrare $\Prob(\tau < \infty) = 1$ per catene finite con stati assorbenti.
-            \item \textbf{Martingale e Optional Stopping Theorem}: Condizioni per $\E[X_T] = \E[X_0]$.
-        \end{enumerate}
-    \end{block}
-\end{frame}
-
-% SLIDE 22 - Conclusioni
+% SLIDE 21 — Conclusioni
 \begin{frame}{Conclusioni}
     \begin{itemize}
-        \item Il formalismo delle \textbf{Catene di Markov a tempo discreto} fornisce una cornice matematica solida per lo studio di processi stocastici discreti come il modello SIR su popolazioni finite.
-        \item Sebbene le matrici transitorie per $N$ grande siano analiticamente intrattabili, le \textbf{proprietà teoriche} (ad es. l'assorbimento quasi-certo per $I=0$) rimangono i pilastri su cui si basano le simulazioni.
-        \item I metodi \textbf{Monte Carlo} offrono un ponte concreto per campionare questo spazio degli stati e derivare stime empiriche robuste.
+        \item Modello SIR = \textbf{catena di Markov a tempo discreto}.
+        \item Stati \textbf{assorbenti} ($I=0$) e \textbf{transitori} ($I>0$).
+        \item Simulazione Monte Carlo: stima di $\tau$, picco, $R_\infty$.
+        \item \textbf{Conferma teorica}: assorbimento certo, variabilità stocastica.
+        \item Applicazione concreta del \textbf{formalismo markoviano} (Cap. 7).
     \end{itemize}
     
     \vspace{0.8cm}
     \begin{center}
-        \Large{\textbf{Grazie per l'attenzione!}}
+        \textbf{Grazie per l'attenzione.}
     \end{center}
+
+    \note{
+        Concludo riassumendo i punti salienti.
+        Abbiamo preso un modello SIR semplificato e lo abbiamo interpretato
+        come una catena di Markov a tempo discreto. Abbiamo definito lo
+        spazio degli stati, costruito la matrice di transizione e classificato
+        gli stati in assorbenti e transitori.
+        Abbiamo poi simulato la catena con il metodo Monte Carlo.
+        I risultati confermano le previsioni teoriche.
+        Il progetto dimostra come il formalismo delle catene di Markov,
+        studiato nel capitolo 7, possa essere applicato a un caso concreto
+        per modellizzare un fenomeno reale in modo rigoroso e quantitativo.
+        Grazie per l'attenzione.
+    }
 \end{frame}
 
 \end{document}
