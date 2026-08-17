@@ -5,6 +5,10 @@
 <h1 align="center">🦠 SIR Markov Chain Simulator: A Stochastic Epidemic Model</h1>
 
 <p align="center">
+  <img src="img/guida_modelli.png" width="800" alt="Guida ai Modelli Probabilistici">
+</p>
+
+<p align="center">
   <em>Una simulazione stocastica avanzata, interamente parametrizzabile, di un'epidemia SIR (Suscettibili, Infetti, Rimossi) modellata rigorosamente come Catena di Markov a tempo discreto su una popolazione finita, supportata da dashboard web e analisi matematiche.</em>
 </p>
 
