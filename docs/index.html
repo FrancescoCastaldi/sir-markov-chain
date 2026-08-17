@@ -64,8 +64,10 @@
 
         <!-- SLIDE 2: IL MODELLO MATEMATICO -->
         <section id="model" class="slide">
+            <div class="slide-header">
+                <h2>Il Modello Stocastico</h2>
+            </div>
             <div class="slide-content">
-                <h2 class="slide-title animate-on-scroll">Il Modello Stocastico</h2>
                 <div class="two-col">
                     <div class="animate-on-scroll delay-1">
                         <p class="text-large" style="margin-bottom: 1.5rem;">
@@ -76,7 +78,7 @@
                         </p>
                     </div>
                     <div class="glass-box animate-on-scroll delay-2">
-                        <h3 style="margin-bottom: 1rem; color: var(--accent);">Spazio degli Stati Fisici</h3>
+                        <h3 class="beamer-block-title">Spazio degli Stati Fisici</h3>
                         <div class="equation">
                             \[E = \{ (S, I, R) \in \mathbb{N}^3 : S+I+R = N \}\]
                         </div>
@@ -90,8 +92,10 @@
 
         <!-- SLIDE 3: DINAMICA DI BASE -->
         <section id="dynamics" class="slide">
+            <div class="slide-header">
+                <h2>La Dinamica Epidemica (\(N=100\))</h2>
+            </div>
             <div class="slide-content">
-                <h2 class="slide-title animate-on-scroll">La Dinamica Epidemica (\(N=100\))</h2>
                 <div class="two-col">
                     <div class="glass-box animate-on-scroll delay-1">
                         <div class="badge">Traiettoria Singola</div>
@@ -113,8 +117,10 @@
 
         <!-- SLIDE 4: FLUID LIMIT E ODE -->
         <section id="fluid" class="slide">
+            <div class="slide-header">
+                <h2>Limite Fluido: ODE vs Stocastico</h2>
+            </div>
             <div class="slide-content">
-                <h2 class="slide-title animate-on-scroll">Limite Fluido: ODE vs Stocastico</h2>
                 <div class="two-col">
                     <div class="animate-on-scroll delay-1">
                         <h3 class="serif" style="font-size: 2rem; margin-bottom: 1.5rem;">Validazione del Modello</h3>
@@ -135,8 +141,10 @@
 
         <!-- SLIDE 5: DISTRIBUZIONI FINALI -->
         <section id="analysis" class="slide">
+            <div class="slide-header">
+                <h2>Analisi Finale: Assorbimento e \(R_0\)</h2>
+            </div>
             <div class="slide-content">
-                <h2 class="slide-title animate-on-scroll">Analisi Finale: Assorbimento e \(R_0\)</h2>
                 <div class="two-col">
                     <div class="glass-box animate-on-scroll delay-1">
                         <div class="badge">Tempo di Assorbimento (\(\tau\))</div>
@@ -158,14 +166,16 @@
 
         <!-- SLIDE 6: INTERACTIVE PLAYGROUND -->
         <section id="playground" class="slide">
+            <div class="slide-header">
+                <h2>Interactive Playground</h2>
+            </div>
             <div class="slide-content">
-                <h2 class="slide-title animate-on-scroll">Interactive Playground</h2>
-                <p class="slide-subtitle animate-on-scroll">Modella l'epidemia in tempo reale manipolando le derivate del Modello ODE (Limite Fluido).</p>
+                <p class="slide-subtitle animate-on-scroll" style="margin-top: 1rem;">Modella l'epidemia in tempo reale manipolando le derivate del Modello ODE (Limite Fluido).</p>
                 
                 <div class="playground-layout animate-on-scroll delay-1">
                     <!-- Controlli -->
                     <div class="controls glass-box">
-                        <h3 class="serif" style="margin-bottom: 1.5rem; color: var(--text-primary);">Parametri</h3>
+                        <h3 class="beamer-block-title">Parametri Modello Fluido</h3>
                         
                         <div class="control-group">
                             <label for="sliderBeta">

@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
             sirChart.data.datasets[2].data = data.R;
             sirChart.update('none'); // Update fluido senza animazione brutale
         } else {
-            // Chart.js global defaults per dark mode
-            Chart.defaults.color = '#94A3B8';
+            // Chart.js global defaults per light mode (Madrid)
+            Chart.defaults.color = '#4b5563';
             Chart.defaults.font.family = 'Inter, sans-serif';
 
             sirChart = new Chart(ctx, {
@@ -164,11 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     scales: {
                         x: {
                             title: { display: true, text: 'Tempo (Giorni)' },
-                            grid: { color: 'rgba(255,255,255,0.05)' }
+                            grid: { color: 'rgba(0,0,0,0.1)' }
                         },
                         y: {
                             title: { display: true, text: 'Popolazione' },
-                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            grid: { color: 'rgba(0,0,0,0.1)' },
                             beginAtZero: true
                         }
                     }
