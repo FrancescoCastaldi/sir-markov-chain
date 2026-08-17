@@ -11,8 +11,7 @@ discussione orale dell'esame — relazione accademica, presentazione, dispense d
 
 - La relazione (`relazione.tex`) usa la classe `article` LaTeX con pacchetti scientifici
   standard (`amsmath`, `booktabs`, `listings`, `hyperref`, `babel` italiano).
-- La presentazione (`presentazione.md`) è un documento Markdown molto esteso (1253 righe)
-  con testo orale slide-by-slide; è prevista la conversione in Beamer (`.tex`).
+- La presentazione (`presentazione.tex`) usa la classe `beamer` LaTeX con tema `Madrid`. Include note per l'esame inserite tramite il comando `\note{}`. La versione markdown (`presentazione.md`) è tenuta per riferimento testuale.
 - Le dispense (`Lecture/`) sono PDF del corso — ignorati da git (`.gitignore`).
 - Le figure referenziate nella relazione si trovano in `../img/` (path relativo).
 
@@ -24,7 +23,9 @@ discussione orale dell'esame — relazione accademica, presentazione, dispense d
 |---|---|---|---|
 | `relazione.tex` | LaTeX (article) | ~340 righe | ✅ Completo — pronto per pdflatex |
 | `relazione.md` | Markdown | 242 righe | 🟡 Legacy — sostituito da .tex |
-| `presentazione.md` | Markdown | 1253 righe | 🟡 Da convertire in Beamer |
+| `presentazione.tex` | LaTeX (beamer) | ~340 righe | ✅ Completa — tema Madrid, 21 slide con note |
+| `presentazione.pdf` | PDF | — | ✅ Compilata via pdflatex |
+| `presentazione.md` | Markdown | 1253 righe | 🟡 Legacy — usato come sorgente testuale |
 | `Lecture/1.pdf` | PDF | — | Teoria probabilità discreta (ignorato da git) |
 | `Lecture/2.pdf` | PDF | — | Filtrazioni, martingale (ignorato da git) |
 | `Lecture/3.pdf` | PDF | — | Catene di Markov (ignorato da git) |
@@ -65,21 +66,25 @@ discussione orale dell'esame — relazione accademica, presentazione, dispense d
 
 ---
 
-## Struttura `presentazione.md` (Markdown → Beamer)
+## Struttura `presentazione.tex` (Beamer)
 
 ```
-A. Struttura (18 sezioni, tabella indice)
-B. Scaletta slide-by-slide (21 slide)
-C. Testo orale per ogni slide
-D. Q&A teorica (ripasso completo programma)
-E. Checklist di preparazione
-F. Script per lavagna
+\documentclass[11pt, aspectratio=169]{beamer}
+├── \usetheme{Madrid} e settaggio opzioni show notes
+├── Frontespizio (titlepage)
+├── Slide 1-2: Introduzione e Obiettivi
+├── Slide 3-8: Il Modello SIR
+├── Slide 9-11: Implementazione (Codice e Parametri)
+├── Slide 12-16: Risultati e Simulazioni Monte Carlo
+├── Slide 17-20: Analisi Teorica e Limite ODE
+└── Slide 21: Conclusioni
 ```
+_Nota:_ Ogni frame include il testo orale tramite `\note{}` per guidare il discorso.
 
 ---
 
 ## Integration Points
 
 - **Consuma**: `../img/*.png` (prodotte da `src/plotting.py`)
-- **Compilazione**: `pdflatex report/relazione.tex` (richiede LaTeX installato localmente o Overleaf)
-- **Build command**: `cd report && pdflatex relazione.tex`
+- **Compilazione**: `pdflatex report/relazione.tex` e `pdflatex report/presentazione.tex` (richiede LaTeX installato localmente o Overleaf)
+- **Build command**: `cd report && pdflatex <file>.tex`
