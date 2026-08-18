@@ -1,0 +1,314 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+\geometry{margin=2.5cm}
+\hypersetup{colorlinks=true, linkcolor=blue!60!black, urlcolor=blue!60!black}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+
+\tcbset{
+  mybox/.style={
+    colback=#1!5, colframe=#1!80!black,
+    fonttitle=\bfseries, boxrule=0.5pt, arc=2pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt
+  }
+}
+
+\title{\textbf{Le 4 Distribuzioni Discrete Fondamentali}\\[0.3em]
+\large Guida Studio -- Modelli Probabilistici}
+\author{Progetto SIR Markov Chain}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\vspace{1em}
+
+\begin{tcolorbox}[mybox=blue, title=Filo conduttore]
+Tutte e quattro nascono dalla stessa idea: \textbf{ripetere un esperimento con due esiti} (successo/fallimento). Cambiano solo la \textbf{domanda} che fai.
+\end{tcolorbox}
+
+%==============================================================
+\section{Bernoulli -- ``Esce sì o no?''}
+\label{sec:bernoulli}
+
+\textit{Ref: Capitolo 1, \S1.5.2 -- studio\_orale\_completo.tex, righe 331--334}
+
+\subsection*{L'idea in una frase}
+Hai \textbf{un} esperimento con solo due risultati: successo o fallimento.
+
+\subsection*{La formula}
+\[
+X \sim \mathcal{B}(p) \qquad \PP(X=1) = p, \quad \PP(X=0) = 1-p
+\]
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Media} & $\E[X] = p$ \\
+\textbf{Varianza} & $\text{Var}(X) = p(1-p)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Esempi}
+
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+\textbf{Esperimento} & \textbf{Successo} ($X=1$) & \textbf{Fallimento} ($X=0$) & $p$ \\
+\midrule
+Lancio moneta equa & Testa & Croce & 0.5 \\
+Tiro libero di Curry & Canestro & Sbagliato & 0.91 \\
+Test COVID & Positivo & Negativo & dipende... \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{A cosa serve?}
+È il \textbf{mattone base}. Ogni volta che la risposta è sì/no, stai guardando una Bernoulli.
+
+\begin{tcolorbox}[mybox=green, title=Nel modello SIR]
+Ogni singolo contatto tra un Suscettibile e un Infetto è una Bernoulli: o ti infetti ($X=1$) o no ($X=0$).
+\end{tcolorbox}
+
+%==============================================================
+\section{Binomiale -- ``Quanti successi su $n$ tentativi?''}
+\label{sec:binomiale}
+
+\textit{Ref: Capitolo 1, \S1.5.3 -- studio\_orale\_completo.tex, righe 336--344}
+
+\subsection*{L'idea in una frase}
+Ripeti lo \textbf{stesso} esperimento Bernoulli $n$ volte e conti \textbf{quanti} successi ottieni in totale.
+
+\subsection*{La formula}
+\[
+X \sim \mathcal{B}(n,p) \qquad \PP(X = k) = \binom{n}{k} \, p^k \, (1-p)^{n-k}
+\]
+Il $\binom{n}{k}$ è il coefficiente binomiale: conta ``in quanti ordini diversi'' puoi piazzare $k$ successi tra $n$ prove.
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Media} & $\E[X] = np$ \\
+\textbf{Varianza} & $\text{Var}(X) = np(1-p)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Esempio 1: Monete}
+Lancio \textbf{10 monete} eque. Quante teste?
+\begin{itemize}[nosep]
+    \item $n = 10$, $p = 0.5$
+    \item Media $= 10 \times 0.5 = 5$ teste
+    \item $\PP(\text{esattamente 3 teste}) = \binom{10}{3}(0.5)^{10} = \frac{120}{1024} \approx 11.7\%$
+\end{itemize}
+
+\subsection*{Esempio 2: Esame}
+In un corso, ogni studente ha il 70\% di probabilità di passare. Su 30 studenti:
+\begin{itemize}[nosep]
+    \item Media $= 30 \times 0.7 = 21$ studenti
+    \item $\PP(\text{tutti e 30 passano}) = (0.7)^{30} \approx 0.002$ -- praticamente impossibile!
+\end{itemize}
+
+\begin{tcolorbox}[mybox=orange, title=Il trucco chiave (righe 342--344)]
+\textbf{Binomiale = Somma di Bernoulli.} Se $X_1, X_2, \dots, X_n$ sono i.i.d.\ $\mathcal{B}(p)$, allora $S = X_1 + \cdots + X_n \sim \mathcal{B}(n,p)$.
+
+Questo rende i calcoli facilissimi: $\E[S] = \E[X_1] + \cdots + \E[X_n] = np$ per linearità!
+\end{tcolorbox}
+
+\subsection*{A cosa serve?}
+Ogni volta che conti ``\textbf{quanti} su $n$ fisso'':
+\begin{itemize}[nosep]
+    \item Quanti pezzi difettosi in un lotto di 100
+    \item Quanti gol in 5 rigori
+    \item Quanti pazienti guariscono su 20
+\end{itemize}
+
+\begin{tcolorbox}[mybox=green, title=Nel modello SIR]
+Al passo $t$, il numero di \textbf{nuove infezioni} è $\Delta I \sim \mathcal{B}(S_t, p_{\text{inf}})$: quanti dei $S_t$ suscettibili si infettano?
+\end{tcolorbox}
+
+%==============================================================
+\section{Geometrica -- ``Quando arriva il primo successo?''}
+\label{sec:geometrica}
+
+\textit{Ref: Capitolo 2, \S2.3.1 -- studio\_orale\_completo.tex, righe 474--491}
+
+\subsection*{L'idea in una frase}
+Ripeti un esperimento Bernoulli \textbf{finché non vinci}. La Geometrica conta quanti tentativi ti sono serviti.
+
+\subsection*{La formula}
+\[
+T \sim \text{Geom}(p) \qquad \PP(T = n) = (1-p)^{n-1} \cdot p, \quad n = 1, 2, 3, \dots
+\]
+Logica: fallisci $n-1$ volte, poi alla $n$-esima finalmente successo!
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Media} & $\E[T] = \dfrac{1}{p}$ \\[6pt]
+\textbf{Varianza} & $\text{Var}(T) = \dfrac{1-p}{p^2}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{Esempio 1: Dado}
+Lancio un dado finché non esce \textbf{6}. Quanti lanci servono?
+\begin{itemize}[nosep]
+    \item $p = 1/6$
+    \item $\PP(T=1) = 1/6 \approx 17\%$ -- ``6 al primo colpo''
+    \item $\PP(T=3) = (5/6)^2 \cdot (1/6) \approx 11.6\%$ -- ``due fallimenti, poi 6''
+    \item Media $= 1/(1/6) = 6$ lanci
+\end{itemize}
+
+\subsection*{Esempio 2: Colloquio di lavoro}
+Un candidato ha il 20\% di probabilità di superare ogni colloquio. In media quanti ne deve fare?
+\begin{itemize}[nosep]
+    \item $p = 0.2$, Media $= 1/0.2 = 5$ colloqui
+\end{itemize}
+
+\subsection*{La proprietà fondamentale: ASSENZA DI MEMORIA}
+
+\begin{tcolorbox}[mybox=red, title=Assenza di memoria (righe 484--491)]
+\[
+\PP(T > n+k \mid T > n) = \PP(T > k)
+\]
+\textbf{Cosa vuol dire:} se stai lanciando un dado e sono 50 lanci che non esce 6, la probabilità di dover aspettare \textbf{ancora} 3 lanci è \textbf{identica} a quella che avevi all'inizio. Il dado non ``ricorda'' i lanci passati!
+
+La Geometrica è l'\textbf{unica} distribuzione discreta con questa proprietà. All'esame è un fatto che piace chiedere!
+\end{tcolorbox}
+
+\subsection*{A cosa serve?}
+Modella \textbf{tempi di attesa} per eventi casuali:
+\begin{itemize}[nosep]
+    \item Quanti tentativi prima di vincere alla lotteria
+    \item Quanti clienti prima del primo acquisto
+\end{itemize}
+
+\begin{tcolorbox}[mybox=green, title=Nel modello SIR]
+Il tempo di guarigione di un singolo infetto. Se ad ogni passo ha probabilità $\gamma$ di guarire, il numero di passi che resta infetto è $T \sim \text{Geom}(\gamma)$, con media $1/\gamma$.
+\end{tcolorbox}
+
+%==============================================================
+\section{Poisson -- ``Quanti eventi rari in un intervallo?''}
+\label{sec:poisson}
+
+\textit{Ref: Capitolo 2, \S2.2.1 -- studio\_orale\_completo.tex, righe 451--462}
+
+\subsection*{L'idea in una frase}
+Conta quanti \textbf{eventi rari e indipendenti} accadono in un periodo fisso, sapendo che il tasso medio è $\lambda$.
+
+\subsection*{La formula}
+\[
+X \sim \mathcal{P}(\lambda) \qquad \PP(X = k) = e^{-\lambda} \frac{\lambda^k}{k!}, \quad k = 0, 1, 2, \dots
+\]
+
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+\textbf{Media} & $\E[X] = \lambda$ \\
+\textbf{Varianza} & $\text{Var}(X) = \lambda$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Nota:} Media e Varianza sono uguali! Se nei dati $\bar{x} \approx s^2$, è un forte indizio di distribuzione Poisson.
+
+\subsection*{Esempio 1: Call center}
+Un call center riceve in media $\lambda = 4$ chiamate all'ora.
+\begin{itemize}[nosep]
+    \item $\PP(\text{0 chiamate}) = e^{-4} \approx 1.8\%$ -- raro ma possibile
+    \item $\PP(\text{esattamente 4}) = e^{-4} \frac{256}{24} \approx 19.5\%$
+    \item $\PP(\text{10 o più}) \approx 0.8\%$ -- quasi mai
+\end{itemize}
+
+\subsection*{Esempio 2: Errori di battitura}
+Una pagina ha in media $\lambda = 2$ errori. Probabilità di 0 errori?
+\[ \PP(X=0) = e^{-2} \approx 13.5\% \]
+
+\subsection*{Il ponte con la Binomiale (Teorema di Poisson)}
+
+Quando hai \textbf{tanti} esperimenti ($n$ grande) con probabilità di successo \textbf{piccola} ($p$ piccolo), la Binomiale si comporta come una Poisson con $\lambda = np$:
+\[
+\mathcal{B}(n, p) \approx \mathcal{P}(\lambda = np) \qquad \text{quando } n \to \infty, \; p \to 0, \; np = \lambda
+\]
+
+\textbf{Esempio:} In una città di 100.000 abitanti, ognuno ha probabilità $p = 0.00003$ di avere un incidente oggi. Binomiale esatta: $\mathcal{B}(100000, 0.00003)$ -- calcolo impossibile! Approssimazione: $\mathcal{P}(3)$ -- facilissimo!
+
+\begin{tcolorbox}[mybox=orange, title=Somma di Poisson (righe 460--462)]
+Se $X \sim \mathcal{P}(\lambda_1)$ e $Y \sim \mathcal{P}(\lambda_2)$ indipendenti, allora $X + Y \sim \mathcal{P}(\lambda_1 + \lambda_2)$.
+\end{tcolorbox}
+
+\begin{tcolorbox}[mybox=green, title=Nel modello SIR]
+Con $N$ grande, quando la probabilità di infezione per singolo contatto è piccola, il numero di nuove infezioni si approssima con $\mathcal{P}(\beta S I / N)$.
+\end{tcolorbox}
+
+%==============================================================
+\section{Tabella Riepilogativa}
+
+\begin{center}
+\begin{tabular}{lllll}
+\toprule
+\textbf{Distribuzione} & \textbf{Domanda} & \textbf{Supporto} & \textbf{Media} & \textbf{Varianza} \\
+\midrule
+Bernoulli $\mathcal{B}(p)$ & ``Sì o no?'' & $\{0, 1\}$ & $p$ & $p(1-p)$ \\
+Binomiale $\mathcal{B}(n,p)$ & ``Quanti sì su $n$?'' & $\{0, \dots, n\}$ & $np$ & $np(1-p)$ \\
+Geometrica $\text{Geom}(p)$ & ``Quando il 1° sì?'' & $\{1, 2, \dots\}$ & $1/p$ & $(1-p)/p^2$ \\
+Poisson $\mathcal{P}(\lambda)$ & ``Quanti eventi rari?'' & $\{0, 1, 2, \dots\}$ & $\lambda$ & $\lambda$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+%==============================================================
+\section{Come sono collegate}
+
+\begin{center}
+\begin{tabular}{rcl}
+\textbf{Bernoulli} $\mathcal{B}(p)$ & $\xrightarrow{\text{somma } n \text{ i.i.d.}}$ & \textbf{Binomiale} $\mathcal{B}(n,p)$ \\[8pt]
+$\downarrow$ \scriptsize{ripeti fino al 1° successo} & & $\downarrow$ \scriptsize{$n\to\infty,\; p\to 0,\; np=\lambda$} \\[8pt]
+\textbf{Geometrica} $\text{Geom}(p)$ & & \textbf{Poisson} $\mathcal{P}(\lambda)$ \\
+\end{tabular}
+\end{center}
+
+\vspace{1em}
+\begin{tcolorbox}[mybox=blue, title=Regola per l'esame]
+Ti danno un problema, chiediti:
+\begin{enumerate}[nosep]
+    \item È un singolo sì/no? $\to$ \textbf{Bernoulli}
+    \item Conto successi su $n$ fisso? $\to$ \textbf{Binomiale}
+    \item Aspetto il primo successo? $\to$ \textbf{Geometrica}
+    \item Conto eventi rari su un intervallo? $\to$ \textbf{Poisson}
+\end{enumerate}
+\end{tcolorbox}
+
+%==============================================================
+\section{Nel Modello SIR}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Componente SIR} & \textbf{Distribuzione} & \textbf{Perché} \\
+\midrule
+Singolo contatto S--I & $\mathcal{B}(\beta/N)$ & Ogni contatto è sì/no \\
+Nuove infezioni al passo $t$ & $\mathcal{B}(S_t, p_{\text{inf}})$ & Quanti $S$ si infettano \\
+Guarigioni al passo $t$ & $\mathcal{B}(I_t, \gamma)$ & Quanti $I$ guariscono \\
+Approssimazione $N$ grande & $\mathcal{P}(\beta S_t I_t / N)$ & Limite Poisson \\
+Tempo guarigione singolo & $\text{Geom}(\gamma)$ & Quando guarisce? \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}
