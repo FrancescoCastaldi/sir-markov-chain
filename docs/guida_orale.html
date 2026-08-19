@@ -651,6 +651,29 @@
                         </tr>
                     </table>
                 </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: center;">
+                        <h4 style="margin-top: 0; color: #1e3a8a;">Traiettoria Media & CI 95%</h4>
+                        <img src="../img/mean_trajectory.png" alt="Traiettoria Media SIR" style="max-width: 100%; border-radius: 0.5rem;">
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0;">1000 run Monte Carlo con bande di confidenza empirica al 95%.</p>
+                    </div>
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: center;">
+                        <h4 style="margin-top: 0; color: #1e3a8a;">Confronto con Limite ODE</h4>
+                        <img src="../img/ode_comparison.png" alt="Confronto ODE SIR" style="max-width: 100%; border-radius: 0.5rem;">
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0;">Effetto di taglia finita ($N=100$): picco stocastico ($21.94\%$) vs picco ODE deterministico ($30\%$).</p>
+                    </div>
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: center;">
+                        <h4 style="margin-top: 0; color: #1e3a8a;">Distribuzione del Tempo di Estinzione $\tau$</h4>
+                        <img src="../img/tau_histogram.png" alt="Istogramma Tau" style="max-width: 100%; border-radius: 0.5rem;">
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0;">Distribuzione empirica asimmetrica a destra con media $\bar{\tau} = 86.66$ passi.</p>
+                    </div>
+                    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: center;">
+                        <h4 style="margin-top: 0; color: #1e3a8a;">Heatmap Transizioni Spazio Stati</h4>
+                        <img src="../img/transition_heatmap.png" alt="Heatmap Transizioni" style="max-width: 100%; border-radius: 0.5rem;">
+                        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 0;">Concentrazione delle probabilità di transizione per ciascuna coppia $(S,I)$.</p>
+                    </div>
+                </div>
             </section>
 
             <!-- ========================================================================= -->
