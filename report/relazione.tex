@@ -11,6 +11,7 @@
 % ── Encoding & lingua ──────────────────────────────────────
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{lmodern}
 \usepackage[italian]{babel}
 
 % ── Impaginazione ──────────────────────────────────────────
@@ -18,7 +19,7 @@
   top=2.5cm, bottom=2.5cm,
   left=3cm,  right=3cm
 ]{geometry}
-\usepackage{microtype}
+\usepackage[expansion=false]{microtype}
 \usepackage{setspace}
 \onehalfspacing
 
@@ -302,7 +303,7 @@ La probabilità di passare dallo stato $(s, i, r)$ allo stato $(s', i', r')$ in 
   = \sum_{c=0}^{s}\, \sum_{g=0}^{i}\,
     \binom{s}{c}\!\left(\frac{\beta i}{N}\right)^{\!c}\!\left(1 - \frac{\beta i}{N}\right)^{\!s-c}
     \binom{i}{g} \gamma^g (1-\gamma)^{i-g}
-    \cdot \1_{\{s' = s-c,\; i' = i+c-g,\; r' = r+g\}}.
+    \cdot \mathbf{1}_{\{s' = s-c,\; i' = i+c-g,\; r' = r+g\}}.
 \end{equation}
 
 La matrice $P = (P_{xy})_{x,y \in E}$ è una \emph{matrice stocastica} (righe non negative
@@ -610,6 +611,7 @@ Un parametro chiave nella dinamica delle catene di Markov epidemiologiche è il 
   \centering
   \caption{Risultati dell'analisi di sensibilità su $R_0$ ($N=100, I_0=5, \gamma=0.1, M=1000$).}
   \label{tab:sensibilita}
+  \resizebox{\textwidth}{!}{
   \begin{tabular}{@{}cccccc@{}}
     \toprule
     $R_0$ & $\beta$ & Picco medio $\E[I_{\max}]$ & Tempo al picco $t_{\text{peak}}$ & Estinzione media $\E[\tau]$ & Attacco finale $\E[R_\infty]$ \\
@@ -621,6 +623,7 @@ Un parametro chiave nella dinamica delle catene di Markov epidemiologiche è il 
     $5.0$ & $0.50$ & $57.12 \pm 4.88$ & $9.8 \pm 2.2$ & $78.5 \pm 12.1$ & $98.1 \pm 1.5$ \\
     \bottomrule
   \end{tabular}
+  }
 \end{table}
 
 Come mostrato in Figura~\ref{fig:sensibilita} e Tabella~\ref{tab:sensibilita}, la soglia epidemica $R_0 = 1$ separa nettamente due regimi comportamentali:
