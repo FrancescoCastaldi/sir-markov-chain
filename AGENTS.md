@@ -17,7 +17,7 @@ Prima di lavorare su qualsiasi task, leggi `codemap.md` per capire:
 Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` di quella cartella:
 - [`src/codemap.md`](src/codemap.md) — Modello Markov, simulatore, plotting, analisi
 - [`tests/codemap.md`](tests/codemap.md) — Suite pytest e invarianti verificati
-- [`report/codemap.md`](report/codemap.md) — Deliverable LaTeX e struttura della relazione
+- [`report/codemap.md`](report/codemap.md) — Deliverable LaTeX, relazione PDF, presentazione Beamer (24 slide) e formato A4 stampabile
 - [`references/codemap.md`](references/codemap.md) — Dispense per l'orale e progetti d'esempio
 - [`notebooks/codemap.md`](notebooks/codemap.md) — Pipeline Jupyter end-to-end
 
@@ -33,6 +33,15 @@ Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` 
 
 ---
 
+## Deliverable Principali
+
+- **Relazione Ufficiale**: [`report/relazione.pdf`](report/relazione.pdf) (14 pag., LaTeX article, A4)
+- **Presentazione Orale**: [`report/presentazione.pdf`](report/presentazione.pdf) (24 slide, Beamer Madrid 16:9 con TikZ e tooltips)
+- **Presentazione Stampabile A4**: [`report/presentazione_stampabile_A4.pdf`](report/presentazione_stampabile_A4.pdf) (12 pag., 2 slide per foglio A4)
+- **Copione & Q&A Orale**: [`report/presentazione.md`](report/presentazione.md) (guida parlata slide-by-slide + traccia lavagna)
+
+---
+
 ## Regole operative
 
 1. **Prima di modificare codice**: leggi il modulo interessato e tutti i suoi consumer (vedi grafo dipendenze in `codemap.md`).
@@ -40,4 +49,5 @@ Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` 
 3. **Import nei test**: gli import funzionano senza `sys.path.insert` grazie a `pythonpath = ["src"]` in `pyproject.toml`.
 4. **Figure**: generate in `img/` (dpi=150). Le figure in `plots/` sono temporanee e ignorate da git.
 5. **Seed**: usa sempre `--seed 42` per simulazioni riproducibili nei test e nella documentazione.
-6. **EXAM_INFO.md e PROJECT_STATUS.md**: sono nella root ma entrambi in `.gitignore` (informazioni private).
+6. **Pulizia compilazione**: non committare file ausiliari di LaTeX (`*.aux`, `*.log`, `*.nav`, `*.snm`, `*.toc`, `*.vrb`, `*.out`).
+7. **EXAM_INFO.md e PROJECT_STATUS.md**: sono nella root ma entrambi in `.gitignore` (informazioni private).
