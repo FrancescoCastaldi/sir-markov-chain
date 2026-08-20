@@ -8,34 +8,25 @@ Questa directory raccoglie tutti i materiali utili per la preparazione dell'esam
 
 ```
 references/
-├── dispense/                                # Materiale di studio per l'esame orale
-│   ├── probabilita_discreta.pdf             # Dispense ufficiali del Prof. Federico (167 pag.)
-│   └── README.md                            # Indice argomenti teorici per l'orale
-└── vecchie_prove/                           # Progetti di esempio (benchmark stilistico/strutturale)
-    ├── relazione_mcmc_esempio.pdf           # Relazione di esempio (Alfonsi & Bucciarelli, 2025)
-    ├── README.md                            # Analisi comparativa e spunti per il nostro progetto SIR
-    └── code/                                # Codice sorgente Python del progetto di esempio
-        ├── campionatore_gibbs.py
-        ├── genera.py
-        ├── genera_grafico_non_orientato.py
-        ├── genera_risultati.py
-        ├── generatore_colorazione.py
-        ├── generazione_insiemi_indipendenti.py
-        ├── generazione_insiemi_indipendenti_slow.py
-        └── probabilities_vector.py
+├── dispense_completa.md                     # Trattazione approfondita ed esaustiva di tutta la teoria
+├── distribuzioni_fondamentali.md            # Schede riassuntive delle distribuzioni probabilistiche
+├── studio_orale_completo.tex / .pdf         # Raccolta estesa di teoremi, dimostrazioni ed esercizi
+├── studio_orale_definitivo.tex / .pdf       # Sintesi finale per il ripasso pre-esame
+├── README.md                                # Questo file indice
+├── codemap.md                               # Mappa e responsabilità della directory
+├── dispense/                                # [Locale / .gitignore] Dispense originali del docente
+└── vecchie_prove/                           # [Locale / .gitignore] Progetti ed elaborati d'esempio
 ```
 
 ---
 
 ## 🎯 Scopo dei Materiali
 
-### 1. Studio Orale (`references/dispense/`)
-- **Dispense del Corso**: Documento di riferimento teorico (*Discrete probability theory with selected topics of discrete time stochastic processes*, Prof. S. Federico).
-- **Utilizzo**: Studio approfondito della teoria su catene di Markov a tempo discreto, matrici di transizione, stati assorbenti, martingale e proprietà di Markov per la discussione orale.
+### 1. Teoria & Formulario (`references/`)
+- **`dispense_completa.md`**: Note complete su probabilità discreta, filtrazioni, tempi d'arresto, martingale e catene di Markov.
+- **`distribuzioni_fondamentali.md`**: Valori attesi, varianze, funzioni generatrici dei momenti e proprietà notevoli (Binomiale, Poisson, Geometrica, Esponenziale, ecc.).
+- **`studio_orale_definitivo.pdf`**: Compendio finale ottimizzato per la revisione rapida dei concetti chiave prima della discussione orale.
 
-### 2. Spunto Progetto (`references/vecchie_prove/`)
-- **Progetto d'Esempio**: *Generazione casuale mediante catene di Markov* (Alfonsi & Bucciarelli, Luglio 2025).
-- **Utilizzo**: Benchmark di riferimento per:
-  - Struttura della relazione LaTeX (impostazione capitoli, grafici, rigore formale).
-  - Stile delle presentazioni e del codice Python associato.
-  - Livello di approfondimento richiesto dal docente.
+### 2. Risorse Locali di Consultazione
+- **`dispense/`**: PDF originali del corso (tenuti in locale per studio personale).
+- **`vecchie_prove/`**: Benchmark di relazioni e codice di anni precedenti usati per calibrare lo standard qualitativo del progetto SIR.

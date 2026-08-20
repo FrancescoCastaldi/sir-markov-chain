@@ -2,7 +2,7 @@
 
 ## Responsabilità
 
-**Knowledge & Reference Layer**: raccoglie le dispense ufficiali del corso per lo studio della teoria dell'orale e i progetti di esempio di anni precedenti usati come benchmark di qualità e struttura.
+**Knowledge & Reference Layer**: raccoglie la teoria estratta dalle dispense del corso, le schede riassuntive delle distribuzioni probabilistiche, le dispense complete di studio per l'orale, nonché le cartelle di consultazione locale (`dispense/` e `vecchie_prove/`).
 
 ---
 
@@ -10,15 +10,17 @@
 
 | File / Directory | Descrizione | Utilizzo |
 |---|---|---|
-| [`references/dispense/probabilita_discreta.pdf`](file:///c:/Users/franc/Documents/sir-markov-chain/references/dispense/probabilita_discreta.pdf) | Dispense ufficiali Prof. Federico (167 pag.) | Studio teoria orale |
-| [`references/dispense/README.md`](file:///c:/Users/franc/Documents/sir-markov-chain/references/dispense/README.md) | Guida allo studio delle dispense | Mappa concettuale argomenti |
-| [`references/vecchie_prove/relazione_mcmc_esempio.pdf`](file:///c:/Users/franc/Documents/sir-markov-chain/references/vecchie_prove/relazione_mcmc_esempio.pdf) | Relazione MCMC Alfonsi-Bucciarelli (17 pag.) | Benchmark relazione LaTeX |
-| [`references/vecchie_prove/README.md`](file:///c:/Users/franc/Documents/sir-markov-chain/references/vecchie_prove/README.md) | Analisi spunti dal progetto d'esempio | Guida all'impostazione SIR |
-| [`references/vecchie_prove/code/`](file:///c:/Users/franc/Documents/sir-markov-chain/references/vecchie_prove/code) | Script Python del progetto MCMC d'esempio | Riferimento implementativo |
+| [`references/dispense_completa.md`](file:///c:/Users/franc/Documents/sir-markov-chain/references/dispense_completa.md) | Trattazione esaustiva della teoria del corso | Studio completo per l'esame orale |
+| [`references/distribuzioni_fondamentali.md`](file:///c:/Users/franc/Documents/sir-markov-chain/references/distribuzioni_fondamentali.md) | Formulario e proprietà delle distribuzioni discrete/continue | Consultazione rapida proprietà e momenti |
+| [`references/studio_orale_completo.pdf`](file:///c:/Users/franc/Documents/sir-markov-chain/references/studio_orale_completo.pdf) / `.tex` | Documento strutturato di studio teorico avanzato | Guida teorica e dimostrazioni |
+| [`references/studio_orale_definitivo.pdf`](file:///c:/Users/franc/Documents/sir-markov-chain/references/studio_orale_definitivo.pdf) / `.tex` | Versione definitiva e raffinata per l'orale | Ripasso finale con focus su domande d'esame |
+| `references/dispense/` | Dispense PDF originali del docente | Locale (ignorata da `.gitignore`) |
+| `references/vecchie_prove/` | Progetti d'esempio e codice di riferimento | Locale (ignorata da `.gitignore`) |
 
 ---
 
 ## Integrazione nel Progetto
 
-1. **Relazione SIR (`report/relazione.tex`)**: segue uno standard formale coerente con la relazione d'esempio in `vecchie_prove/`.
-2. **Preparazione Orale**: le risposte della sezione Q&A della presentazione (`report/presentazione.md`) fanno riferimento ai teoremi e alla notazione delle dispense in `dispense/`.
+1. **Relazione SIR (`report/relazione.tex`)**: rigore notazionale allineato con le definizioni formali del corso.
+2. **Presentazione Beamer (`report/presentazione.tex`)**: risposte ai quesiti teorici e formalizzazione degli invarianti coerenti con `references/distribuzioni_fondamentali.md`.
+3. **Frontend Web (`docs/`)**: sezione teoria e dispense per consultazione rapida.

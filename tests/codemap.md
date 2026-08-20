@@ -4,7 +4,7 @@
 
 **Verification Layer**: suite pytest per la verifica delle proprietà matematiche e
 comportamentali del modello SIR. Garantisce che gli invarianti della catena di Markov
-(conservazione, non-negatività, stocasticità della matrice P, assorbimento) siano
+(conservazione, non-negatività, stocasticità della matrice P, assorbimento, markovianità, monotonicità) siano
 soddisfatti dopo ogni modifica al codice.
 
 ---
@@ -22,7 +22,7 @@ soddisfatti dopo ogni modifica al codice.
 
 ---
 
-## Test Inventory (12 test)
+## Test Inventory (16 test)
 
 ### `next_state` — 4 test
 
@@ -33,7 +33,7 @@ soddisfatti dopo ogni modifica al codice.
 | `test_non_negative` | `S,I,R ≥ 0` sempre | 100 chiamate random |
 | `test_absorbing_all_seeds` | Stato assorbente invariante per qualsiasi S | 20 casi random con `I=0` |
 
-### `transition_matrix` — 4 test
+### `transition_matrix` — 5 test
 
 | Test | Cosa verifica | Metodo |
 |---|---|---|
@@ -41,15 +41,24 @@ soddisfatti dopo ogni modifica al codice.
 | `test_transition_matrix_absorbing` | `P[i,i]=1` per tutti gli stati con `I=0` | N=1..5 |
 | `test_transition_matrix_non_negative` | `P ≥ 0` ovunque | N=1..5 |
 | `test_transition_matrix_shape` | `P.shape == (n_states, n_states)` | N=1..5 |
+| `test_transition_matrix_row_stochasticity_strict` | Somma esatta righe e assenza NaN/Inf | N=1..4 |
 
 ### `run_single` — 4 test
 
 | Test | Cosa verifica | Metodo |
 |---|---|---|
 | `test_run_single_shape` | Output `ndim=2`, `shape[1]=3`, `shape[0]≥2` | N=10, i0=2, t_max=50 |
-| `test_run_single_stops_at_extinction` | `traj[-1, 1] == 0` (I=0 finale) | seed=42, γ=0.5 alta |
+| `test_run_single_stops_at_extinction` | `traj[-1, 1] == 0` (I=0 finale) | seed=42, γ=0.5 |
 | `test_run_single_zero_beta` | Con β=0, S non cambia, I scende a 0 | seed=42, β=0.0, γ=0.5 |
-| `test_run_single_gamma_one` | Con γ=1, estinzione in ≤3 passi | seed=42, γ=1.0 |
+| `test_run_single_gamma_one` | Con γ=1, estinzione rapida | seed=42, γ=1.0 |
+
+### Invarianti Teorici Avanzati — 3 test
+
+| Test | Cosa verifica | Metodo |
+|---|---|---|
+| `test_theoretical_absorbing_expected_time` | Assorbimento quasi certo $\tau < \infty$ | N=20, Monte Carlo |
+| `test_markov_property_memoryless` | Assenza di memoria (Markov property) | Verifica transizioni condizionate |
+| `test_monotonicity_of_removed` | Monotonicità debole $R_{t+1} \ge R_t$ | Traiettorie MC con seed fissato |
 
 ---
 

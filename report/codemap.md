@@ -3,32 +3,33 @@
 ## Responsibility
 
 **Documentation & Presentation Layer**: contiene tutti i materiali destinati alla
-discussione orale dell'esame — relazione accademica, presentazione, dispense del corso.
+discussione orale dell'esame — relazione accademica, presentazione Beamer (24 slide), formato stampabile A4 (12 pagine), copione e note per l'orale.
 
 ---
 
 ## Design
 
-- La relazione (`relazione.tex`) usa la classe `article` LaTeX con pacchetti scientifici
-  standard (`amsmath`, `booktabs`, `listings`, `hyperref`, `babel` italiano).
-- La presentazione (`presentazione.tex`) usa la classe `beamer` LaTeX con tema `Madrid`. Include note per l'esame inserite tramite il comando `\note{}`. La versione markdown (`presentazione.md`) è tenuta per riferimento testuale.
-- Le dispense (`Lecture/`) sono PDF del corso — ignorati da git (`.gitignore`).
-- Le figure referenziate nella relazione si trovano in `../img/` (path relativo).
+- La relazione (`relazione.tex` / `.pdf`) usa la classe `article` LaTeX (14 pag., 11pt, A4) con pacchetti scientifici standard (`amsmath`, `booktabs`, `listings`, `hyperref`, `babel` italiano).
+- La presentazione (`presentazione.tex` / `.pdf`) usa la classe `beamer` LaTeX con tema `Madrid` (24 slide, 16:9), diagrammi TikZ ($S \to I \to R$), matrice canonica e box **Tooltip Visivi ("Cosa indicare & Come spiegare")** per l'esposizione.
+- La versione stampabile (`presentazione_stampabile_A4.tex` / `.pdf`) impagina 2 slide per foglio A4 (12 pagine totali con margini e cornici) ideale per la consultazione cartacea del docente.
+- Il copione orale (`presentazione.md`) contiene il discorso sincronizzato frame-by-frame, traccia lavagna e Q&A preparatori.
+- Le figure referenziate nella relazione e nelle presentazioni si trovano in `../img/` (path relativo).
 
 ---
 
 ## File Inventory
 
-| File | Formato | Dimensione | Stato |
-|---|---|---|---|
-| `relazione.tex` | LaTeX (article) | ~340 righe | ✅ Completo — pronto per pdflatex |
-| `relazione.md` | Markdown | 242 righe | 🟡 Legacy — sostituito da .tex |
-| `presentazione.tex` | LaTeX (beamer) | ~340 righe | ✅ Completa — tema Madrid, 21 slide con note |
-| `presentazione.pdf` | PDF | — | ✅ Compilata via pdflatex |
-| `presentazione.md` | Markdown | 1253 righe | 🟡 Legacy — usato come sorgente testuale |
-| `Lecture/1.pdf` | PDF | — | Teoria probabilità discreta (ignorato da git) |
-| `Lecture/2.pdf` | PDF | — | Filtrazioni, martingale (ignorato da git) |
-| `Lecture/3.pdf` | PDF | — | Catene di Markov (ignorato da git) |
+| File | Formato | Dimensione | Stato | Note |
+|---|---|---|---|---|
+| `relazione.tex` | LaTeX (article) | ~500 righe | ✅ Completo | 14 pagine A4 con prove, teoremi e grafici |
+| `relazione.pdf` | PDF | ~350 KB | ✅ Compilato | Relazione ufficiale pronta per la consegna |
+| `presentazione.tex` | LaTeX (beamer) | ~600 righe | ✅ Completo | 24 slide Beamer Madrid (16:9) con TikZ e tooltips |
+| `presentazione.pdf` | PDF | ~1.2 MB | ✅ Compilato | Presentazione proiettabile all'orale |
+| `presentazione_stampabile_A4.tex` | LaTeX (pdfpages) | ~40 righe | ✅ Completo | Layout 2-up per stampa A4 (12 fogli) |
+| `presentazione_stampabile_A4.pdf` | PDF | ~1.1 MB | ✅ Compilato | Formato cartaceo per il docente |
+| `presentazione.md` | Markdown | ~1250 righe | ✅ Completo | Copione parlato, traccia lavagna e risposte Q&A |
+| `relazione.md` | Markdown | ~240 righe | 🟡 Legacy | Bozza iniziale testuale |
+| `Lecture/` | Directory | — | ℹ️ Ignorato | Cartella locale dispense (protetta da .gitignore) |
 
 ---
 
@@ -61,30 +62,26 @@ discussione orale dell'esame — relazione accademica, presentazione, dispense d
 └── Bibliography (4 riferimenti: Kermack, Norris, Federico, Allen)
 ```
 
-**Figure referenziate** (via `\includegraphics{../img/...}`):
-- `single_trajectory.png`, `mean_trajectory.png`, `tau_histogram.png`, `ode_comparison.png`
-
 ---
 
-## Struttura `presentazione.tex` (Beamer)
+## Struttura `presentazione.tex` (Beamer 24 Slide)
 
 ```
 \documentclass[11pt, aspectratio=169]{beamer}
-├── \usetheme{Madrid} e settaggio opzioni show notes
+├── \usetheme{Madrid} + pacchetti TikZ, booktabs
 ├── Frontespizio (titlepage)
-├── Slide 1-2: Introduzione e Obiettivi
-├── Slide 3-8: Il Modello SIR
-├── Slide 9-11: Implementazione (Codice e Parametri)
-├── Slide 12-16: Risultati e Simulazioni Monte Carlo
-├── Slide 17-20: Analisi Teorica e Limite ODE
-└── Slide 21: Conclusioni
+├── Slide 1-3: Introduzione, Obiettivi & Motivazione
+├── Slide 4-7: Spazio degli Stati, Transizioni & Diagramma TikZ
+├── Slide 8-11: Esempio N=3, Matrice Canonica & Proprietà Markoviane
+├── Slide 12-16: Simulazione Monte Carlo, Traiettorie & Istogramma τ (con Tooltips)
+├── Slide 17-21: Analisi Teorica, Assorbimento & Limite Fluidi ODE (con Tooltips)
+├── Slide 22-23: Analisi di Sensibilità & R₀ (con Tooltips)
+└── Slide 24: Conclusioni & Sintesi
 ```
-_Nota:_ Ogni frame include il testo orale tramite `\note{}` per guidare il discorso.
 
 ---
 
 ## Integration Points
 
 - **Consuma**: `../img/*.png` (prodotte da `src/plotting.py`)
-- **Compilazione**: `pdflatex report/relazione.tex` e `pdflatex report/presentazione.tex` (richiede LaTeX installato localmente o Overleaf)
-- **Build command**: `cd report && pdflatex <file>.tex`
+- **Compilazione**: `pdflatex report/relazione.tex`, `pdflatex report/presentazione.tex`, `pdflatex report/presentazione_stampabile_A4.tex`

@@ -58,7 +58,8 @@ Ogni modulo del progetto è documentato nel dettaglio. Esplora le directory sott
 | `tests/` | 🧪 **Quality Assurance**: Unit test `pytest` che validano matematicamente la conservazione della massa, positività e stati assorbenti. | [👉 Docs `tests/`](tests/README.md) |
 | `notebooks/`| 📓 **Interactive EDA**: Pipeline Jupyter ideali per la prototipazione esplorativa e lo studio live del modello. | [👉 Docs `notebooks/`](notebooks/README.md) |
 | `docs/` | 🌐 **Web Dashboard**: Piattaforma web estetica in Vanilla CSS/JS ospitata via GitHub Pages. Nessun framework pesante, puro Glassmorphism. | [👉 Docs `docs/`](docs/README.md) |
-| `report/` | 📄 **Accademia**: Sorgenti LaTeX, Slide Beamer e dispensari per l'esame. | [👉 Docs `report/`](report/README.md) |
+| `report/` | 📄 **Accademia**: Sorgenti LaTeX, Slide Beamer (24 slide), versione A4 stampabile e copione orale. | [👉 Docs `report/`](report/README.md) |
+| `references/` | 📚 **Studio & Teoria**: Dispense complete, compendi teorici, schede distribuzioni e documenti per l'orale. | [👉 Docs `references/`](references/README.md) |
 | `img/` | 📊 **Dati Visivi**: Artefatti PNG high-dpi generati dal modello. | [👉 Docs `img/`](img/README.md) |
 
 ## 4. Motore Matematico e Invarianti
