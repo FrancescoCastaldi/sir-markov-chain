@@ -216,25 +216,18 @@ def plot_ode_comparison(
 
 
 def plot_transition_heatmap(
-    n: int = 4,
+    n: int = 3,
     beta: float = 0.5,
     gamma: float = 0.3,
     save_path: Optional[str] = None,
     annot: bool = True,
 ) -> None:
     """
-    Heatmap della matrice di transizione P per N piccola.
+    Heatmap della matrice di transizione P per N=3 (10 stati).
 
     Mostra visivamente la struttura della matrice: le righe sono stati di partenza,
-    le colonne stati di arrivo. Le righe con I=0 appaiono come delta su se stesse
-    (stati assorbenti, probabilit� 1 sulla diagonale).
-
-    Parametri:
-        n: dimensione della popolazione (default: 4, consigliato ≤5)
-        beta: tasso di trasmissione
-        gamma: tasso di guarigione
-        save_path: percorso file di output (default: img/transition_heatmap.png)
-        annot: se True, annota le celle con i valori di probabilit� (default: True)
+    le colonne stati di arrivo. Le righe con I=0 appaiono con probabilità 1.0
+    sulla diagonale (stati assorbenti).
     """
     from model import transition_matrix
 
@@ -245,36 +238,51 @@ def plot_transition_heatmap(
     P, states = transition_matrix(n, beta, gamma)
     n_states: int = len(states)
 
-    # Crea etichette per gli stati: (s,i,r)
-    state_labels: list[str] = [f"({s},{i},{r})" for (s, i, r) in states]
+    # Crea etichette per gli stati: evidenzia gli stati assorbenti con I=0
+    state_labels: list[str] = [
+        f"({s},{i},{r}) *" if i == 0 else f"({s},{i},{r})"
+        for (s, i, r) in states
+    ]
 
-    # Determina dimensione figura in base a n
-    figsize: tuple[float, float] = (max(6, n_states * 0.55),
-                                    max(5, n_states * 0.5))
+    figsize: tuple[float, float] = (8.0, 7.0)
+    fig, ax = plt.subplots(figsize=figsize, dpi=150)
 
-    plt.figure(figsize=figsize)
-    plt.imshow(P, cmap="YlOrRd", vmin=0, vmax=1, aspect="equal")
+    # Colormap pulita ad alto contrasto (Blues o Viridis)
+    im = ax.imshow(P, cmap="Blues", vmin=0, vmax=1, aspect="equal")
 
-    # Annotazioni numeriche
+    # Annotazioni numeriche ben leggibili
     if annot:
         for i in range(n_states):
             for j in range(n_states):
                 val: float = P[i, j]
-                if val > 0.005:  # Mostra solo probabilit� significative
-                    plt.text(j, i, f"{val:.2f}",
-                             ha="center", va="center",
-                             fontsize=7,
-                             color="white" if val > 0.6 else "black")
+                if val > 0.001:
+                    is_absorbing: bool = (i == j and states[i][1] == 0)
+                    fontweight = "bold" if is_absorbing else "normal"
+                    color = "white" if val > 0.45 else "black"
+                    text = f"{val:.2f}" if not is_absorbing else "1.00 *"
+                    ax.text(
+                        j, i, text,
+                        ha="center", va="center",
+                        fontsize=8.5,
+                        fontweight=fontweight,
+                        color=color,
+                    )
 
-    plt.xticks(range(n_states), state_labels, rotation=90, fontsize=7)
-    plt.yticks(range(n_states), state_labels, fontsize=7)
-    plt.xlabel("Stato di arrivo")
-    plt.ylabel("Stato di partenza")
-    plt.title(f"Matrice di transizione P — N={n}, beta={beta}, gamma={gamma}")
+    ax.set_xticks(range(n_states))
+    ax.set_xticklabels(state_labels, rotation=45, ha="right", fontsize=8.5)
+    ax.set_yticks(range(n_states))
+    ax.set_yticklabels(state_labels, fontsize=8.5)
+    ax.set_xlabel("Stato di arrivo $X_{t+1}$", fontsize=10, fontweight="bold", labelpad=8)
+    ax.set_ylabel("Stato di partenza $X_t$", fontsize=10, fontweight="bold", labelpad=8)
+    ax.set_title(
+        f"Matrice di Transizione $P$ ($N={n}$, $\\beta={beta}$, $\\gamma={gamma}$) — * = Stato Assorbente",
+        fontsize=10.5,
+        fontweight="bold",
+        pad=12,
+    )
 
-    # Barra dei colori
-    cbar: Any = plt.colorbar(shrink=0.8)
-    cbar.set_label("Probabilita di transizione")
+    cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+    cbar.set_label("Probabilità di transizione $P(x, y)$", fontsize=9.5)
 
     plt.tight_layout()
     plt.savefig(save_path, dpi=150)
