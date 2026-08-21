@@ -10,7 +10,7 @@ discussione orale dell'esame — relazione accademica, presentazione Beamer (27 
 ## Design
 
 - La relazione (`relazione.tex` / `.pdf`) usa la classe `article` LaTeX (14 pag., 11pt, A4) con pacchetti scientifici standard (`amsmath`, `booktabs`, `listings`, `hyperref`, `babel` italiano).
-- La presentazione (`presentazione.tex` / `.pdf`) usa la classe `beamer` LaTeX con tema `Madrid` (27 slide, 16:9), diagrammi TikZ ($S \to I \to R$), illustrazioni concettuali, ritratto di fase $(S,I)$, matrice canonica e box **Tooltip Visivi ("Cosa indicare & Come spiegare")** per l'esposizione.
+- La presentazione (`presentazione.tex` / `.pdf`) usa la classe `beamer` LaTeX con tema `Madrid` (27 slide, 16:9), diagrammi TikZ ($S \to I \to R$), illustrazioni concettuali, ritratto di fase $(S,I)$, matrice canonica e box informativi accademici per l'esposizione.
 - La versione stampabile (`presentazione_stampabile_A4.tex` / `.pdf`) impagina 2 slide per foglio A4 (14 pagine totali con margini e cornici) ideale per la consultazione cartacea del docente.
 - Il copione orale (`presentazione.md`) contiene il discorso sincronizzato frame-by-frame, traccia lavagna e Q&A preparatori.
 - Le figure referenziate nella relazione e nelle presentazioni si trovano in `../img/` (path relativo).

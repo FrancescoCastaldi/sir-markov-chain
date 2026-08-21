@@ -429,9 +429,8 @@
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica i punti gialli sulla diagonale: spiega che sono gli stati assorbenti con I=0 in cui la probabilità di restare è 1.
-        2. Indica la struttura triangolare: mostra che non ci sono frecce o probabilità che riportano indietro gli individui rimossi.
+        I punti sulla diagonale evidenziano gli stati assorbenti con $I=0$, in cui la probabilità di permanenza è 1.
+        La struttura triangolare a blocchi dimostra l'aciclicità della catena dovuta alla crescita monotona dei rimossi.
     }
 \end{frame}
 
@@ -613,10 +612,8 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica i gradini della curva blu dei Suscettibili: spiega che la discesa non è continua ma a salti casuali.
-        2. Indica la curva rossa degli Infetti: sale al picco e poi scende fino a toccare esattamente lo zero. Quando tocca zero, siamo nello stato assorbente.
-        3. Indica la curva verde dei Rimossi: sale monotonicamente e si stabilizza a R_infinito.
+        La traiettoria stocastica individuale evidenzia la natura discreta dei contagi e delle guarigioni.
+        Al raggiungimento di $I=0$, il processo si arresta definitivamente nello stato assorbente.
     }
 \end{frame}
 
@@ -642,10 +639,8 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica l'area ombreggiata rossa al picco: spiega che la deviazione standard è massima proprio nel mezzo dell'epidemia.
-        2. Indica la linea continua: la media Monte Carlo regolarizza il processo casuale.
-        3. Indica la parte finale della curva verde: il 76.6% della popolazione viene immunizzato.
+        L'area ombreggiata quantifica l'incertezza campionaria, massima nella fase di picco.
+        La media Monte Carlo regolarizza le fluttuazioni, rivelando il valore atteso della dinamica.
     }
 \end{frame}
 
@@ -671,10 +666,8 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica la regione azzurra triangolare: spiega che lo spazio E è il simplesso bidimensionale S + I <= N.
-        2. Indica la linea verde orizzontale in basso (I=0): mostra che tutte le traiettorie stocastiche rosse cadono verso questo asse, che è il bordo assorbente.
-        3. Indica la curva nera della ODE: il continuo funge da attrattore deterministico medio per le traiettorie discrete.
+        Il ritratto di fase illustra la convergenza delle traiettorie stocastiche verso il bordo assorbente $I=0$ all'interno del simplesso triangolare.
+        L'orbita deterministica funge da attrattore medio del sistema.
     }
 \end{frame}
 
@@ -697,9 +690,8 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica la linea tratteggiata rossa: è il tempo medio tau = 86.7 passi.
-        2. Indica la coda allungata verso destra: la distribuzione non è una Gaussiana simmetrica ma ha una coda destra dovuta a traiettorie a persistenza prolungata.
+        La distribuzione dei tempi di estinzione presenta asimmetria positiva con coda allungata a destra.
+        La media empirica approssima il valore atteso teorico derivato dalla First-Step Analysis.
     }
 \end{frame}
 
@@ -722,9 +714,8 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica il centro della distribuzione attorno a 76.6 individui: spiega che questo è l'attacco finale medio dell'epidemia in regime sovracritico.
-        2. Spiega al professore: 'Ogni barra di questo istogramma rappresenta la probabilità di assorbimento in uno dei 101 stati assorbenti distinti di tipo (N-r, 0, r).'
+        L'istogramma descrive la distribuzione di probabilità dell'attacco finale sugli stati assorbenti distinti $(N-r, 0, r)$.
+        In regime sovracritico la massa si concentra attorno al 76-77% della popolazione.
     }
 \end{frame}
 
@@ -747,9 +738,8 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica la linea tratteggiata nera della ODE e confrontala con la linea rossa continua: la ODE sovrastima il picco (30 contro 22).
-        2. Spiega al professore: 'Questo è l'effetto di taglia finita per N=100. La stocasticità introduce rallentamenti ed estinzioni parziali che abbassano il picco medio reale.'
+        Il confronto con l'equazione differenziale evidenzia l'effetto di taglia finita:
+        la variabilità stocastica a $N=100$ riduce l'ampiezza del picco medio rispetto all'asintotica continua.
     }
 \end{frame}
 
@@ -772,9 +762,8 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{columns}
 
     \note{
-        COSA INDICARE CON IL DITO:
-        1. Indica la curva piatta in basso per R_0 = 0.8: spiega la biforcazione di soglia. Se R_0 <= 1, l'epidemia si spegne subito.
-        2. Indica come le curve salgono e si spostano a sinistra all'aumentare di R_0 (da 1.2 a 5.0).
+        L'analisi di sensibilità conferma la presenza della soglia critica $R_0=1$:
+        in regime subcritico il processo si estingue rapidamente senza ondata epidemica.
     }
 \end{frame}
 
