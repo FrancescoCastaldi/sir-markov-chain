@@ -3,38 +3,41 @@
 **Corso**: Metodi Probabilistici per le Applicazioni / Modelli Probabilistici (518512)  
 **Docente**: Prof. Salvatore Federico  
 **Studente**: Francesco Castaldi  
-**A.A.**: 2025/2026 — Appello di Settembre 2026
+**A.A.**: 2025/2026
 
 ---
 
-# A. Struttura Completa della Presentazione (24 Slide)
+# A. Struttura Completa della Presentazione (27 Slide)
 
 | # | Slide | Contenuto Principale | Supporto Visivo / Grafico |
 |---|-------|----------------------|---------------------------|
 | 1 | Titolo | Presentazione del progetto d'esame | Layout Beamer Madrid |
-| 2 | Introduzione | Contestualizzazione nel corso (Cap. 7) | Box informativo |
-| 3 | Obiettivo | Formalizzazione, assorbimento, Monte Carlo | Elenco strutturato |
-| 4 | Richiamo Teorico | Proprietà di Markov, matrice stocastica, assorbimento | Formule matematiche |
-| 5 | Il Modello SIR | Compartimenti $S, I, R$ e vincolo $S+I+R=N$ | **Diagramma a blocchi TikZ** + Tabella |
-| 6 | Spazio degli Stati $E$ | Definizione e formula combinatoria $|E|=\binom{N+2}{2}$ | Esempi $N=3$ (10) e $N=100$ (5151) |
-| 7 | Probabilità di Transizione | Contagio e guarigione Binomiali indipendenti | Formule di aggiornamento |
-| 8 | Esempio Analitico $N=3$ | Calcolo esplicito riga dello stato $(2,1,0)$ | **Tabella stocastica 6 transizioni** |
-| 9 | Matrice di Transizione $P$ | Formula analitica e forma canonica a blocchi | Sottomatrici $Q, R, I$ |
-| 10 | Struttura Matrice ($N=3$) | Heatmap matrice $P$ $10 \times 10$ e stati assorbenti | **Figura: `transition_heatmap.png`** |
-| 11 | Classificazione Stati | Partizione $\mathcal{A}$ e $\mathcal{T}$, proof assorbimento | Teorema $\mathbb{P}(\tau<\infty)=1$, $(I-Q)\mathbf{t}=\mathbf{1}$ |
-| 12 | Algoritmo Monte Carlo | Campionamento stocastico, seed 42, $M=1000$ | Tabella parametri |
-| 13 | Codice Python | Funzione `next_state` in `src/model.py` | Listing sintattico Python |
-| 14 | Risultati Numerici | Statistiche ufficiali ($\mathbb{E}, \sigma, \min, \max$) | **Tabella statistiche aggregate** |
-| 15 | Singola Traiettoria | Realizzazione campionaria discreta | **Figura: `single_trajectory.png`** |
-| 16 | Traiettoria Media $\pm 1\sigma$ | Andamento medio e bande di confidenza | **Figura: `mean_trajectory.png`** |
-| 17 | Distribuzione di $\tau$ | Istogramma empirico tempo estinzione | **Figura: `tau_histogram.png`** |
-| 18 | Limite Fluido (ODE) | Confronto Kermack-McKendrick ed effetto taglia finita | **Figura: `ode_comparison.png`** |
-| 19 | Sensibilità $R_0$ | Studio dei 5 scenari ($R_0 \in [0.8, 5.0]$) | **Figura: `sensitivity_comparison.png`** + Tabella |
-| 20 | Sintesi Evidenze | Estinzione certa, variabilità, biforcazione $R_0=1$ | Elenco ragionato |
-| 21 | Teoria vs Simulazione | Parallelo tra previsione analitica e stima numerica | **Tabella comparativa** |
-| 22 | Limiti del Modello | Popolazione chiusa, omogeneità, assenza reinfezione | **Tabella assunzioni e motivazioni** |
-| 23 | Sviluppi Futuri | SEIR, parametri $\beta(t)$, matrici su grafi | Prospettive di ricerca |
-| 24 | Conclusioni | Ringraziamenti e riassunto contributi | Link GitHub |
+| 2 | Introduzione e Motivazione | Contestualizzazione e formalismo stocastico | Box didattico |
+| 3 | Contesto Storico | Dal Determinismo ODE (1927) a Bartlett Stocastico (1949) | Confronto concettuale |
+| 4 | Obiettivo del Lavoro | Formalizzazione, assorbimento, Monte Carlo | Elenco strutturato a 3 livelli |
+| 5 | Richiamo Teorico | Proprietà di Markov, matrice stocastica, assorbimento | Formule matematiche |
+| 6 | Il Modello SIR | Compartimenti $S, I, R$ e vincolo $S+I+R=N$ | **Diagramma a blocchi TikZ** + Tabella |
+| 7 | Spazio degli Stati $E$ | Definizione e formula combinatoria $|E|=\binom{N+2}{2}$ | Esempi $N=3$ (10) e $N=100$ (5151) |
+| 8 | Probabilità di Transizione | Contagio e guarigione Binomiali indipendenti | Formule di aggiornamento lineare |
+| 9 | Esempio Analitico $N=3$ | Calcolo esplicito riga dello stato $(2,1,0)$ | **Tabella stocastica 6 transizioni** |
+| 10 | Matrice di Transizione $P$ | Formula analitica e forma canonica a blocchi | Sottomatrici $Q, R, I$ |
+| 11 | Struttura Matrice ($N=3$) | Heatmap matrice $P$ $10 \times 10$ e stati assorbenti | **Figura: `transition_heatmap.png`** |
+| 12 | Classificazione Stati | Partizione $\mathcal{A}$ e $\mathcal{T}$, proof assorbimento | Teorema $\mathbb{P}(\tau<\infty)=1$, $(I-Q)\mathbf{t}=\mathbf{1}$ |
+| 13 | Algoritmo Monte Carlo | Campionamento stocastico, seed 42, $M=1000$ | Tabella parametri ufficiali |
+| 14 | Codice Python | Funzione `next_state` in `src/model.py` | Listing sintattico Python |
+| 15 | Risultati Numerici | Statistiche ufficiali ($\mathbb{E}, \sigma, \min, \max$) | **Tabella statistiche aggregate** |
+| 16 | Singola Traiettoria | Realizzazione campionaria discreta | **Figura: `single_trajectory.png`** |
+| 17 | Traiettoria Media $\pm 1\sigma$ | Andamento medio e bande di confidenza | **Figura: `mean_trajectory.png`** |
+| 18 | Ritratto di Fase $(S, I)$ | Simplesso 2D, orbita ODE e traiettorie stocastiche | **Figura: `phase_portrait.png`** |
+| 19 | Distribuzione di $\tau$ | Istogramma empirico tempo estinzione | **Figura: `tau_histogram.png`** |
+| 20 | Distribuzione di $R_\infty$ | Istogramma attacco finale e stati terminali $\mathcal{A}$ | **Figura: `r_infinity_histogram.png`** |
+| 21 | Limite Fluido (ODE) | Confronto Kermack-McKendrick ed effetto taglia finita | **Figura: `ode_comparison.png`** |
+| 22 | Sensibilità $R_0$ | Studio dei 5 scenari ($R_0 \in [0.8, 5.0]$) | **Figura: `sensitivity_comparison.png`** |
+| 23 | Sintesi Evidenze | Estinzione certa, variabilità, biforcazione $R_0=1$ | Elenco ragionato |
+| 24 | Teoria vs Simulazione | Parallelo tra previsione analitica e stima numerica | **Tabella comparativa** |
+| 25 | Limiti del Modello | Popolazione chiusa, omogeneità, assenza reinfezione | **Tabella assunzioni e motivazioni** |
+| 26 | Sviluppi Futuri | SEIR, parametri $\beta(t)$, matrici su grafi | Prospettive di ricerca |
+| 27 | Conclusioni | Ringraziamenti e riassunto contributi | Link GitHub |
 
 ---
 
@@ -44,20 +47,29 @@
 > **Testo parlato**:  
 > "Buongiorno professore. Oggi vi presento il mio lavoro dal titolo *'Modello SIR come Catena di Markov a Tempo Discreto'*.  
 > L'idea del progetto è quella di prendere un modello epidemiologico classico, il modello SIR, e formalizzarlo con il massimo rigore matematico come una catena di Markov a tempo discreto su spazio di stati finito.  
-> Ci tengo a sottolineare fin da subito che l'obiettivo del lavoro non è fare epidemiologia applicata, bensì applicare e verificare i risultati fondamentali della teoria delle Catene di Markov sviluppati nel Capitolo 7 delle Sue dispense: la proprietà di Markov, la matrice di transizione stocastica, la classificazione degli stati in transitori e assorbenti, il tempo medio di assorbimento e il confronto con il limite fluido continuo."
+> Ci tengo a sottolineare fin da subito che l'obiettivo primario non è epidemiologico, bensì applicare e verificare i risultati fondamentali della teoria delle Catene di Markov: la proprietà di Markov, la matrice di transizione stocastica, la classificazione degli stati in transitori e assorbenti, il tempo medio di assorbimento e il confronto con il limite fluido continuo."
 
 ---
 
-## SLIDE 2 — Introduzione
+## SLIDE 2 — Introduzione e Motivazione
 > **Testo parlato**:  
 > "Perché descrivere la diffusione di un'epidemia con le catene di Markov?  
 > La propagazione di un virus in una popolazione chiusa è un fenomeno intrinsecamente stocastico: il contagio tra un suscettibile e un infetto è un evento casuale, così come la guarigione di ciascun individuo.  
 > Se descriviamo lo stato del sistema al tempo $t$ attraverso il conteggio degli individui nei tre compartimenti Suscettibili, Infetti e Rimossi, la distribuzione dello stato al tempo $t+1$ dipende unicamente dallo stato al tempo $t$, e non dalla storia passata. Questa è esattamente la proprietà di Markov.  
-> Essendo la popolazione finita $N$, lo spazio degli stati è finito e siamo perfettamente nel contesto del Capitolo 7."
+> Essendo la popolazione finita $N$, lo spazio degli stati è finito e siamo perfettamente nel contesto formale delle catene di Markov su spazi finiti."
 
 ---
 
-## SLIDE 3 — Obiettivo del Lavoro
+## SLIDE 3 — Contesto Storico: Dal Determinismo alla Stocasticità
+> **Testo parlato**:  
+> "Un breve inquadramento storico aiuta a capire il valore di questo formalismo.  
+> Nel 1927 Kermack e McKendrick proposero la celebre formulazione continua basata su equazioni differenziali ordinarie (ODE), che assume densità fluide continue per $N \to \infty$.  
+> Tuttavia, per popolazioni finite, gli individui sono entità discrete e quantizzate. Nel 1949 Bartlett e i probabilisti moderni introdussero l'approccio stocastico markoviano, dove ogni transizione è un evento probabilistico discreto.  
+> Questo consente di modellare fenomeni che il continuo ignora: l'estinzione precoce dell'epidemia, la varianza del picco e l'assorbimento certo in tempo finito."
+
+---
+
+## SLIDE 4 — Obiettivo del Lavoro
 > **Testo parlato**:  
 > "Gli obiettivi del progetto si articolano su tre livelli:  
 > 1. Formalizzazione teorica: definire lo spazio degli stati $E$, ricavare le probabilità di transizione esatte generate da meccanismi binomiali indipendenti e costruire la matrice stocastica $P$.  
@@ -66,7 +78,7 @@
 
 ---
 
-## SLIDE 4 — Richiamo Teorico: Catene di Markov (Cap. 7)
+## SLIDE 5 — Richiamo Teorico: Catene di Markov a Tempo Discreto
 > **Testo parlato**:  
 > "Richiamiamo rapidamente le definizioni chiave. Un processo $\{X_t\}$ a tempo discreto su uno spazio discreto $E$ soddisfa la proprietà di Markov se la probabilità condizionata dello stato futuro, data l'intera storia passata, coincide con la probabilità condizionata al solo stato presente.  
 > La dinamica a un passo è governata dalla matrice stocastica per righe $P$, in cui ogni elemento $P(i,j)$ è non negativo e la somma su ciascuna riga è pari a 1.  
@@ -74,7 +86,7 @@
 
 ---
 
-## SLIDE 5 — Il Modello SIR (Compartimenti e Schema TikZ)
+## SLIDE 6 — Il Modello SIR (Compartimenti e Schema TikZ)
 > **Testo parlato**:  
 > "Nel nostro modello consideriamo una popolazione chiusa di $N$ individui costanti nel tempo, vincolati dalla relazione $S_t + I_t + R_t = N$.  
 > Come illustrato nello schema a blocchi:  
@@ -84,7 +96,7 @@
 
 ---
 
-## SLIDE 6 — Spazio degli Stati $E$
+## SLIDE 7 — Spazio degli Stati $E$
 > **Testo parlato**:  
 > "Lo spazio degli stati $E$ è l'insieme di tutte le terne $(s,i,r)$ di interi non negativi la cui somma è $N$.  
 > Dal punto di vista combinatorio, la cardinalità corrisponde al numero di combinazioni con ripetizione di 3 elementi su $N$ posti, ovvero $|E| = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2}$.  
@@ -93,7 +105,7 @@
 
 ---
 
-## SLIDE 7 — Probabilità di Transizione ed Equazioni di Aggiornamento
+## SLIDE 8 — Probabilità di Transizione ed Equazioni di Aggiornamento
 > **Testo parlato**:  
 > "La transizione temporale da $t$ a $t+1$ è governata da due variabili aleatorie binomiali mutuamente indipendenti:  
 > 1. Il numero di contagi $C_t \mid (S_t=s, I_t=i) \sim \text{Bin}(s, \beta i / N)$, poiché ogni suscettibile ha probabilità $\beta i / N$ di essere contagiato incontrando un infetto;  
@@ -103,7 +115,7 @@
 
 ---
 
-## SLIDE 8 — Esempio Analitico: $N=3, \beta=0.5, \gamma=0.3$
+## SLIDE 9 — Esempio Analitico: $N=3, \beta=0.5, \gamma=0.3$
 > **Testo parlato**:  
 > "Per toccare con mano la costruzione algebrica della matrice $P$, consideriamo $N=3$ e lo stato di partenza $(2,1,0)$.  
 > Con 2 suscettibili e 1 infetto, la probabilità di contagio individuale è $0.5 \times 1/3 = 1/6$, mentre la probabilità di guarigione è $0.3$.  
@@ -112,7 +124,7 @@
 
 ---
 
-## SLIDE 9 — Matrice di Transizione $P$ e Forma Canonica
+## SLIDE 10 — Matrice di Transizione $P$ e Forma Canonica
 > **Testo parlato**:  
 > "L'elemento generico $P(x,y)$ della matrice di transizione si ottiene sommando su tutte le coppie $(c,g)$ compatibili con lo stato di destinazione.  
 > Essendo una catena assorbente, possiamo ordinare gli stati posizionando prima i transitori $\mathcal{T}$ e poi gli assorbenti $\mathcal{A}$.  
@@ -120,7 +132,7 @@
 
 ---
 
-## SLIDE 10 — Struttura della Matrice $P$ ($N=3$, Heatmap)
+## SLIDE 11 — Struttura della Matrice $P$ ($N=3$, Heatmap)
 > **Testo parlato**:  
 > "In questa slide vediamo la visualizzazione grafica (Heatmap) della matrice di transizione $10 \times 10$ per $N=3$.  
 > Si notano chiaramente:  
@@ -129,7 +141,7 @@
 
 ---
 
-## SLIDE 11 — Classificazione degli Stati e Teorema di Assorbimento
+## SLIDE 12 — Classificazione degli Stati e Teorema di Assorbimento
 > **Testo parlato**:  
 > "La classificazione rigorosa degli stati ci dice che:  
 > 1. Tutti gli stati con $i=0$ formano la classe assorbente $\mathcal{A}$. Esistono $N+1$ stati assorbenti distinti, corrispondenti ai possibili valori finali di $R_\infty \in \{0, 1, \dots, N\}$;  
@@ -139,7 +151,7 @@
 
 ---
 
-## SLIDE 12 — Algoritmo di Simulazione Monte Carlo
+## SLIDE 13 — Algoritmo di Simulazione Monte Carlo
 > **Testo parlato**:  
 > "Per esplorare il comportamento del sistema su scala $N=100$, abbiamo implementato un algoritmo di simulazione Monte Carlo.  
 > Partendo da $S_0=95, I_0=5, R_0=0$, ad ogni passo campioniamo contagi e guarigioni binomiali fino al raggiungimento di $I_t=0$.  
@@ -148,7 +160,7 @@
 
 ---
 
-## SLIDE 13 — Codice Python (`src/model.py`)
+## SLIDE 14 — Codice Python (`src/model.py`)
 > **Testo parlato**:  
 > "Il codice Python implementa la funzione `next_state`.  
 > Come si può osservare, la funzione verifica se $I=0$: in tal caso restituisce lo stato invariato; altrimenti calcola $p_{\mathrm{SI}}$, estrae le due binomiali con `numpy.random.binomial` e aggiorna le variabili di stato.  
@@ -156,7 +168,7 @@
 
 ---
 
-## SLIDE 14 — Risultati Numerici Ufficiali ($M=1000$, Seed 42)
+## SLIDE 15 — Risultati Numerici Ufficiali ($M=1000$, Seed 42)
 > **Testo parlato**:  
 > "Ecco i risultati numerici aggregati su 1000 simulazioni:  
 > - Il picco medio degli infetti $\mathbb{E}[I_{\max}]$ è pari a **21.94 individui** ($\pm 4.52$), raggiunto mediamente al passo temporale $t \approx 24$;  
@@ -166,7 +178,7 @@
 
 ---
 
-## SLIDE 15 — Singola Traiettoria Stocastica
+## SLIDE 16 — Singola Traiettoria Stocastica
 > **Testo parlato**:  
 > "Questo grafico mostra una singola traiettoria della catena.  
 > Si notano la decrescita a gradini della curva blu dei suscettibili, l'ascesa al picco e la successiva discesa a zero della curva rossa degli infetti, e la saturazione asintotica della curva verde dei rimossi.  
@@ -174,27 +186,44 @@
 
 ---
 
-## SLIDE 16 — Traiettoria Media e Bande di Confidenza
+## SLIDE 17 — Traiettoria Media e Bande di Confidenza
 > **Testo parlato**:  
 > "In questa figura osserviamo la traiettoria media su 1000 replicazioni con le bande di confidenza a $\pm 1$ deviazione standard.  
 > Notiamo che la variabilità stocastica è massima in corrispondenza del picco epidemico (tra il passo 15 e il passo 40), dove traiettorie diverse possono raggiungere ampiezze notevolmente differenti."
 
 ---
 
-## SLIDE 17 — Distribuzione del Tempo di Estinzione $\tau$
+## SLIDE 18 — Ritratto di Fase $(S, I)$ nello Spazio degli Stati
+> **Testo parlato**:  
+> "Questa visualizzazione nel piano di fase $(S, I)$ è particolarmente illuminante.  
+> L'area azzurra rappresenta il simplesso degli stati ammissibili $S + I \le N$.  
+> Le traiettorie stocastiche partono dal punto blu $(95, 5)$, salgono verso l'alto a sinistra e poi ricadono verso l'asse orizzontale in basso $I=0$, che rappresenta la linea assorbente $\mathcal{A}$.  
+> La curva nera rappresenta l'orbita teorica continua ODE, attorno alla quale le traiettorie stocastiche fluttuano."
+
+---
+
+## SLIDE 19 — Distribuzione del Tempo di Estinzione $\tau$
 > **Testo parlato**:  
 > "L'istogramma del tempo di estinzione $\tau$ mostra una distribuzione asimmetrica a destra (skew-positive): la maggior parte delle epidemie si estingue attorno al passo 80-90, ma esiste una coda lunga dovuta a traiettorie in cui l'infezione persiste con pochi individui prima di spegnersi."
 
 ---
 
-## SLIDE 18 — Confronto con il Limite Fluido Deterministico (ODE)
+## SLIDE 20 — Distribuzione dell'Attacco Finale $R_\infty$
+> **Testo parlato**:  
+> "L'istogramma dell'attacco finale $R_\infty$ mostra la distribuzione del numero totale di individui immunizzati al termine dell'epidemia.  
+> La media si attesta a 76.59 individui.  
+> Dal punto di vista della teoria di Markov, ciascuna barra di questo istogramma rappresenta la probabilità di assorbimento in uno specifico stato terminale $(N-r, 0, r) \in \mathcal{A}$."
+
+---
+
+## SLIDE 21 — Confronto con il Limite Fluido Deterministico (ODE)
 > **Testo parlato**:  
 > "Quando la popolazione $N \to \infty$, la legge dei grandi numeri assicura che le frazioni scalate $(S_t/N, I_t/N, R_t/N)$ convergano alla soluzione del sistema di equazioni differenziali ordinarie di Kermack-McKendrick.  
 > Confrontando la curva deterministica (in nero tratteggiato) con la media stocastica, osserviamo il cosiddetto *effetto di taglia finita*: il modello continuo sovrastima il picco ($I_{\max}^{\text{ODE}} \approx 30\%$ vs $\hat{I}_{\max} \approx 22\%$), poiché ignora la varianza e le possibili estinzioni stocastiche locali."
 
 ---
 
-## SLIDE 19 — Analisi di Sensibilità su $R_0 = \beta / \gamma$
+## SLIDE 22 — Analisi di Sensibilità su $R_0 = \beta / \gamma$
 > **Testo parlato**:  
 > "Abbiamo condotto un'analisi di sensibilità variando $R_0$ su 5 regimi:  
 > - Per $R_0 = 0.8 \le 1$ (regime subcritico), non si forma alcuna epidemia: il picco rimane pari a $I_0=5$ e l'estinzione è rapidissima ($\tau \approx 18$ passi);  
@@ -202,7 +231,7 @@
 
 ---
 
-## SLIDE 20 — Sintesi delle Evidenze Probabilistiche
+## SLIDE 23 — Sintesi delle Evidenze Probabilistiche
 > **Testo parlato**:  
 > "Riassumendo le evidenze probabilistiche:  
 > 1. L'assorbimento è certo nel 100% dei casi;  
@@ -212,26 +241,26 @@
 
 ---
 
-## SLIDE 21 — Confronto Metodologico: Teoria vs Simulazione
+## SLIDE 24 — Confronto Metodologico: Teoria vs Simulazione
 > **Testo parlato**:  
-> "Questa tabella mette a confronto diretto le previsioni del Capitolo 7 con i risultati Monte Carlo.  
+> "Questa tabella mette a confronto diretto le previsioni della teoria analitica con i risultati Monte Carlo.  
 > Il messaggio fondamentale è che la simulazione non si sostituisce alla teoria, ma costituisce lo strumento per stimare e visualizzare quantità matematicamente ben definite quando le dimensioni dello spazio di stato ($5151 \times 5151$) precludono l'inversione simbolica esatta."
 
 ---
 
-## SLIDE 22 — Limiti del Modello e Scelte Progettuali
+## SLIDE 25 — Limiti del Modello e Scelte Progettuali
 > **Testo parlato**:  
 > "I limiti assunti nel modello — popolazione chiusa, parametri costanti, mescolamento omogeneo e assenza di reinfezione — sono scelte progettuali deliberate: servono a mantenere la catena omogenea e a evidenziare con massima trasparenza le proprietà matematiche di assorbimento."
 
 ---
 
-## SLIDE 23 — Possibili Sviluppi Futuri
+## SLIDE 26 — Possibili Sviluppi Futuri
 > **Testo parlato**:  
 > "Le possibili estensioni includono l'aggiunta dello stato degli Esposti (modello SEIR), l'introduzione di tassi tempo-varianti $\beta(t)$ per catene non omogenee (es. lockdown), il calcolo esatto della matrice fondamentale per $N \le 20$, e la modellazione su grafi di contatto."
 
 ---
 
-## SLIDE 24 — Conclusioni
+## SLIDE 27 — Conclusioni
 > **Testo parlato**:  
 > "In conclusione, abbiamo formalizzato con successo il modello SIR come catena di Markov a tempo discreto, verificato l'assorbimento certo, quantificato l'effetto di taglia finita e validato l'intero codice con 16 test automatizzati.  
 > Vi ringrazio per l'attenzione e sono pronto per le domande di approfondimento e le dimostrazioni alla lavagna."
