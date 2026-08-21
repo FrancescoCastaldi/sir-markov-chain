@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relazione Ufficiale & Studio Orale | SIR Markov Chain</title>
+    <link rel="stylesheet" href="./style.css">
+    
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          macros: {
+            PP: '{\\mathbb{P}}',
+            E: '{\\mathbb{E}}',
+            N: '{\\mathbb{N}}',
+            R: '{\\mathbb{R}}',
+            uno: '{\\mathbf{1}}'
+          }
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body class="docs-body">
+    <!-- Navbar globale -->
+    <header class="docs-header" style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #1e3a8a; color: white;">
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <a href="index.html" class="back-link">&larr; Torna alla Dashboard</a>
+            <h2 style="font-size: 1.3rem; margin: 0; color: white;">Relazione Ufficiale di Studio Orale</h2>
+        </div>
+        <div style="display: flex; gap: 0.8rem;">
+            <a href="relazione.pdf" target="_blank" style="background: #10b981; color: white; padding: 0.4rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">📥 Scarica PDF (14 pag.)</a>
+            <a href="presentazione.pdf" target="_blank" style="background: #3b82f6; color: white; padding: 0.4rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">📽️ Slide Beamer (27 Slide)</a>
+        </div>
+    </header>
+
+    <div class="docs-container">
+        <!-- Sidebar Navigazione -->
+        <nav class="docs-sidebar">
+            <h3>Indice Relazione</h3>
+            <ul>
+                <li><a href="#sec-abstract">1. Abstract</a></li>
+                <li><a href="#sec-intro">2. Introduzione & Inquadramento</a></li>
+                <li><a href="#sec-modello">3. Formalizzazione Matematica</a></li>
+                <li><a href="#sec-n3">4. Esempio Analitico ($N=3$)</a></li>
+                <li><a href="#sec-mc">5. Simulazione Monte Carlo</a></li>
+                <li><a href="#sec-teoria">6. Analisi Teorica & Teoremi</a></li>
+                <li><a href="#sec-ode">7. Limite Fluido Continuo (ODE)</a></li>
+                <li><a href="#sec-sensibilita">8. Sensibilità su $R_0$</a></li>
+                <li><a href="#sec-qa">9. Domande Orali & Lavagna</a></li>
+                <li><a href="#sec-biblio">10. Bibliografia</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Contenuto Principale -->
+        <main class="docs-content">
+            <h1 class="chapter-title" style="margin-top: 1rem;">Modello Epidemiologico SIR come Catena di Markov Discreta</h1>
+            <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                <strong>Autore</strong>: Francesco Castaldi &bull; <strong>Corso</strong>: Modelli Probabilistici (518512), UniBo &bull; <strong>Docente</strong>: Prof. Salvatore Federico &bull; <strong>A.A.</strong>: 2025/2026
+            </p>
+
+            <!-- 1. ABSTRACT -->
+            <section id="sec-abstract">
+                <h2 class="section-title">1. Abstract</h2>
+                <p>
+                    Il presente lavoro studia un modello epidemiologico compartimentale di tipo <strong>SIR</strong> (<em>Suscettibili–Infetti–Rimossi</em>) su una popolazione finita di dimensione $N$, formalizzandolo rigorosamente come una <strong>Catena di Markov a tempo discreto (DTMC)</strong> omogenea su spazio degli stati finito $E$.
+                </p>
+                <p>
+                    L'obiettivo primario è didattico e formativo: applicare i risultati centrali della teoria dei processi stocastici discreti — definizione formale dello spazio degli stati, proprietà di Markov senza memoria, costruzione analitica della matrice stocastica di transizione $P$, partizione in stati transitori e assorbenti, estinzione quasi certa in tempo finito e risoluzione del sistema lineare dei tempi medi di assorbimento.
+                </p>
+            </section>
+
+            <!-- 2. INTRODUZIONE -->
+            <section id="sec-intro">
+                <h2 class="section-title">2. Introduzione & Inquadramento Epistemologico</h2>
+                <p>
+                    La propagazione di un agente patogeno in una popolazione reale è un fenomeno intrinsecamente casuale. A differenza del classico approccio deterministico a equazioni differenziali ordinarie (Kermack-McKendrick 1927), la formulazione stocastica discreta di Bartlett (1949) tratta gli individui come entità quantizzate intere, catturando la varianza del contagio e l'estinzione in tempo finito.
+                </p>
+
+                <div class="info-box hint">
+                    <h4>💡 Tooltip Epistemologico — Perché il Modello Discreto?</h4>
+                    <p>
+                        <strong>Limite delle ODE</strong>: Le equazioni differenziali trattano la popolazione come un fluido continuo $S(t), I(t) \in \mathbb{R}^+$. A taglia finita, le ODE non possono descrivere l'estinzione completa perché $I(t)$ decresce asintoticamente ma non tocca mai lo zero in tempo finito ($I(t) > 0 \; \forall t < \infty$).<br>
+                        <strong>Punto di forza di Markov</strong>: Mantiene $S_t, I_t, R_t \in \mathbb{N}_0$. Gli stati con $I=0$ sono stati assorbenti esatti, consentendo di dimostrare che l'epidemia termina con probabilità 1 ($\mathbb{P}(\tau < \infty) = 1$).
+                    </p>
+                </div>
+
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./img/deterministic_vs_stochastic.jpg" alt="Deterministic vs Stochastic" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;"><em>Figura 1: Flusso continuo deterministico (ODE) vs Rete di salti probabilistici discreti (Markov).</em></p>
+                </div>
+            </section>
+
+            <!-- 3. FORMALIZZAZIONE -->
+            <section id="sec-modello">
+                <h2 class="section-title">3. Formalizzazione Matematica della Catena</h2>
+                
+                <h3 class="subsection-title">3.1 Spazio degli Stati</h3>
+                <p>
+                    In una popolazione chiusa di taglia $N \in \mathbb{N}$, ad ogni istante discreto $t \in \mathbb{N}_0$, lo stato è descritto dal vettore $X_t = (S_t, I_t, R_t) \in \mathbb{N}_0^3$ soggetto al vincolo di conservazione della massa:
+                </p>
+                <div class="info-box definizione">
+                    <h4>Definizione dello Spazio degli Stati</h4>
+                    <p>
+                        $$E = \left\{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \right\}$$
+                        La cardinalità dello spazio è data dal numero di combinazioni con ripetizione (o composizioni deboli con separatori):
+                        $$|E| = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2}$$
+                    </p>
+                </div>
+
+                <h3 class="subsection-title">3.2 Dinamica a Transizioni Binomiali</h3>
+                <p>
+                    Il passaggio dallo stato al tempo $t$ allo stato al tempo $t+1$ è governato da due estrazioni binomiali condizionatamente indipendenti:
+                </p>
+                <ul>
+                    <li><strong>Nuovi Contagi</strong>: $C_t \mid (S_t=s, I_t=i) \sim \text{Bin}\left(s, \; \frac{\beta i}{N}\right)$</li>
+                    <li><strong>Nuove Guarigioni</strong>: $G_t \mid (I_t=i) \sim \text{Bin}(i, \; \gamma)$</li>
+                </ul>
+                <p>
+                    L'aggiornamento dello stato avviene secondo:
+                    $$\begin{cases} S_{t+1} = S_t - C_t \\ I_{t+1} = I_t + C_t - G_t \\ R_{t+1} = R_t + G_t \end{cases}$$
+                </p>
+
+                <div class="info-box teorema">
+                    <h4>Proposizione — Proprietà di Markov</h4>
+                    <p>
+                        Il processo stocastico $\{X_t\}_{t \ge 0}$ soddisfa la proprietà di Markov:
+                        $$\mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t, X_{t-1} = x_{t-1}, \dots, X_0 = x_0) = \mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t)$$
+                        <em>Dimostrazione</em>: La legge di $(C_t, G_t)$ dipende solo dai valori attuali $(s_t, i_t)$, rendendo la distribuzione futura condizionatamente indipendente dall'intera storia passata.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 4. ESEMPIO N=3 -->
+            <section id="sec-n3">
+                <h2 class="section-title">4. Esempio Analitico per Popolazione Piccola ($N=3$)</h2>
+                <p>
+                    Per $N=3$, lo spazio $E$ conta $|E| = \frac{4 \times 5}{2} = 10$ stati. Ordinando prima gli stati assorbenti ($I=0$) e poi quelli transitori ($I > 0$), la matrice $P$ assume la forma canonica a blocchi:
+                    $$P = \begin{pmatrix} I_{4 \times 4} & 0_{4 \times 6} \\ R_{6 \times 4} & Q_{6 \times 6} \end{pmatrix}$$
+                </p>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./img/transition_heatmap.png" alt="Heatmap Matrice P" style="max-width: 80%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;"><em>Figura 2: Heatmap della matrice di transizione $P$ ($10 \times 10$ per $N=3$). Si noti il blocco identità $I_{4 \times 4}$ per gli stati assorbenti.</em></p>
+                </div>
+            </section>
+
+            <!-- 5. MONTE CARLO -->
+            <section id="sec-mc">
+                <h2 class="section-title">5. Simulazione Monte Carlo e Risultati Numerici</h2>
+                <p>
+                    Con $N=100$, $\beta=0.20$, $\gamma=0.10$, $I_0=5$ e $M=1000$ replicazioni (seed 42), si ottengono le seguenti evidenze quantitative:
+                </p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
+                    <div>
+                        <img src="./img/single_trajectory.png" alt="Single Trajectory" style="width: 100%; border-radius: 8px;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Traiettoria Singola (Rumore Stocastico)</em></p>
+                    </div>
+                    <div>
+                        <img src="./img/mean_trajectory.png" alt="Mean Trajectory" style="width: 100%; border-radius: 8px;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Media Monte Carlo $\pm 1\sigma$</em></p>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
+                    <div>
+                        <img src="./img/phase_portrait.png" alt="Phase Portrait" style="width: 100%; border-radius: 8px;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Ritratto di Fase $(S, I)$ nel Simplesso</em></p>
+                    </div>
+                    <div>
+                        <img src="./img/r_infinity_histogram.png" alt="R Infinity Histogram" style="width: 100%; border-radius: 8px;">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Distribuzione Dimensione Finale $R_\infty$</em></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. ANALISI TEORICA -->
+            <section id="sec-teoria">
+                <h2 class="section-title">6. Analisi Teorica & Teoremi</h2>
+
+                <div class="info-box teorema">
+                    <h4>Teorema — Estinzione Quasi Certa</h4>
+                    <p>
+                        Partendo da qualsiasi stato $x_0 \in E$, il tempo di assorbimento $\tau = \min\{t \ge 0 : I_t = 0\}$ è quasi certamente finito:
+                        $$\mathbb{P}_{x_0}(\tau < \infty) = 1$$
+                        <em>Dimostrazione</em>: Lo spazio $E$ è finito e ogni stato con $I > 0$ è transitorio con probabilità positiva di transizione diretta verso $\mathcal{A}$ ad ogni passo. Il numero di visite complessive a $\mathcal{T}$ è quasi certamente finito, forzando l'assorbimento in $\mathcal{A}$.
+                    </p>
+                </div>
+
+                <div class="info-box spiegazione">
+                    <h4>Calcolo del Tempo Medio di Assorbimento</h4>
+                    <p>
+                        Sia $k(x) = \mathbb{E}_x[\tau]$. Condizionando al primo passo (First-Step Analysis):
+                        $$k(x) = 1 + \sum_{y \in \mathcal{T}} P(x, y) k(y) \iff \mathbf{k} = \mathbf{1} + Q \mathbf{k} \iff \mathbf{k} = (I - Q)^{-1} \mathbf{1}$$
+                    </p>
+                </div>
+            </section>
+
+            <!-- 7. LIMITE FLUIDO -->
+            <section id="sec-ode">
+                <h2 class="section-title">7. Limite Fluido Continuo (ODE Kermack-McKendrick)</h2>
+                <p>
+                    Per $N \to \infty$, normalizzando le frazioni di popolazione $s(t) = S_t/N, i(t) = I_t/N, r(t) = R_t/N$, il processo stocastico converge al sistema deterministico continuo di Kermack-McKendrick (1927):
+                    $$\begin{cases} \dot{s}(t) = -\beta s i \\ \dot{i}(t) = (\beta s - \gamma) i \\ \dot{r}(t) = \gamma i \end{cases}$$
+                </p>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./img/ode_comparison.png" alt="Confronto ODE" style="max-width: 80%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;"><em>Figura 3: Limite fluido continuo vs Media Monte Carlo ($N=100$). Notare l'effetto di taglia finita che abbassa il picco stocastico.</em></p>
+                </div>
+            </section>
+
+            <!-- 8. SENSIBILITÀ R0 -->
+            <section id="sec-sensibilita">
+                <h2 class="section-title">8. Sensibilità e Soglia Critica $R_0$</h2>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <img src="./img/sensitivity_comparison.png" alt="Sensibilità R0" style="max-width: 80%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                </div>
+                <p>
+                    La soglia $R_0 = \beta / \gamma = 1$ governa la transizione di fase:
+                </p>
+                <ul>
+                    <li><strong>Regime Subcritico ($R_0 \le 1$)</strong>: L'epidemia decresce monotonicamente fin dal passo iniziale; $\mathbb{E}[R_\infty] \approx I_0$.</li>
+                    <li><strong>Regime Sovracritico ($R_0 > 1$)</strong>: Il tasso di contagio supera quello di rimozione, formando un'ondata epidemica macroscopica con attacco finale fino al $98\%$.</li>
+                </ul>
+            </section>
+
+            <!-- 9. DOMANDE ORALI -->
+            <section id="sec-qa">
+                <h2 class="section-title">9. Guida alle Domande Orali & Lavagna</h2>
+
+                <div class="info-box hint">
+                    <h4>❓ Domanda: Perché la catena non ammette un'unica misura stazionaria invariante?</h4>
+                    <p>
+                        <strong>Risposta</strong>: Poiché la catena non è irriducibile e contiene molteplici stati assorbenti disgiunti (tutti quelli con $I=0$), ogni vettore $\delta_{(s, 0, r)}$ è una misura stazionaria. Esistono infinite misure stazionarie date da combinazioni convesse di stati assorbenti.
+                    </p>
+                </div>
+
+                <div class="info-box hint">
+                    <h4>❓ Domanda: Come si dimostra alla lavagna la First-Step Analysis per il tempo medio?</h4>
+                    <p>
+                        $$k(x) = \mathbb{E}_x[\tau] = \sum_{y \in E} P(x, y) \mathbb{E}_x[\tau \mid X_1 = y] = \sum_{y \in E} P(x, y) [1 + k(y)] = 1 + \sum_{y \in \mathcal{T}} P(x, y) k(y)$$
+                        dove abbiamo sfruttato che $k(y) = 0$ per ogni stato assorbente $y \in \mathcal{A}$.
+                    </p>
+                </div>
+            </section>
+
+            <!-- 10. BIBLIOGRAFIA -->
+            <section id="sec-biblio">
+                <h2 class="section-title">10. Riferimenti Bibliografici</h2>
+                <ol style="margin-left: 2rem; color: var(--text-secondary); font-size: 0.95rem;">
+                    <li><strong>Federico, S.</strong> (2025/2026). <em>Appunti e Dispense del Corso di Modelli Probabilistici</em>, Università di Bologna.</li>
+                    <li><strong>Norris, J.R.</strong> (1997). <em>Markov Chains</em>, Cambridge University Press.</li>
+                    <li><strong>Kermack, W.O. & McKendrick, A.G.</strong> (1927). <em>A contribution to the mathematical theory of epidemics</em>, Proc. Roy. Soc. A.</li>
+                    <li><strong>Allen, L.J.S.</strong> (2010). <em>An Introduction to Stochastic Processes with Applications to Biology</em>, Chapman & Hall/CRC.</li>
+                    <li><strong>Bartlett, M.S.</strong> (1949). <em>Some Evolutionary Stochastic Processes</em>, JRSS Series B.</li>
+                </ol>
+            </section>
+
+            <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light); text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                Progetto di Esame Orale &bull; Università di Bologna &bull; Modelli Probabilistici 2025/2026
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
