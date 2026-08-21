@@ -419,13 +419,11 @@
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Diagonale Gialla ($P_{ii}=1$)}}
-                \footnotesize \textbf{Cosa indicare}: I 4 punti bianchi/gialli a valore $1.0$.\\
-                \textbf{Cosa spiegare}: Sono gli stati assorbenti $(3,0,0), (2,0,1), (1,0,2), (0,0,3)$ con $I=0$ (nessuna uscita).
+            \begin{block}{\footnotesize Stati Assorbenti Diagonali ($P_{ii}=1$)}
+                \footnotesize I 4 punti a valore massimo $1.0$ corrispondono a $(3,0,0), (2,0,1), (1,0,2), (0,0,3)$ con $I=0$: una volta estinto il virus, la probabilità di permanenza è del $100\%$.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Triangolo Superiore}}
-                \footnotesize \textbf{Cosa indicare}: La parte sotto la diagonale è a zero (nera).\\
-                \textbf{Cosa spiegare}: Monotonicità di $R_t$: il numero di rimossi non può mai diminuire.
+            \begin{block}{\footnotesize Monotonicità e Struttura a Blocchi}
+                \footnotesize L'ampia regione a probabilità nulla (nera) riflette la monotonicità di $R_t$: il numero di rimossi non può mai diminuire, rendendo la catena aciclica.
             \end{block}
         \end{column}
     \end{columns}
@@ -602,17 +600,14 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Curva Blu ($S_t$)}}
-                \footnotesize \textbf{Cosa indicare}: I gradini irregolari nella discesa.\\
-                \textbf{Cosa spiegare}: I contagi sono discreti e casuali $C_t \sim \text{Bin}(S_t, \beta I_t/N)$.
+            \begin{block}{\footnotesize Dinamica Discreta di $S_t$}
+                \footnotesize La curva blu decresce a gradini irregolari: ogni salto rappresenta contagi binomiali casuali $C_t \sim \text{Bin}(S_t, \beta I_t/N)$.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Curva Rossa ($I_t$)}}
-                \footnotesize \textbf{Cosa indicare}: Il picco ($t \approx 30$) e la caduta su 0.\\
-                \textbf{Cosa spiegare}: Al tocco di $I=0$ l'epidemia si estingue istantaneamente (stato assorbente $\mathcal{A}$).
+            \begin{block}{\footnotesize Picco Infettivo ed Estinzione $I_t$}
+                \footnotesize La curva rossa raggiunge il picco ($t \approx 30$) e cade su 0: al tocco di $I=0$ l'epidemia si arresta nello stato assorbente $\mathcal{A}$.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 3: Curva Verde ($R_t$)}}
-                \footnotesize \textbf{Cosa indicare}: Il plateau orizzontale a destra.\\
-                \textbf{Cosa spiegare}: Valore finale $R_\infty$, individui totali immunizzati.
+            \begin{block}{\footnotesize Attacco Finale $R_t$}
+                \footnotesize La curva verde cresce monotonicamente fino al plateau finale $R_\infty$, quantificando gli individui complessivamente immunizzati.
             \end{block}
         \end{column}
     \end{columns}
@@ -634,17 +629,14 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Fascia Rossa Ombreggiata}}
-                \footnotesize \textbf{Cosa indicare}: L'allargamento della banda al picco ($t \in [15, 35]$).\\
-                \textbf{Cosa spiegare}: L'incertezza stocastica $\sigma$ è massima nel momento di massima diffusione.
+            \begin{block}{\footnotesize Incertezza e Dispersione $\pm 1\sigma$}
+                \footnotesize La fascia ombreggiata rossa evidenzia che la deviazione standard $\sigma$ è massima in corrispondenza del picco epidemico ($t \in [15, 35]$).
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Regolarizzazione della Media}}
-                \footnotesize \textbf{Cosa indicare}: Le curve continue lisce.\\
-                \textbf{Cosa spiegare}: Su 1000 simulazioni le fluttuazioni si compensano, rivelando il trend atteso $\mathbb{E}[X_t]$.
+            \begin{block}{\footnotesize Regolarizzazione per Grandi Numeri}
+                \footnotesize Su $M=1000$ replicazioni le fluttuazioni casuali si compensano, delineando il valore atteso teorico $\mathbb{E}[X_t]$.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 3: Asintoto Finale Verde}}
-                \footnotesize \textbf{Cosa indicare}: La banda verde a destra.\\
-                \textbf{Cosa spiegare}: Attacco finale $R_\infty \approx 76.6 \pm 8.4$ individui.
+            \begin{block}{\footnotesize Asintoto Finale $\bar{R}_\infty$}
+                \footnotesize L'attacco finale medio si stabilizza a $\bar{R}_\infty \approx 76.6 \pm 8.4$ individui immunizzati.
             \end{block}
         \end{column}
     \end{columns}
@@ -666,17 +658,14 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Triangolo dello Spazio Stati}}
-                \footnotesize \textbf{Cosa indicare}: La regione azzurra con vincolo $S+I \le N$.\\
-                \textbf{Cosa spiegare}: È il simplesso 2D su cui vive la catena ($R = N - S - I \ge 0$).
+            \begin{block}{\footnotesize Simplesso Ammissibile 2D}
+                \footnotesize La regione triangolare azzurra rappresenta lo spazio di stato $S+I \le N$, con $R = N - S - I \ge 0$.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Bordo Assorbente Verde ($I=0$)}}
-                \footnotesize \textbf{Cosa indicare}: L'asse orizzontale in basso ($I=0$).\\
-                \textbf{Cosa spiegare}: Ogni traiettoria (rossa) scende e si schianta sul bordo assorbente $\mathcal{A}$ dove l'infezione si estingue.
+            \begin{block}{\footnotesize Bordo Assorbente $\mathcal{A}$ ($I=0$)}
+                \footnotesize L'asse orizzontale in basso ($I=0$) raccoglie tutti i punti di arresto su cui le traiettorie stocastiche (rosse) collassano definitivamente.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 3: Orbita Deterministica Nera}}
-                \footnotesize \textbf{Cosa indicare}: La curva nera continua.\\
-                \textbf{Cosa spiegare}: Le traiettorie stocastiche fluttuano attorno all'orbita ODE teorica.
+            \begin{block}{\footnotesize Orbita Deterministica ODE}
+                \footnotesize La curva nera continua funge da traiettoria guida media attorno a cui oscillano le fluttuazioni campionarie.
             \end{block}
         \end{column}
     \end{columns}
@@ -698,13 +687,11 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Linea Tratteggiata Rossa}}
-                \footnotesize \textbf{Cosa indicare}: La linea verticale a $\bar{\tau} = 86.66$.\\
-                \textbf{Cosa spiegare}: È la stima Monte Carlo del tempo medio di assorbimento $\mathbb{E}[\tau]$, soluzione di $(I-Q)\mathbf{t}=\mathbf{1}$.
+            \begin{block}{\footnotesize Tempo Medio di Assorbimento $\bar{\tau}$}
+                \footnotesize La linea tratteggiata rossa individua la media Monte Carlo $\bar{\tau} = 86.66$, stima numerica della soluzione teorica $(I-Q)\mathbf{t}=\mathbf{1}$.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Coda Lunga a Destra}}
-                \footnotesize \textbf{Cosa indicare}: Le barre che superano $\tau > 120$.\\
-                \textbf{Cosa spiegare}: Distribuzione asimmetrica positiva (skew-positive): alcune simulazioni persistono a lungo con pochissimi infetti.
+            \begin{block}{\footnotesize Asimmetria Positiva (Coda Destra)}
+                \footnotesize La distribuzione presenta una coda allungata ($\tau > 120$) generata da traiettorie stocastiche a persistenza prolungata con pochi infetti.
             \end{block}
         \end{column}
     \end{columns}
@@ -725,13 +712,11 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Picco Centrale ($\bar{R}_\infty = 76.59$)}}
-                \footnotesize \textbf{Cosa indicare}: La concentrazione di massa attorno a $76-77$ individui.\\
-                \textbf{Cosa spiegare}: Per $R_0=2.0$, il $\sim 77\%$ della popolazione contrae l'infezione prima del blocco per immunità di gregge.
+            \begin{block}{\footnotesize Concentrazione di Massa ($\bar{R}_\infty = 76.59$)}
+                \footnotesize In regime sovracritico ($R_0=2.0$), circa il $77\%$ della popolazione contrae l'infezione prima dell'arresto per immunità di gregge.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Stati Terminali Assorbenti}}
-                \footnotesize \textbf{Cosa indicare}: I diversi valori finali di $R_\infty$.\\
-                \textbf{Cosa spiegare}: Ciascuna barra corrisponde a uno specifico stato assorbente $(N-R_\infty, 0, R_\infty) \in \mathcal{A}$.
+            \begin{block}{\footnotesize Stati Terminali Assorbenti}
+                \footnotesize Ciascuna barra dell'istogramma stima la probabilità di assorbimento in uno specifico stato $(N-R_\infty, 0, R_\infty) \in \mathcal{A}$.
             \end{block}
         \end{column}
     \end{columns}
@@ -752,13 +737,11 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Divario al Picco (Nera vs Rossa)}}
-                \footnotesize \textbf{Cosa indicare}: La distanza tra il picco ODE ($\sim 30\%$) e la media stocastica ($\sim 22\%$).\\
-                \textbf{Cosa spiegare}: \textbf{Effetto di taglia finita} ($N=100$). Il continuo assume $N \to \infty$; nel discreto la varianza abbassa il picco medio.
+            \begin{block}{\footnotesize Effetto di Taglia Finita ($N=100$)}
+                \footnotesize Il picco deterministico ODE ($\sim 30\%$) sovrastima la media stocastica ($\sim 22\%$): la varianza e le estinzioni parziali attenuano il picco reale.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Fasi Iniziale e Finale}}
-                \footnotesize \textbf{Cosa indicare}: La sovrapposizione per $t < 10$ e $t > 80$.\\
-                \textbf{Cosa spiegare}: Lontano dal picco la media stocastica segue fedelmente il comportamento asintotico ODE.
+            \begin{block}{\footnotesize Convergenza di Fase Asintotica}
+                \footnotesize Nelle fasi iniziale ($t < 10$) e finale ($t > 80$) la media stocastica segue fedelmente il comportamento asintotico delle ODE.
             \end{block}
         \end{column}
     \end{columns}
@@ -779,13 +762,11 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 1: Curva Blu Piatta ($R_0=0.8$)}}
-                \footnotesize \textbf{Cosa indicare}: La curva orizzontale in basso con $I_{\max}=5$.\\
-                \textbf{Cosa spiegare}: \textbf{Soglia critica $R_0 \le 1$}: l'infezione non decolla e si estingue subito ($\tau \approx 18$).
+            \begin{block}{\footnotesize Regime Subcritico ($R_0 = 0.8 \le 1$)}
+                \footnotesize La curva blu in basso mostra l'assenza di onda epidemica: l'infezione decresce subito e si estingue in media in $\tau \approx 18$ passi.
             \end{block}
-            \begin{block}{\footnotesize \textbf{$\blacktriangleright$ Tooltip 2: Onde Sovracritiche ($R_0 > 1$)}}
-                \footnotesize \textbf{Cosa indicare}: L'innalzamento dei picchi e il loro spostamento verso sinistra (tempo più breve).\\
-                \textbf{Cosa spiegare}: Per $R_0=5$ il picco raggiunge il $57\%$ in soli 9.8 passi temporali.
+            \begin{block}{\footnotesize Dinamica Sovracritica ($R_0 > 1$)}
+                \footnotesize All'aumentare di $R_0$ i picchi si innalzano e si anticipano nel tempo: per $R_0=5$ il picco tocca il $57\%$ in soli $9.8$ passi.
             \end{block}
         \end{column}
     \end{columns}
