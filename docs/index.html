@@ -30,9 +30,9 @@
         <!-- SLIDE 1: HERO (Copertina) -->
         <section id="hero" class="slide hero-slide">
             <div class="slide-content">
-                <div class="badge animate-on-scroll">Esame Orale - Settembre 2026</div>
+                <div class="badge animate-on-scroll">Progetto Accademico — A.A. 2025/2026</div>
                 <h1 class="slide-title animate-on-scroll delay-1">Simulazione SIR come<br>Catena di Markov Discreta</h1>
-                <p class="slide-subtitle animate-on-scroll delay-2">Un approccio stocastico alla modellizzazione epidemiologica compartimentale.</p>
+                <p class="slide-subtitle animate-on-scroll delay-2">Un approccio stocastico rigoroso alla modellizzazione epidemiologica compartimentale.</p>
                 
                 <div class="meta-info animate-on-scroll delay-3">
                     <div class="meta-item">
@@ -46,11 +46,20 @@
                     </div>
                 </div>
 
-                <div class="cta-container animate-on-scroll delay-3" style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                    <a href="guida_orale.html" class="btn-primary" style="display: inline-block; padding: 0.8rem 1.8rem; background: #10b981; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(16, 185, 129, 0.4)';">
-                        🎯 Guida Orale Semplificata & Tooltip
+                <div class="cta-container animate-on-scroll delay-3" style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
+                    <a href="presentazione.pdf" target="_blank" class="btn-primary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #2563eb; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);">
+                        📽️ Slide Beamer (27 Slide PDF)
                     </a>
-                    <a href="dispense.html" class="btn-secondary" style="display: inline-block; padding: 0.8rem 1.8rem; background: var(--accent); color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(59, 130, 246, 0.6)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(59, 130, 246, 0.4)';">
+                    <a href="presentazione_stampabile_A4.pdf" target="_blank" class="btn-primary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #0284c7; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);">
+                        🖨️ Formato Stampabile A4 (PDF)
+                    </a>
+                    <a href="relazione.pdf" target="_blank" class="btn-primary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #475569; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(71, 85, 105, 0.4);">
+                        📑 Relazione Ufficiale (PDF)
+                    </a>
+                    <a href="guida_orale.html" class="btn-secondary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #10b981; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
+                        🎯 Guida Orale & Tooltip
+                    </a>
+                    <a href="dispense.html" class="btn-secondary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #8b5cf6; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
                         📖 Dispense Complete
                     </a>
                 </div>
@@ -142,20 +151,36 @@
         <!-- SLIDE 5: DISTRIBUZIONI FINALI -->
         <section id="analysis" class="slide">
             <div class="slide-header">
-                <h2>Analisi Finale: Assorbimento e \(R_0\)</h2>
+                <h2>Analisi Statistica Avanzata & Assorbimento</h2>
             </div>
             <div class="slide-content">
+                <div class="two-col" style="margin-bottom: 1.5rem;">
+                    <div class="glass-box animate-on-scroll delay-1">
+                        <div class="badge">Ritratto di Fase (S, I)</div>
+                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Dinamica nel simplesso \(S+I \le N\). Traiettorie stocastiche che impattano sull'asse assorbente \(I=0\).</p>
+                        <div class="plot-frame js-modal-trigger" data-img="./img/phase_portrait.png">
+                            <img src="./img/phase_portrait.png" alt="Phase Portrait (S, I)">
+                        </div>
+                    </div>
+                    <div class="glass-box animate-on-scroll delay-2">
+                        <div class="badge">Attacco Finale (\(R_\infty\))</div>
+                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Distribuzione empirica della dimensione finale dell'epidemia su \(M=1000\) simulazioni (\(76.59 \pm 8.41\)).</p>
+                        <div class="plot-frame js-modal-trigger" data-img="./img/r_infinity_histogram.png">
+                            <img src="./img/r_infinity_histogram.png" alt="R_infinity Histogram">
+                        </div>
+                    </div>
+                </div>
                 <div class="two-col">
                     <div class="glass-box animate-on-scroll delay-1">
                         <div class="badge">Tempo di Assorbimento (\(\tau\))</div>
-                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Distribuzione empirica del tempo necessario affinché \(I = 0\). Il sistema finisce <strong>sempre</strong> in uno stato assorbente in tempo finito.</p>
+                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Distribuzione empirica del tempo necessario affinché \(I = 0\) (\(\bar{\tau} = 86.66\)). Estinzione quasi certa in tempo finito.</p>
                         <div class="plot-frame js-modal-trigger" data-img="./img/tau_histogram.png">
                             <img src="./img/tau_histogram.png" alt="Tau Histogram">
                         </div>
                     </div>
                     <div class="glass-box animate-on-scroll delay-2">
                         <div class="badge">Sensibilità a \(R_0\)</div>
-                        <p style="margin-bottom: 1rem; color: var(--text-secondary);">Transizione di fase. Modificando il numero di riproduzione di base, osserviamo l'esplosione o il collasso della dimensione finale dell'epidemia.</p>
+                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Transizione di fase attorno alla soglia critica \(R_0 = 1\). Esplosione dell'attacco finale per \(R_0 > 1\).</p>
                         <div class="plot-frame js-modal-trigger" data-img="./img/sensitivity_comparison.png">
                             <img src="./img/sensitivity_comparison.png" alt="Sensitivity Comparison">
                         </div>

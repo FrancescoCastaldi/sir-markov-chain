@@ -17,7 +17,7 @@ Prima di lavorare su qualsiasi task, leggi `codemap.md` per capire:
 Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` di quella cartella:
 - [`src/codemap.md`](src/codemap.md) — Modello Markov, simulatore, plotting, analisi
 - [`tests/codemap.md`](tests/codemap.md) — Suite pytest e invarianti verificati
-- [`report/codemap.md`](report/codemap.md) — Deliverable LaTeX, relazione PDF, presentazione Beamer (24 slide) e formato A4 stampabile
+- [`report/codemap.md`](report/codemap.md) — Deliverable LaTeX, relazione PDF, presentazione Beamer (27 slide) e formato A4 stampabile
 - [`references/codemap.md`](references/codemap.md) — Dispense per l'orale e progetti d'esempio
 - [`notebooks/codemap.md`](notebooks/codemap.md) — Pipeline Jupyter end-to-end
 
@@ -25,7 +25,7 @@ Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` 
 
 ## Contesto del Progetto
 
-- **Tipo**: Progetto universitario, esame orale (Settembre 2026)
+- **Tipo**: Progetto universitario, esame orale
 - **Corso**: Modelli Probabilistici 518512, Unibo — Prof. Salvatore Federico
 - **Argomento**: Simulazione SIR come catena di Markov discreta
 - **Skill attiva**: `university-project-architect` (vedi `.agents/skills/university-project-architect/SKILL.md`)
@@ -36,8 +36,8 @@ Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` 
 ## Deliverable Principali
 
 - **Relazione Ufficiale**: [`report/relazione.pdf`](report/relazione.pdf) (14 pag., LaTeX article, A4)
-- **Presentazione Orale**: [`report/presentazione.pdf`](report/presentazione.pdf) (24 slide, Beamer Madrid 16:9 con TikZ e tooltips)
-- **Presentazione Stampabile A4**: [`report/presentazione_stampabile_A4.pdf`](report/presentazione_stampabile_A4.pdf) (12 pag., 2 slide per foglio A4)
+- **Presentazione Orale**: [`report/presentazione.pdf`](report/presentazione.pdf) (27 slide, Beamer Madrid 16:9 con TikZ e tooltips)
+- **Presentazione Stampabile A4**: [`report/presentazione_stampabile_A4.pdf`](report/presentazione_stampabile_A4.pdf) (14 pag., 2 slide per foglio A4)
 - **Copione & Q&A Orale**: [`report/presentazione.md`](report/presentazione.md) (guida parlata slide-by-slide + traccia lavagna)
 
 ---
