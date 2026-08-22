@@ -28,6 +28,7 @@ discussione orale dell'esame — relazione accademica, presentazione Beamer (27 
 | `presentazione_stampabile_A4.tex` | LaTeX (pdfpages) | ~40 righe | ✅ Completo | Layout 2-up per stampa A4 (14 fogli) |
 | `presentazione_stampabile_A4.pdf` | PDF | ~2.5 MB | ✅ Compilato | Formato cartaceo per il docente |
 | `presentazione.md` | Markdown | ~1350 righe | ✅ Completo | Copione parlato, traccia lavagna e risposte Q&A |
+| `guida_studio_slide.md` | Markdown | ~550 righe | ✅ Completo | Guida di studio 27 slide (senso intuitivo, formule e Q&A esame) |
 | `relazione.md` | Markdown | ~240 righe | 🟡 Legacy | Bozza iniziale testuale |
 | `Lecture/` | Directory | — | ℹ️ Ignorato | Cartella locale dispense (protetta da .gitignore) |
 
