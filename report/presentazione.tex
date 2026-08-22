@@ -600,13 +600,13 @@ def next_state(s: int, i: int, r: int, n: int = 100,
         \end{column}
         \begin{column}{0.46\textwidth}
             \begin{block}{\footnotesize Dinamica Discreta di $S_t$}
-                \footnotesize La curva blu decresce a gradini irregolari: ogni salto rappresenta contagi binomiali casuali $C_t \sim \text{Bin}(S_t, \beta I_t/N)$.
+                \footnotesize La curva blu decresce a gradini discreti da $S_0=95$ fino a $S_\infty = 17$ per effetto dei contagi binomiali casuali.
             \end{block}
-            \begin{block}{\footnotesize Picco Infettivo ed Estinzione $I_t$}
-                \footnotesize La curva rossa raggiunge il picco ($t \approx 30$) e cade su 0: al tocco di $I=0$ l'epidemia si arresta nello stato assorbente $\mathcal{A}$.
+            \begin{block}{\footnotesize Latenza Stocastica e Picco $I_t$}
+                \footnotesize Dopo una fase iniziale di persistenza stocastica ($t < 50$), l'infezione accelera toccando il picco $I_{\max}=18$ a $t \approx 78$ ed estinguendosi a $\tau=124$.
             \end{block}
-            \begin{block}{\footnotesize Attacco Finale $R_t$}
-                \footnotesize La curva verde cresce monotonicamente fino al plateau finale $R_\infty$, quantificando gli individui complessivamente immunizzati.
+            \begin{block}{\footnotesize Attacco Finale e Assorbimento $R_t$}
+                \footnotesize La curva verde cresce monotonicamente fino al plateau finale $R_\infty = 83$ individui, raggiungendo lo stato assorbente $(17, 0, 83) \in \mathcal{A}$.
             \end{block}
         \end{column}
     \end{columns}
