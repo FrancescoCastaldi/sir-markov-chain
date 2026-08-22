@@ -16,6 +16,7 @@ plots/*.pdf
 thoughts/
 EXAM_INFO.md
 PROJECT_STATUS.md
+*guida_studio_slide*
 
 # LaTeX build outputs
 *.aux
