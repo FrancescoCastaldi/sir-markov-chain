@@ -36,11 +36,11 @@ Il progetto è sviluppato per il corso di **Modelli Probabilistici** (Universit�
 
 A differenza del classico approccio compartimentale deterministico continuo basato su equazioni differenziali ordinarie (ODE di Kermack–McKendrick), il sistema è formalizzato come una **Catena di Markov a tempo discreto (DTMC)** omogenea a stati finiti:
 
-$$\mathcal{S} = \left\{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \right\}$$
+$$\mathcal{S} = \{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \}$$
 
 La transizione temporale da $t$ a $t+1$ avviene mediante estrazioni condizionate da distribuzioni binomiali:
-* Nuovi contagi: $C_t \sim \text{Bin}\left(S_t, 1 - (1 - \frac{\beta}{N})^{I_t}\right) \approx \text{Bin}\left(S_t, \frac{\beta I_t}{N}\right)$
-* Nuove guarigioni: $G_t \sim \text{Bin}(I_t, \gamma)$
+* Nuovi contagi: $C_t \sim \mathrm{Bin}\left(S_t, 1 - (1 - \frac{\beta}{N})^{I_t}\right) \approx \mathrm{Bin}\left(S_t, \frac{\beta I_t}{N}\right)$
+* Nuove guarigioni: $G_t \sim \mathrm{Bin}(I_t, \gamma)$
 
 Questo schema cattura intrinsecamente la variabilità stocastica, l'eventuale estinzione precoce dell'epidemia e la distribuzione del tempo di assorbimento $\tau$.
 
@@ -111,10 +111,11 @@ L'implementazione verifica costantemente tre proprietà cardine:
 
 1. **Conservazione della Popolazione**:
    $$\forall t \ge 0, \quad S_t + I_t + R_t = N$$
-2. **Proprietà di Markov Debole e Forte**:
+2. **Proprietà di Markov**:
    $$\mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t, \dots, X_0 = x_0) = \mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t)$$
 3. **Stati Assorbenti e Assorbimento Quasi Certo**:
-   Tutti gli stati con $I = 0$, ovvero della forma $(s, 0, N-s)$, costituiscono una classe chiusa assorbente. Il tempo di estinzione $\tau = \inf\{t \ge 0 : I_t = 0\}$ è quasi certamente finito: $\mathbb{P}(\tau < \infty) = 1$.
+   Tutti gli stati con $I = 0$, ovvero della forma $(s, 0, N-s)$, costituiscono una classe chiusa assorbente. Il tempo di estinzione $\tau = \inf \{ t \ge 0 : I_t = 0 \}$ è quasi certamente finito:
+   $$\mathbb{P}(\tau < \infty) = 1$$
 
 ---
 
