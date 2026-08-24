@@ -42,9 +42,11 @@ PROJECT_STATUS.md
 *.parquet
 report/Lecture/*.pdf
 
-# References: ignore dispense and vecchie_prove
-references/dispense/
-references/vecchie_prove/
+# References: ignore private references & study sheets
+references/
+formulario_dimostrazioni_secche.pdf
+risposte_domande_teoriche.pdf
+domande_teoriche.pdf
 
 # OS files
 .DS_Store

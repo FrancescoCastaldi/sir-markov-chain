@@ -10,10 +10,13 @@
 
 | File / Directory | Descrizione | Utilizzo |
 |---|---|---|
-| [`references/dispense_completa.md`](file:///c:/Users/franc/Documents/sir-markov-chain/references/dispense_completa.md) | Trattazione esaustiva della teoria del corso | Studio completo per l'esame orale |
-| [`references/distribuzioni_fondamentali.md`](file:///c:/Users/franc/Documents/sir-markov-chain/references/distribuzioni_fondamentali.md) | Formulario e proprietà delle distribuzioni discrete/continue | Consultazione rapida proprietà e momenti |
-| [`references/studio_orale_completo.pdf`](file:///c:/Users/franc/Documents/sir-markov-chain/references/studio_orale_completo.pdf) / `.tex` | Documento strutturato di studio teorico avanzato | Guida teorica e dimostrazioni |
-| [`references/studio_orale_definitivo.pdf`](file:///c:/Users/franc/Documents/sir-markov-chain/references/studio_orale_definitivo.pdf) / `.tex` | Versione definitiva e raffinata per l'orale | Ripasso finale con focus su domande d'esame |
+| [`references/dispense_completa.md`](references/dispense_completa.md) | Trattazione esaustiva della teoria del corso | Studio completo per l'esame orale |
+| [`references/distribuzioni_fondamentali.md`](references/distribuzioni_fondamentali.md) | Formulario e proprietà delle distribuzioni discrete/continue | Consultazione rapida proprietà e momenti |
+| [`references/formulario_dimostrazioni_secche.md`](references/formulario_dimostrazioni_secche.md) / `.tex` / `.pdf` | Formulario rapido con dimostrazioni chiave per l'orale | Ripasso rapido formule e teoremi |
+| [`references/risposte_domande_teoriche.md`](references/risposte_domande_teoriche.md) / `.tex` / `.pdf` | Raccolta con risposte dettagliate alle domande teoriche d'esame | Preparazione colloquio orale |
+| [`references/domande_teoriche.pdf`](references/domande_teoriche.pdf) | Quesiti teorici frequenti del corso | Autovalutazione e test |
+| [`references/studio_orale_completo.pdf`](references/studio_orale_completo.pdf) / `.tex` | Documento strutturato di studio teorico avanzato | Guida teorica e dimostrazioni |
+| [`references/studio_orale_definitivo.pdf`](references/studio_orale_definitivo.pdf) / `.tex` | Versione definitiva e raffinata per l'orale | Ripasso finale con focus su domande d'esame |
 | `references/dispense/` | Dispense PDF originali del docente | Locale (ignorata da `.gitignore`) |
 | `references/vecchie_prove/` | Progetti d'esempio e codice di riferimento | Locale (ignorata da `.gitignore`) |
 
