@@ -60,24 +60,48 @@ Questo schema cattura intrinsecamente la variabilità stocastica, l'eventuale es
 
 ```
 sir-markov-chain/
-├── src/                      # Codice sorgente del simulatore
-│   ├── model.py              # Logica Markoviana (next_state, matrice di transizione)
-│   ├── simulation.py         # Entry point CLI e runner Monte Carlo
-│   ├── analysis.py           # Statistiche descrittive e solutore ODE
-│   ├── sensitivity.py        # Analisi di sensibilità su scenari R₀
-│   └── plotting.py           # Funzioni di visualizzazione e layout grafici
-├── tests/                    # Test suite automatizzata (pytest)
-│   ├── test_model.py         # Invarianti, transizioni e conservazione massa
-│   ├── test_simulation.py    # Validazione runner e consistenza shape
-│   └── test_analysis.py      # Test statistiche e convergenza ODE
-├── report/                   # Deliverable accademici
-│   ├── relazione.tex         # Relazione tecnica in LaTeX
-│   ├── presentazione.tex     # Slide Beamer (16:9, Madrid)
-│   └── presentazione.md      # Copione orale dettagliato
-├── notebooks/                # Notebook Jupyter per analisi esplorativa
-├── img/                      # Grafici e figure generate
-└── requirements.txt          # Dipendenze Python
+├── .github/workflows/        # Automazioni CI/CD (GitHub Actions)
+│   ├── ci.yml                # Pipeline di test automatici su matrici Python
+│   └── deploy-pages.yml      # Deploy automatico della dashboard su GitHub Pages
+├── src/                      # Modulo sorgente Python del simulatore SIR
+│   ├── model.py              # Nucleo stocastico Markoviano (next_state, transition_matrix)
+│   ├── simulation.py         # Entrypoint CLI e motore Monte Carlo vettorializzato
+│   ├── analysis.py           # Calcolo statistiche, percentili e integrazione ODE
+│   ├── sensitivity.py        # Analisi parametrica su scenari di R₀ e benchmark ODE
+│   └── plotting.py           # Generazione grafici scientifici Matplotlib (dpi 150/300)
+├── tests/                    # Suite di test di regressione e verifica invarianti (pytest)
+│   └── test_model.py         # Test formali su conservazione massa, probabilità e stati assorbenti
+├── report/                   # Deliverable accademici e sorgenti tipografiche
+│   ├── relazione.tex         # Relazione tecnica in LaTeX (documento scientifico principale)
+│   ├── presentazione.tex     # Slide Beamer (16:9, tema Madrid con grafica vettoriale TikZ)
+│   ├── presentazione_stampabile_A4.tex # Formato compatto per stampa (2 slide per pagina A4)
+│   ├── presentazione.md      # Copione di esposizione orale slide-by-slide
+│   ├── distribuzioni_fondamentali.tex  # Compendio formale sulle distribuzioni probabilistiche
+│   └── capitoli/             # Moduli teorici dettagliati dei singoli capitoli del corso
+├── docs/                     # Dashboard Web interattiva (Vanilla JS/CSS, GitHub Pages)
+│   ├── index.html            # Landing page con simulatore visuale interattivo
+│   ├── simulator.js          # Motore di simulazione client-side in JavaScript
+│   ├── style.css             # Design moderno e responsivo
+│   ├── dispense.html         # Visualizzatore web dei materiali teorici
+│   └── guida_orale.html      # Guida interattiva per l'esposizione
+├── notebooks/                # Notebook interattivi Jupyter
+│   ├── exploration.ipynb     # Prototipazione rapida ed esplorazione delle dinamiche
+│   └── pipeline_completo.ipynb # Pipeline end-to-end riproducibile
+├── img/                      # Figure e grafici generati ad alta risoluzione per la relazione
+├── codemap.md                # Atlante e mappa architetturale navigabile del repository
+├── pyproject.toml            # Configurazione packaging Python e standard di build
+└── requirements.txt          # Dipendenze scientifiche minime (numpy, scipy, matplotlib, pytest)
 ```
+
+| Directory / Modulo | Ruolo e Responsabilità |
+|---|---|
+| [`src/`](src/) | Motore computazionale del modello SIR, simulatore Monte Carlo, solutore ODE e plotting. |
+| [`tests/`](tests/) | Validazione matematica continua degli invarianti stocastici e test di regressione. |
+| [`report/`](report/) | Sorgenti e deliverable accademici ufficiali (relazione, presentazione Beamer, compendio). |
+| [`docs/`](docs/) | Web app statica distribuita su GitHub Pages con simulatore interattivo real-time. |
+| [`notebooks/`](notebooks/) | Notebook Jupyter per la prototipazione esplorativa e analisi visiva dei dati. |
+| [`img/`](img/) | Raccolta delle figure e diagrammi per la documentazione e i report. |
+| [`.github/`](.github/) | Workflow di Continuous Integration e deployment automatico su GitHub Pages. |
 
 ---
 
