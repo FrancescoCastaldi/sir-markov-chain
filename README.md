@@ -5,120 +5,164 @@
 <h1 align="center">🦠 SIR Markov Chain Simulator: A Stochastic Epidemic Model</h1>
 
 <p align="center">
-  <img src="img/guida_modelli.png" width="800" alt="Guida ai Modelli Probabilistici">
+  <em>Simulazione stocastica avanzata e parametrizzabile di un'epidemia SIR (Suscettibili, Infetti, Rimossi) modellata come Catena di Markov a tempo discreto su popolazione finita, corredata da analisi statistica, confronto deterministico ODE (Kermack–McKendrick) e deliverable accademici.</em>
 </p>
 
 <p align="center">
-  <em>Una simulazione stocastica avanzata, interamente parametrizzabile, di un'epidemia SIR (Suscettibili, Infetti, Rimossi) modellata rigorosamente come Catena di Markov a tempo discreto su una popolazione finita, supportata da dashboard web e analisi matematiche.</em>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10%2B-blue.svg?style=for-the-badge" alt="Python">
-  <img src="https://img.shields.io/badge/build-passing-brightgreen.svg?style=for-the-badge" alt="Build">
-  <img src="https://img.shields.io/badge/coverage-100%25-brightgreen.svg?style=for-the-badge" alt="Coverage">
-  <img src="https://img.shields.io/badge/license-MIT-green.svg?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/academic-UniBo-red.svg?style=for-the-badge" alt="UniBo">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB.svg?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/Course-Modelli%20Probabilistici-crimson.svg?style=flat-square" alt="Course">
+  <img src="https://img.shields.io/badge/University-UniBo-red.svg?style=flat-square" alt="UniBo">
 </p>
 
 ---
 
 ## 📖 Indice dei Contenuti
-1. [Introduzione e Contesto Teorico](#1-introduzione-e-contesto-teorico)
-2. [Caratteristiche Architetturali](#2-caratteristiche-architetturali)
-3. [Struttura della Repository](#3-struttura-della-repository)
-4. [Motore Matematico e Invarianti](#4-motore-matematico-e-invarianti)
-5. [Installazione e Setup Locale](#5-installazione-e-setup-locale)
+1. [Inquadramento Teorico](#1-inquadramento-teorico)
+2. [Caratteristiche del Modello](#2-caratteristiche-del-modello)
+3. [Architettura e Struttura del Progetto](#3-architettura-e-struttura-del-progetto)
+4. [Invarianti e Proprietà Matematiche](#4-invarianti-e-propriet%C3%A0-matematiche)
+5. [Installazione e Setup](#5-installazione-e-setup)
 6. [Guida all'Uso e Interfaccia CLI](#6-guida-alluso-e-interfaccia-cli)
-7. [Visualizzazioni e Modulo Web](#7-visualizzazioni-e-modulo-web)
-8. [Note di Sviluppo Avanzate](#8-note-di-sviluppo-avanzate)
+7. [Suite di Test e Validazione](#7-suite-di-test-e-validazione)
+8. [Deliverable Accademici e Risorse](#8-deliverable-accademici-e-risorse)
+9. [Note Computazionali sulla Complessità](#9-note-computazionali-sulla-complessit%C3%A0)
 
 ---
 
-## 1. Introduzione e Contesto Teorico
+## 1. Inquadramento Teorico
 
-Questo progetto nasce all'interno del corso accademico di **Modelli Probabilistici** (Università di Bologna) con l'obiettivo di tradurre la teoria dei processi stocastici e delle Catene di Markov in un'implementazione software robusta, scalabile e riproducibile.
+Il progetto è sviluppato per il corso di **Modelli Probabilistici** (Università di Bologna) con l'obiettivo di implementare e analizzare una simulazione stocastica su popolazione finita $N$.
 
-A differenza del classico modello compartimentale SIR deterministico risolto tramite equazioni differenziali ordinarie (es. Kermack-McKendrick), questo simulatore affronta il problema sotto l'esclusiva lente della probabilità. Il sistema è definito da uno spazio degli stati finito $E = \{(s,i,r) \in \mathbb{N}^3 : s+i+r = N\}$ e da una matrice di transizione di Markov generata dinamicamente tramite estrazioni da distribuzioni Binomiali. Questo approccio permette di osservare le fluttuazioni stocastiche endogene dell'epidemia e le probabilità di assorbimento (termine epidemia).
+A differenza del classico approccio compartimentale deterministico continuo basato su equazioni differenziali ordinarie (ODE di Kermack–McKendrick), il sistema è formalizzato come una **Catena di Markov a tempo discreto (DTMC)** omogenea a stati finiti:
 
-## 2. Caratteristiche Architetturali
+$$\mathcal{S} = \left\{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \right\}$$
 
-- 🎲 **Motore Stocastico Puro**: La probabilità di transizione da uno stato all'altro è calcolata rigorosamente, senza approssimazioni temporali scorrette, usando `np.random.binomial`.
-- 📈 **Aggregazione Monte Carlo Tensoriale**: Simulazioni massive indipendenti ($M=1000$ o più) eseguite in parallelo per calcolare media, deviazione standard, e intervalli di confidenza delle traiettorie.
-- 🔬 **Sensitivity Analysis Parametrizzata**: Automazione per la derivazione della sensibilità del modello rispetto al parametro $R_0 = \frac{\beta}{\gamma}$, cruciale per la comprensione del picco epidemico.
-- 📉 **Hybrid Validation (Stocastico vs ODE)**: Verifica cruzata matematica includendo un solutore Eulero esplicito del sistema SIR per validare il limite $N \to \infty$ del modello stocastico rispetto alle sue controparti continue.
-- 🌐 **Ecosistema Completo**: Dal codice Python puramente algoritmico, a suite di Unit Test, a pipeline Jupyter interattive, fino a una Dashboard Web in Vanilla CSS (Glassmorphism) e i deliverable accademici in LaTeX.
+La transizione temporale da $t$ a $t+1$ avviene mediante estrazioni condizionate da distribuzioni binomiali:
+* Nuovi contagi: $C_t \sim \text{Bin}\left(S_t, 1 - (1 - \frac{\beta}{N})^{I_t}\right) \approx \text{Bin}\left(S_t, \frac{\beta I_t}{N}\right)$
+* Nuove guarigioni: $G_t \sim \text{Bin}(I_t, \gamma)$
 
-## 3. Struttura della Repository
+Questo schema cattura intrinsecamente la variabilità stocastica, l'eventuale estinzione precoce dell'epidemia e la distribuzione del tempo di assorbimento $\tau$.
 
-Ogni modulo del progetto è documentato nel dettaglio. Esplora le directory sottostanti per leggere l'analisi approfondita di ogni componente:
+---
 
-| Directory | Ruolo nel Sistema | Leggi la documentazione |
-|-----------|------------------|-------------------------|
-| `src/` | 🧠 **Core Matematico**: Contiene la logica Markoviana, il runner Monte Carlo, gli analizzatori statistici e le direttive di plot Matplotlib. | [👉 Docs `src/`](src/README.md) |
-| `tests/` | 🧪 **Quality Assurance**: Unit test `pytest` che validano matematicamente la conservazione della massa, positività e stati assorbenti. | [👉 Docs `tests/`](tests/README.md) |
-| `notebooks/`| 📓 **Interactive EDA**: Pipeline Jupyter ideali per la prototipazione esplorativa e lo studio live del modello. | [👉 Docs `notebooks/`](notebooks/README.md) |
-| `docs/` | 🌐 **Web Dashboard**: Piattaforma web estetica in Vanilla CSS/JS ospitata via GitHub Pages. Nessun framework pesante, puro Glassmorphism. | [👉 Docs `docs/`](docs/README.md) |
-| `report/` | 📄 **Accademia**: Sorgenti LaTeX, Slide Beamer (27 slide), versione A4 stampabile e copione orale. | [👉 Docs `report/`](report/README.md) |
-| `references/` | 📚 **Studio & Teoria**: Dispense complete, compendi teorici, schede distribuzioni e documenti per l'orale. | [👉 Docs `references/`](references/README.md) |
-| `img/` | 📊 **Dati Visivi**: Artefatti PNG high-dpi generati dal modello. | [👉 Docs `img/`](img/README.md) |
+## 2. Caratteristiche del Modello
 
-## 4. Motore Matematico e Invarianti
+- 🎲 **Evoluzione Stocastica Esatta**: Nessuna discretizzazione euristica arbitraria; le transizioni di stato rispettano rigorosamente le probabilità di transizione binomiali.
+- 📈 **Simulazione Monte Carlo Vettorializzata**: Generazione di traiettorie multiple ($M \ge 1000$) per calcolare medie empiriche, deviazioni standard, percentili e distribuzioni dei tempi di estinzione.
+- 🔬 **Analisi di Sensibilità ($R_0$)**: Studio parametrico della dinamica al variare del numero di riproduzione di base $R_0 = \frac{\beta}{\gamma}$.
+- ⚖️ **Validazione Ibrida Stocastico-Deterministica**: Confronto sistematico tra la media delle traiettorie stocastiche e la soluzione numerica dell'ODE (metodo di Eulero esplicito).
+- 📊 **Visualizzazioni ad Alta Risoluzione**: Generazione automatizzata di grafici pronti per la pubblicazione scientifica (dpi 150/300) salvati in `img/`.
 
-L'implementazione garantisce sempre il rispetto delle leggi fondamentali di conservazione:
+---
 
-1. **Popolazione Chiusa**: $S_t + I_t + R_t = N$ per ogni $t \ge 0$. Non si considerano dinamiche vitali (nascite/morti).
-2. **Proprietà di Markov**: La transizione allo stato $(S_{t+1}, I_{t+1}, R_{t+1})$ dipende *esclusivamente* dallo stato $(S_t, I_t, R_t)$ al tempo $t$, rendendo il processo privo di memoria a lungo termine.
-3. **Stati Assorbenti**: Qualsiasi stato della forma $(s, 0, N-s)$ (ovvero zero infetti) è **assorbente**. La probabilità di abbandonare questo stato è matematicamente $0$. Il sistema garantisce che la simulazione si arresti (o rimanga fissa) una volta soddisfatta la condizione.
+## 3. Architettura e Struttura del Progetto
 
-## 5. Installazione e Setup Locale
+```
+sir-markov-chain/
+├── src/                      # Codice sorgente del simulatore
+│   ├── model.py              # Logica Markoviana (next_state, matrice di transizione)
+│   ├── simulation.py         # Entry point CLI e runner Monte Carlo
+│   ├── analysis.py           # Statistiche descrittive e solutore ODE
+│   ├── sensitivity.py        # Analisi di sensibilità su scenari R₀
+│   └── plotting.py           # Funzioni di visualizzazione e layout grafici
+├── tests/                    # Test suite automatizzata (pytest)
+│   ├── test_model.py         # Invarianti, transizioni e conservazione massa
+│   ├── test_simulation.py    # Validazione runner e consistenza shape
+│   └── test_analysis.py      # Test statistiche e convergenza ODE
+├── report/                   # Deliverable accademici
+│   ├── relazione.tex         # Relazione tecnica in LaTeX
+│   ├── presentazione.tex     # Slide Beamer (16:9, Madrid)
+│   └── presentazione.md      # Copione orale dettagliato
+├── notebooks/                # Notebook Jupyter per analisi esplorativa
+├── img/                      # Grafici e figure generate
+└── requirements.txt          # Dipendenze Python
+```
 
-Per eseguire le simulazioni sulla propria macchina, il progetto richiede Python 3.10 o superiore. Il gestore di pacchetti raccomandato è `pip`.
+---
+
+## 4. Invarianti e Proprietà Matematiche
+
+L'implementazione verifica costantemente tre proprietà cardine:
+
+1. **Conservazione della Popolazione**:
+   $$\forall t \ge 0, \quad S_t + I_t + R_t = N$$
+2. **Proprietà di Markov Debole e Forte**:
+   $$\mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t, \dots, X_0 = x_0) = \mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t)$$
+3. **Stati Assorbenti e Assorbimento Quasi Certo**:
+   Tutti gli stati con $I = 0$, ovvero della forma $(s, 0, N-s)$, costituiscono una classe chiusa assorbente. Il tempo di estinzione $\tau = \inf\{t \ge 0 : I_t = 0\}$ è quasi certamente finito: $\mathbb{P}(\tau < \infty) = 1$.
+
+---
+
+## 5. Installazione e Setup
+
+Il progetto richiede **Python 3.10** o versione successiva.
 
 ```bash
-# 1. Clona il repository in locale
+# 1. Clonazione del repository
 git clone https://github.com/FrancescoCastaldi/sir-markov-chain.git
 cd sir-markov-chain
 
-# 2. (Opzionale ma consigliato) Crea un ambiente virtuale
+# 2. Creazione e attivazione dell'ambiente virtuale
 python -m venv .venv
-source .venv/bin/activate  # Su Windows: .venv\Scripts\activate
+source .venv/bin/activate       # Linux / macOS
+# Su Windows (PowerShell): .venv\Scripts\Activate.ps1
 
-# 3. Installa le dipendenze scientifiche (numpy, scipy, matplotlib, pytest)
+# 3. Installazione delle dipendenze
 pip install -r requirements.txt
 ```
 
+---
+
 ## 6. Guida all'Uso e Interfaccia CLI
 
-Il progetto espone i suoi motori stocastici tramite interfacce a linea di comando (CLI) estremamente modulari gestite via `argparse`.
+Il modulo espone comandi completi configurabili via parametri:
 
-### 6.1. Simulazione Standard (Monte Carlo Aggregato)
-Per eseguire un run Monte Carlo, estraendo $1000$ epidemie differenti e mediando i risultati (producendo anche grafici su intervalli di deviazione standard e tempo finale):
+### 6.1. Simulazione Monte Carlo Singola o Multipla
+Esegue una simulazione con $M=1000$ traiettorie e genera i grafici di traiettoria media, singola traiettoria e istogramma dei tempi di assorbimento:
 ```bash
-python src/simulation.py --n 100 --i0 5 --beta 0.2 --gamma 0.1 --sims 1000 --seed 42
+python src/simulation.py --n 100 --i0 5 --beta 0.25 --gamma 0.10 --sims 1000 --seed 42
 ```
-*I grafici generati verranno salvati in `/img/mean_trajectory.png`, `/img/single_trajectory.png`, ecc.*
 
-### 6.2. Analisi di Sensibilità (Impatto di R_0)
-Per studiare l'effetto di diversi rapporti $\beta/\gamma$ e come questi alterino il picco epidemico e la velocità di assorbimento:
+### 6.2. Analisi di Sensibilità e Confronto ODE
+Esegue la scansione su scenari multipli di $\beta$ e $\gamma$, confrontando il modello stocastico con la traiettoria deterministica:
 ```bash
 python src/sensitivity.py --sims 500 --seed 42
 ```
-*Questo script sovrascriverà `/img/sensitivity_comparison.png` con una mesh multi-dimensionale di andamenti al variare del tasso di infettività.*
 
-### 6.3. Validazione Test Rigorosi
-Il progetto integra una suite di regressione. Si consiglia vivamente di eseguirla prima di fare commit su qualsiasi modifica logica:
+---
+
+## 7. Suite di Test e Validazione
+
+I test di unità verificano la correttezza algoritmica e gli invarianti probabilistici:
+
 ```bash
 python -m pytest tests/ -v
 ```
 
-## 7. Visualizzazioni e Modulo Web
+Tra i controlli eseguiti:
+* Rispetto della somma $S + I + R = N$ ad ogni passo temporale.
+* Non negatività degli stati ($S, I, R \ge 0$).
+* Stocasticità della matrice di transizione ($\sum_j P_{ij} = 1$).
+* Stabilità degli stati assorbenti (nessuna ripartenza dopo $I=0$).
 
-I risultati non si fermano al formato CLI. L'esposizione del progetto avviene tramite una Landing Page interattiva generata nativamente. Il repository è integrato con **GitHub Actions** che intercetta i push su `master`, preleva la cartella `/docs/` e ne fa il deploy direttamente sul dominio GitHub Pages del progetto, rendendo la visualizzazione fruibile universalmente senza setup.
+---
 
-## 8. Note di Sviluppo Avanzate
+## 8. Deliverable Accademici e Risorse
 
-> [!CAUTION]
-> Lo spazio degli stati complessivo di questo sistema scala in maniera combinatoria come $\frac{(N+1)(N+2)}{2}$. Per la popolazione target dell'esame ($N=100$), questo produce **5.151 stati**. Il salvataggio in RAM dell'intera Matrice di Transizione esatta comporterebbe un array da $5151 \times 5151 \approx 26.5 \times 10^6$ celle in virgola mobile, rendendo i calcoli esatti con algebra lineare estremamente costosi. Pertanto, **il sistema non istanzia mai la matrice stocastica intera in memoria** se non espressamente richiesto per debug (fino a $N=6$), e si appoggia interamente sull'estrazione empirica Monte Carlo (forward trajectory mapping).
+I materiali accademici sono organizzati nella directory `report/`:
+* **Relazione Scientifica**: [`report/relazione.pdf`](report/relazione.pdf) (Documento LaTeX con derivazioni teoriche, grafici e discussione dei risultati).
+* **Presentazione Orale**: [`report/presentazione.pdf`](report/presentazione.pdf) (Slide Beamer 16:9 con grafici vettoriali e schemi concettuali).
+* **Copione di Esposizione**: [`report/presentazione.md`](report/presentazione.md) (Guida parlata slide-per-slide per il colloquio).
+
+---
+
+## 9. Note Computazionali sulla Complessità
 
 > [!NOTE]
-> La riproducibilità è un pilastro della scienza dei dati. Passare l'argomento `--seed X` ai moduli CLI non imposta solo il seed di `numpy`, ma propaga l'entropia deterministica all'intera catena di invocazioni interne. Si raccomanda di utilizzare `42` per permettere la generazione di artefatti visivi perfettamente identici a quelli della tesi presentata in LaTeX.
+> La dimensione dello spazio degli stati per una popolazione $N$ è data dal coefficiente binomiale con ripetizione:
+> $$|\mathcal{S}| = \binom{N + 2}{2} = \frac{(N+1)(N+2)}{2}$$
+> Per $N=100$, lo spazio consta di **5.151 stati**. Una matrice di transizione esplicita richiederebbe una memoria di circa $5151 \times 5151 \approx 26.5 \times 10^6$ elementi float (oltre 200 MB per singola matrice densa).
+>
+> Per garantire la massima efficienza computazionale e scalabilità, il simulatore adotta la **generazione forward-sampling diretta** delle traiettorie, calcolando la matrice esplicita solo per validazione su valori ridotti ($N \le 6$).
+
