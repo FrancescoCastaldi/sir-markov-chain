@@ -12,6 +12,7 @@
 |---|---|---|
 | [`references/dispense_completa.md`](references/dispense_completa.md) | Trattazione esaustiva della teoria del corso | Studio completo per l'esame orale |
 | [`references/distribuzioni_fondamentali.md`](references/distribuzioni_fondamentali.md) | Formulario e proprietà delle distribuzioni discrete/continue | Consultazione rapida proprietà e momenti |
+| [`references/guida_studio_presentazione.md`](references/guida_studio_presentazione.md) / `.tex` / `.pdf` | Guida integrale allo studio slide-by-slide con Q&A e dimostrazioni | Studio e preparazione dell'esposizione orale |
 | [`references/formulario_dimostrazioni_secche.md`](references/formulario_dimostrazioni_secche.md) / `.tex` / `.pdf` | Formulario rapido con dimostrazioni chiave per l'orale | Ripasso rapido formule e teoremi |
 | [`references/risposte_domande_teoriche.md`](references/risposte_domande_teoriche.md) / `.tex` / `.pdf` | Raccolta con risposte dettagliate alle domande teoriche d'esame | Preparazione colloquio orale |
 | [`references/domande_teoriche.pdf`](references/domande_teoriche.pdf) | Quesiti teorici frequenti del corso | Autovalutazione e test |
