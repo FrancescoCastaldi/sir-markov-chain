@@ -8,16 +8,15 @@ Il repository contiene l'implementazione, la validazione statistica e i delivera
 
 ## 1. Il Modello Stocastico
 
-Il processo a tempo discreto $\{X_t\}_{t \in \mathbb{N}_0}$ traccia lo stato della popolazione $X_t = (S_t, I_t, R_t)$ sullo spazio degli stati invariante:
+Il processo a tempo discreto $(X_t)_{t \in \mathbb{N}_0}$ traccia lo stato della popolazione $X_t = (S_t, I_t, R_t)$ sullo spazio degli stati invariante:
 
-$$E = \left\{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \right\}, \quad |E| = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2}$$
+$$E = \{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \}, \quad |E| = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2}$$
 
 Ad ogni passo temporale $t \to t+1$, le transizioni sono determinate da due variabili binomiali condizionatamente indipendenti:
 
-$$\begin{aligned}
-C_t \mid X_t &\sim \text{Bin}\left(S_t, \; \frac{\beta I_t}{N}\right) \quad &&\text{(nuovi contagi)} \\
-G_t \mid X_t &\sim \text{Bin}\left(I_t, \; \gamma\right) &&\text{(nuove guarigioni/rimozioni)}
-\end{aligned}$$
+$$C_t \mid X_t \sim \text{Bin}\left(S_t, \frac{\beta I_t}{N}\right) \quad \text{(nuovi contagi)}$$
+
+$$G_t \mid X_t \sim \text{Bin}\left(I_t, \gamma\right) \quad \text{(nuove guarigioni)}$$
 
 L'aggiornamento dello stato è dato da:
 
@@ -27,7 +26,7 @@ I_{t+1} = I_t + C_t - G_t \\
 R_{t+1} = R_t + G_t
 \end{cases}$$
 
-Tutti gli stati con $I=0$ formano la classe assorbente $\mathcal{A}$. Il tempo di estinzione $\tau = \inf\{t \ge 0 : I_t = 0\}$ è quasi certamente finito ($\mathbb{P}_i(\tau < \infty) = 1$).
+Tutti gli stati con $I=0$ formano la classe assorbente $\mathcal{A}$. Il tempo di estinzione $\tau = \inf\{t \ge 0 : I_t = 0\}$ è quasi certamente finito ($\mathbb{P}(\tau < \infty) = 1$).
 
 ---
 
