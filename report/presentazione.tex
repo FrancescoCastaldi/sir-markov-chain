@@ -92,11 +92,11 @@
                 \item Il modello SIR descrive la diffusione di un'infezione in una popolazione chiusa.
                 \item L'evoluzione futura dipende \textbf{solo dallo stato presente} $\rightarrow$ \textbf{proprietà di Markov}.
                 \item Lo spazio degli stati è \textbf{finito} $\rightarrow$ catena di Markov a tempo discreto su $E$.
-                \item \textbf{Finalità didattica}: applicare il formalismo stocastico rigoroso, verificando teoremi di assorbimento e limiti fluidi.
+                \item \textbf{Finalità dell'analisi}: applicare il formalismo stocastico rigoroso, verificando teoremi di assorbimento e limiti fluidi.
             \end{itemize}
             \vspace{0.15cm}
-            \begin{block}{\footnotesize Inquadramento Didattico}
-                \footnotesize \textbf{Corso}: Modelli Probabilistici (Prof. S. Federico)\\
+            \begin{block}{\footnotesize Inquadramento del Progetto}
+                \footnotesize \textbf{Ambito}: Modelli Probabilistici (UniBo)\\
                 \textbf{Metodologia}: Teoria Markoviana + Monte Carlo
             \end{block}
         \end{column}
@@ -821,7 +821,7 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \resizebox{0.95\textwidth}{!}{
     \begin{tabular}{lp{6.5cm}l}
     \toprule
-    \textbf{Assunzione} & \textbf{Significato} & \textbf{Motivazione Didattica} \\
+    \textbf{Assunzione} & \textbf{Significato} & \textbf{Razionale Matematico} \\
     \midrule
     Popolazione chiusa & Nessuna nascita, morte naturale o migrazione & Preserva il vincolo $S+I+R=N$ \\
     Parametri $\beta, \gamma$ costanti & Omogeneità temporale & Garantisce la catena \textbf{omogenea} \\
@@ -833,7 +833,7 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     \end{center}
     
     \vspace{0.3cm}
-    \textbf{Nota}: I limiti sono \textbf{intenzionali}: l'obiettivo è la chiarezza della struttura markoviana, non la modellazione epidemiologica complessa.
+    \textbf{Nota}: Le assunzioni sono mirate a garantire la trattabilità analitica e la trasparenza della struttura markoviana omogenea.
 
     \note{
         È fondamentale evidenziare che le semplificazioni del modello SIR non sono limiti accidentali,
