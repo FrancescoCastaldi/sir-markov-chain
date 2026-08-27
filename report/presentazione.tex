@@ -89,16 +89,14 @@
     \begin{columns}[c]
         \begin{column}{0.54\textwidth}
             \begin{itemize}
-                \item Il modello SIR descrive la diffusione di un'infezione in una popolazione chiusa.
-                \item L'evoluzione futura dipende \textbf{solo dallo stato presente} $\rightarrow$ \textbf{proprietà di Markov}.
-                \item Lo spazio degli stati è \textbf{finito} $\rightarrow$ catena di Markov a tempo discreto su $E$.
-                \item \textbf{Finalità dell'analisi}: applicare il formalismo stocastico rigoroso, verificando teoremi di assorbimento e limiti fluidi.
+                \item \textbf{Modello SIR}: descrive la dinamica di un'infezione in una popolazione chiusa di $N$ individui.
+                \vspace{0.1cm}
+                \item \textbf{Vettore di Stato}: a ogni giorno $t \in \mathbb{N}_0$, la popolazione è partizionata in tre gruppi:
+                \[ X_t = (S_t, I_t, R_t) \in \mathbb{N}_0^3 \]
+                \item \textbf{Conservazione Globale}: $S_t + I_t + R_t = N \implies R_t = N - S_t - I_t$.
+                \vspace{0.1cm}
+                \item \textbf{Proprietà di Markov}: il futuro dipende unicamente dallo stato presente, rendendo il sistema una catena di Markov a stati finiti.
             \end{itemize}
-            \vspace{0.15cm}
-            \begin{block}{\footnotesize Inquadramento del Progetto}
-                \footnotesize \textbf{Ambito}: Modelli Probabilistici (UniBo)\\
-                \textbf{Metodologia}: Teoria Markoviana + Monte Carlo
-            \end{block}
         \end{column}
         \begin{column}{0.44\textwidth}
             \begin{center}
@@ -110,121 +108,126 @@
     \end{columns}
     
     \note{
-        Perché studiare un'epidemia con le catene di Markov?
-        Il motivo è che il modello SIR si presta naturalmente a essere
-        formalizzato come processo markoviano. La popolazione è divisa in tre
-        compartimenti: Suscettibili, Infetti e Rimossi. L'evoluzione futura dipende
-        solo dallo stato corrente, non dalla traiettoria passata. Questa è
-        la proprietà di Markov. Inoltre, per una popolazione finita N, lo spazio degli stati
-        è finito. Siamo esattamente nel framework formale delle catene di Markov su spazi finiti.
+        Il modello SIR descrive l'evoluzione di una malattia infettiva in una popolazione chiusa di N individui.
+        In ogni istante t, la popolazione è divisa in tre compartimenti: Suscettibili S, Infetti I e Rimossi R.
+        Poiché la somma è costante e pari a N, il sistema è bidimensionale.
+        La dinamica gode dell'assenza di memoria: l'evoluzione futura dipende unicamente dal numero corrente di persone sane e infette.
     }
 \end{frame}
 
 % SLIDE 3 — Contesto Storico ed Epistemologico
 \begin{frame}{Contesto Storico: Dal Determinismo alla Stocasticità}
-    \begin{columns}[c]
-        \begin{column}{0.54\textwidth}
+    \begin{columns}[T]
+        \begin{column}{0.49\textwidth}
             \begin{block}{\footnotesize 1927 — Kermack \& McKendrick (ODE)}
-                \footnotesize \textbf{Formulazione continua}: assume densità fluide per $N \to \infty$. Modello deterministico senza varianza: ignora l'estinzione precoce.
-            \end{block}
-            \begin{block}{\footnotesize 1949 — Bartlett \& Markov Discreto}
-                \footnotesize \textbf{Formulazione stocastica}: contagi e guarigioni binomiali indipendenti su individui discreti. Cattura l'assorbimento esatto $\mathbb{P}(\tau < \infty)=1$.
+                \footnotesize \textbf{Dinamica Continua Deterministica}:
+                \[
+                \begin{cases}
+                    \frac{ds}{dt} = -\beta s i \\
+                    \frac{di}{dt} = \beta s i - \gamma i \\
+                    \frac{dr}{dt} = \gamma i
+                \end{cases}
+                \]
+                \begin{itemize}
+                    \item Assume popolazione infinita e densità continue.
+                    \item Traiettoria unica senza variabilità: non prevede l'estinzione precoce casuale.
+                \end{itemize}
             \end{block}
         \end{column}
-        \begin{column}{0.44\textwidth}
-            \begin{center}
-                \includegraphics[width=\textwidth]{../img/deterministic_vs_stochastic.jpg}
-                \vspace{0.05cm}
-                {\tiny \textit{Flusso continuo deterministico vs Rete stocastica a salti}}
-            \end{center}
+        \begin{column}{0.49\textwidth}
+            \begin{block}{\footnotesize 1949 — Bartlett (Markov Discreto)}
+                \footnotesize \textbf{Dinamica Stocastica su Popolazione Finita}:
+                \[
+                (S_{t+1}, I_{t+1}, R_{t+1}) = f(S_t, I_t, \text{eventi casuali})
+                \]
+                \begin{itemize}
+                    \item Individui discreti con contagi e guarigioni binomiali.
+                    \item Cattura la varianza tra epidemie e l'assorbimento finale $\mathbb{P}(\tau < \infty)=1$.
+                \end{itemize}
+            \end{block}
         \end{column}
     \end{columns}
 
     \vspace{0.2cm}
     \begin{center}
-        \footnotesize \textit{``Nel mondo reale le epidemie sono conteggi discreti di individui che interagiscono in modo casuale.''}
+        \footnotesize \textbf{Limite Fluido}: per $N \to \infty$, la media stocastica converge alla traiettoria continua ODE.
     \end{center}
 
     \note{
-        Ecco un inquadramento storico fondamentale.
-        Nel 1927 Kermack e McKendrick proposero il modello deterministico continuo basato su ODE.
-        Questo modello funziona come approssimazione asintotica quando la popolazione tende a infinito,
-        ma non può catturare i fenomeni casuali a popolazione finita.
-        Nel 1949 Bartlett e i probabilisti moderni hanno introdotto il punto di vista stocastico markoviano,
-        in cui ogni contagio e guarigione è un evento aleatorio discreto.
-        Questo è esattamente l'approccio rigoroso che abbiamo implementato nel nostro lavoro.
+        Nel 1927 Kermack e McKendrick proposero il modello continuo deterministico ad equazioni differenziali ordinarie.
+        Questo modello funziona molto bene come approssimazione asintotica quando la popolazione è grandissima, ma non può catturare le fluttuazioni casuali a popolazione finita.
+        Nel 1949 Bartlett e i probabilisti moderni introdussero il punto di vista stocastico markoviano, dove ogni contagio e guarigione è un evento aleatorio discreto.
     }
 \end{frame}
 
 % SLIDE 4 — Obiettivo
 \begin{frame}{Obiettivo del Lavoro}
     \begin{enumerate}
-        \item \textbf{Formalizzare la catena}:
+        \item \textbf{Formalizzare la Catena di Markov}:
         \begin{itemize}
             \item Definizione dello spazio degli stati $E = \{(s,i,r) \in \mathbb{N}_0^3 : s+i+r=N\}$.
-            \item Costruzione della matrice stocastica $P$ con transizioni binomiali indipendenti.
+            \item Costruzione della matrice di transizione $P$ a partire da meccanismi binomiali.
         \end{itemize}
         \vspace{0.2cm}
-        \item \textbf{Analisi teorica}:
+        \item \textbf{Analisi Teorica di Assorbimento}:
         \begin{itemize}
-            \item Classificare gli stati: identificare stati assorbenti ($\mathcal{A}$) e transitori ($\mathcal{T}$).
-            \item Dimostrare l'assorbimento quasi certo $\mathbb{P}(\tau < \infty) = 1$.
+            \item Partizione dello spazio: stati transitori $\mathcal{T}$ ($I>0$) e stati assorbenti $\mathcal{A}$ ($I=0$).
+            \item Dimostrazione dell'estinzione quasi certa $\mathbb{P}(\tau < \infty) = 1$ e tempo medio $(I-Q)\mathbf{t}=\mathbf{1}$.
         \end{itemize}
         \vspace{0.2cm}
-        \item \textbf{Verifica computazionale (Monte Carlo \& Limite Fluido)}:
+        \item \textbf{Simulazione Computazionale e Confronto}:
         \begin{itemize}
-            \item Stimare tempo di estinzione $\tau$, picco $I_{\max}$ e attacco finale $R_\infty$.
-            \item Confrontare con le equazioni differenziali deterministiche (ODE) e studiare la sensibilità a $R_0$.
+            \item Simulazione Monte Carlo ($N=100$, $M=1000$ replicazioni, seed 42).
+            \item Stima di picco $I_{\max}$, tempo di estinzione $\tau$ e confronto con il limite ODE.
         \end{itemize}
     \end{enumerate}
 
     \note{
         L'obiettivo del lavoro è triplice:
         1) Costruire formalmente la catena di Markov, specificando spazio degli stati e matrice P.
-        2) Dimostrare le proprietà teoriche della catena, in particolare la partizione tra stati transitori e assorbenti e la certezza dell'estinzione.
-        3) Simulare numericamente il sistema per stimare le quantità non calcolabili analiticamente per N=100 e confrontare il comportamento con il limite deterministico per N grande.
+        2) Dimostrare le proprietà teoriche di assorbimento della catena.
+        3) Simulare numericamente il sistema a N=100 con metodo Monte Carlo e confrontare i risultati con il limite continuo.
     }
 \end{frame}
 
 % SLIDE 5 — Richiamo: Catene di Markov
 \begin{frame}{Richiamo Teorico: Catene di Markov a Tempo Discreto}
     \begin{block}{Definizione (Proprietà di Markov)}
-        Un processo stocastico $\{X_t\}_{t \ge 0}$ a valori in uno spazio discreto $E$ è una catena di Markov se:
+        Un processo stocastico $\{X_t\}_{t \ge 0}$ su uno spazio di stati discreto $E$ è una \textbf{catena di Markov} se:
         \[ \mathbb{P}(X_{t+1} = j \mid X_t = i, X_{t-1} = i_{t-1}, \dots, X_0 = i_0) = \mathbb{P}(X_{t+1} = j \mid X_t = i) = P(i,j) \]
     \end{block}
 
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
-            \textbf{Matrice di transizione $P$}:
+            \textbf{Matrice di Transizione $P$}:
             \begin{itemize}
-                \item $P(i,j) \ge 0$ per ogni $i, j \in E$.
+                \item $P(i,j) \ge 0$ per ogni coppia $i, j \in E$.
                 \item $P$ è \textbf{stocastica per righe}: $\sum_{j \in E} P(i,j) = 1$.
+                \item Transizioni a $n$ passi: $P^{(n)} = P^n$.
             \end{itemize}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \textbf{Stati Assorbenti}:
+            \textbf{Stati Assorbenti e Transitori}:
             \begin{itemize}
                 \item Uno stato $i$ è \textbf{assorbente} se $P(i,i) = 1$.
-                \item Raggiunto lo stato, il processo vi rimane per sempre.
+                \item Uno stato è \textbf{transitorio} se il processo può uscirne senza più potervi tornare.
             \end{itemize}
         \end{column}
     \end{columns}
 
     \note{
-        Richiamiamo brevemente i concetti fondamentali della teoria markoviana.
-        Una catena di Markov a tempo discreto è un processo in cui la distribuzione
-        dello stato futuro dipende unicamente dallo stato presente (assenza di memoria).
-        La matrice P governa le transizioni a 1 passo ed è stocastica.
-        Un concetto centrale per il nostro modello è quello di stato assorbente, dove la probabilità
-        di restare nello stato è 1.
+        Richiamiamo le nozioni fondamentali della teoria markoviana.
+        La proprietà di Markov stabilisce l'assenza di memoria: il futuro dipende solo dallo stato corrente.
+        La matrice P racchiude le probabilità di transizione a un passo ed è stocastica.
+        Un concetto cardine per il nostro modello è la distinzione tra stati transitori (infezione attiva) e stati assorbenti (infezione estinta).
     }
 \end{frame}
 
-% SLIDE 5 — Modello SIR (con diagramma a compartimenti TikZ)
+% SLIDE 6 — Modello SIR (con diagramma a compartimenti TikZ)
 \begin{frame}{Il Modello SIR — Compartimenti e Dinamica}
-    Popolazione chiusa di \textbf{$N$ individui} con vincolo di conservazione $S_t + I_t + R_t = N$.
+    Popolazione chiusa di \textbf{$N$ individui} con vincolo invariante $S_t + I_t + R_t = N$.
 
-    \vspace{0.3cm}
+    \vspace{0.25cm}
     \begin{center}
     \begin{tikzpicture}[
         node distance=2.6cm,
@@ -240,81 +243,79 @@
     \end{tikzpicture}
     \end{center}
 
-    \vspace{0.2cm}
+    \vspace{0.15cm}
     \begin{center}
-    \resizebox{0.9\textwidth}{!}{
+    \resizebox{0.92\textwidth}{!}{
     \begin{tabular}{lll}
     \toprule
-    Compartimento & Descrizione & Ruolo nella Catena \\
+    \textbf{Compartimento} & \textbf{Descrizione} & \textbf{Proprietà nella Catena} \\
     \midrule
-    $S_t$ (Suscettibili) & Individui sani che possono contrarre l'infezione & Decresce monotonicamente ($S_{t+1} \le S_t$) \\
-    $I_t$ (Infetti) & Individui contagiosi in grado di trasmettere il virus & Regola l'assorbimento ($I_t = 0 \implies$ stop) \\
-    $R_t$ (Rimossi) & Individui guariti, immunizzati o isolati & Cresce monotonicamente ($R_{t+1} \ge R_t$) \\
+    $S_t$ (Suscettibili) & Individui sani che possono contrarre il virus & Decresce monotonicamente ($S_{t+1} \le S_t$) \\
+    $I_t$ (Infetti) & Individui contagiosi che trasmettono la malattia & Regola l'arresto ($I_t = 0 \implies$ stato assorbente) \\
+    $R_t$ (Rimossi) & Individui guariti e immunizzati in modo permanente & Cresce monotonicamente ($R_{t+1} \ge R_t$) \\
     \bottomrule
     \end{tabular}
     }
     \end{center}
 
     \note{
-        Ecco lo schema a compartimenti del modello SIR.
-        In ogni istante t, la popolazione N è partizionata in tre gruppi: Suscettibili S, Infetti I e Rimossi R.
-        Il vincolo di conservazione è S_t + I_t + R_t = N per ogni t.
-        Le frecce mostrano i due processi casuali che avvengono ad ogni passo:
-        da S a I tramite contagi Binomiali, e da I a R tramite guarigioni Binomiali.
+        Ecco lo schema a blocchi del modello SIR.
+        In ogni passo temporale avvengono due processi casuali indipendenti:
+        i contagi C_t estratti da una Binomiale con parametro di successo beta*I/N, e le guarigioni G_t con parametro gamma.
+        La crescita monotona di R_t garantisce che la catena non abbia cicli.
     }
 \end{frame}
 
-% SLIDE 6 — Spazio degli stati
+% SLIDE 7 — Spazio degli stati
 \begin{frame}{Spazio degli Stati $E$}
-    \textbf{Definizione}:
+    \textbf{Definizione Formale}:
     \[ E = \bigl\{(s, i, r) \in \mathbb{N}_0^3 : s + i + r = N\bigr\} \]
 
     \begin{columns}[T]
-        \begin{column}{0.55\textwidth}
+        \begin{column}{0.52\textwidth}
             \textbf{Cardinalità combinatoria}:
             \[ |E| = \binom{N+3-1}{3-1} = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2} \]
             
-            \textbf{Esempi espliciti}:
+            \textbf{Esempi numerici}:
             \begin{itemize}
-                \item $N = 3 \implies |E| = \frac{4 \times 5}{2} = \mathbf{10}$ stati (trattabile a mano).
-                \item $N = 100 \implies |E| = \frac{101 \times 102}{2} = \mathbf{5151}$ stati.
+                \item $N = 3 \implies |E| = \mathbf{10}$ stati (trattabile a mano).
+                \item $N = 100 \implies |E| = \mathbf{5151}$ stati (trattabile con Monte Carlo).
             \end{itemize}
         \end{column}
-        \begin{column}{0.42\textwidth}
-            \begin{exampleblock}{Proprietà Strutturali}
+        \begin{column}{0.46\textwidth}
+            \begin{block}{Partizione dello Spazio $E$}
                 \begin{itemize}
-                    \item Lo spazio $E$ è \textbf{finito}.
-                    \item È equivalente allo stato bidimensionale $(S_t, I_t)$ poiché $R_t = N - S_t - I_t$.
-                    \item $|E| = 5151$ genera una matrice $P$ da $\sim 26.5$ milioni di celle.
+                    \item \textbf{Stati Assorbenti $\mathcal{A}$} ($I=0$):
+                    \[ \mathcal{A} = \{(s, 0, r) \in E\}, \quad |\mathcal{A}| = N+1 \]
+                    \item \textbf{Stati Transitori $\mathcal{T}$} ($I>0$):
+                    \[ \mathcal{T} = \{(s, i, r) \in E : i>0\}, \quad |\mathcal{T}| = \frac{N(N+1)}{2} \]
                 \end{itemize}
-            \end{exampleblock}
+            \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        Lo spazio degli stati è l'insieme di tutte le terne di interi non negativi a somma N.
-        La cardinalità corrisponde alle combinazioni con ripetizione: (N+1)(N+2)/2.
-        Per N=3 abbiamo 10 stati, ideale per derivazioni esplicite.
-        Per N=100 abbiamo 5151 stati: la teoria delle catene a stati finiti si applica perfettamente,
-        ma per il calcolo quantitativo utilizzeremo simulazioni Monte Carlo.
+        Lo spazio degli stati è l'insieme delle terne di interi non negativi a somma N.
+        La formula combinatoria dà (N+1)(N+2)/2 stati.
+        Lo spazio si divide esattamente in N+1 stati assorbenti (quelli con I=0) e N(N+1)/2 stati transitori (con I>0).
     }
 \end{frame}
 
-% SLIDE 7 — Probabilità di transizione
+% SLIDE 8 — Probabilità di transizione
 \begin{frame}{Probabilità di Transizione ed Equazioni di Aggiornamento}
-    Ad ogni passo temporale $t \to t+1$, operano due meccanismi stocastici \textbf{indipendenti}:
+    Ad ogni passo temporale $t \to t+1$, operano due variabili binomiali \textbf{indipendenti}:
 
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
-            \begin{block}{1. Contagio ($S \to I$)}
-                Ogni suscettibile incontra la malattia con probabilità $p_{\mathrm{SI}} = \beta \frac{I_t}{N}$.
-                \[ C_t \mid (S_t, I_t) \sim \text{Bin}\left(S_t,\, \beta \frac{I_t}{N}\right) \]
+            \begin{block}{1. Nuovi Contagi ($S \to I$)}
+                Probabilità di contagio per suscettibile: $p_{\mathrm{SI}} = \beta \frac{I_t}{N}$.
+                \[ C_t \sim \text{Bin}\left(S_t,\, \beta \frac{I_t}{N}\right) \]
             \end{block}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \begin{block}{2. Guarigione ($I \to R$)}
-                Ogni infetto guarisce con probabilità $\gamma \in [0,1]$:
-                \[ G_t \mid I_t \sim \text{Bin}(I_t,\, \gamma) \]
+            \begin{block}{2. Nuove Guarigioni ($I \to R$)}
+                Probabilità di guarigione per infetto: $\gamma \in [0,1]$.
+                \[ G_t \sim \text{Bin}(I_t,\, \gamma) \]
             \end{block}
         \end{column}
     \end{columns}
@@ -327,18 +328,16 @@
         R_{t+1} &= R_t + G_t
     \end{align*}
     
-    Poiché $(C_t, G_t)$ dipendono solo da $(S_t, I_t)$, il processo $\{X_t\}_{t \ge 0}$ è una \textbf{catena di Markov omogenea}.
+    Poiché $(C_t, G_t)$ dipendono solo dallo stato $(S_t, I_t)$, il processo $\{X_t\}_{t \ge 0}$ è una \textbf{catena di Markov omogenea}.
 
     \note{
-        Le transizioni da uno stato all'altro avvengono attraverso due variabili aleatorie Binomiali indipendenti.
-        Il numero di nuovi contagi C_t dipende da S_t e dalla densità di infetti I_t/N moltiplicata per beta.
-        Il numero di guarigioni G_t dipende da I_t e gamma.
+        Le transizioni sono descritte da due estrazioni binomiali indipendenti:
+        il numero di contagi C_t e il numero di guarigioni G_t.
         L'aggiornamento è lineare e preserva la somma N.
-        La dipendenza esclusiva da S_t e I_t dimostra la proprietà di Markov.
     }
 \end{frame}
 
-% SLIDE 8 — Esempio N=3
+% SLIDE 9 — Esempio N=3
 \begin{frame}{Esempio Analitico: $N=3$, $\beta=0.5$, $\gamma=0.3$}
     Consideriamo lo stato di partenza \textbf{$(2, 1, 0)$} ($S=2, I=1, R=0$):
     \begin{itemize}
@@ -365,52 +364,48 @@
     \textbf{Verifica di stocasticità}: $\sum P((2,1,0), \cdot) = 0.4861 + 0.2083 + 0.1944 + 0.0833 + 0.0194 + 0.0083 = \mathbf{1.0000}$ \checkmark
 
     \note{
-        Facciamo un esempio concreto con N=3. Partendo dallo stato (2,1,0),
-        abbiamo 2 suscettibili e 1 infetto.
-        I contagi C possono essere 0, 1 o 2; le guarigioni G possono essere 0 o 1.
-        Ci sono 6 possibili transizioni.
-        Calcolando le probabilità binomiali congiunte, otteniamo esattamente una riga stocastica che somma a 1.
-        Notate che lo stato (2,0,1) ha I=0 ed è uno stato assorbente!
+        Questo esempio pratico per N=3 mostra il calcolo riga per riga:
+        partendo da (2,1,0), ci sono 6 possibili stati di arrivo.
+        La somma delle probabilità è esattamente 1.
+        Notiamo che lo stato (2,0,1) è assorbente poiché ha I=0.
     }
 \end{frame}
 
-% SLIDE 9 — Matrice di transizione P
-\begin{frame}{Matrice di Transizione $P$}
-    \textbf{Elemento generico della matrice $P$}:
+% SLIDE 10 — Matrice di transizione P
+\begin{frame}{Matrice di Transizione $P$ e Forma Canonica}
+    \textbf{Formula di Transizione per Elemento}:
     \[ P\bigl((s,i,r),\, (s',i',r')\bigr) = \sum_{c=0}^s \sum_{g=0}^i \text{Bin}\left(s, c, \frac{\beta i}{N}\right) \cdot \text{Bin}(i, g, \gamma) \cdot \mathbf{1}_{\{s'=s-c,\, i'=i+c-g,\, r'=r+g\}} \]
 
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
             \begin{block}{Proprietà della Matrice $P$}
                 \begin{itemize}
-                    \item $P$ è \textbf{stocastica}: $\sum_{y \in E} P(x,y) = 1 \quad \forall x \in E$.
-                    \item $P$ è \textbf{triangolare a blocchi} per via della monotonicità di $R_t$.
-                    \item Gli stati con $i=0$ hanno $P(x,x)=1$ (riga diagonale identità).
+                    \item $P$ è \textbf{stocastica per righe}: $\sum_y P(x,y) = 1$.
+                    \item \textbf{Triangolare a blocchi} per via della monotonicità non-decrescente di $R_t$.
+                    \item Gli stati con $i=0$ sono assorbenti ($P_{ii}=1$).
                 \end{itemize}
             \end{block}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \begin{block}{Rappresentazione Canonica}
+            \begin{block}{Forma Canonica Assorbente}
                 Ordinando prima i transitori $\mathcal{T}$ e poi gli assorbenti $\mathcal{A}$:
                 \[ P = \begin{pmatrix} Q & R \\ 0 & I \end{pmatrix} \]
                 \begin{itemize}
-                    \item $Q$: transizioni $\mathcal{T} \to \mathcal{T}$ (raggio spettrale $<1$).
-                    \item $R$: transizioni $\mathcal{T} \to \mathcal{A}$.
-                    \item $I$: matrice identità sugli assorbenti.
+                    \item $Q$: transizioni interne tra stati con virus attivo ($\mathcal{T} \to \mathcal{T}$).
+                    \item $R$: transizioni verso l'estinzione ($\mathcal{T} \to \mathcal{A}$).
+                    \item $I$: stati assorbenti con virus estinto.
                 \end{itemize}
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        La matrice P ha una struttura canonica per catene assorbenti.
-        Riorganizzando gli indici, la matrice si suddivide nel blocco Q degli stati transitori,
-        nel blocco R di assorbimento e nella matrice identità I per gli stati assorbenti.
-        Questa struttura permette di calcolare teoricamente la matrice fondamentale (I-Q)^{-1}.
+        La matrice P può essere ordinata nella forma canonica standard per catene assorbenti:
+        il blocco Q gestisce le transizioni tra stati transitori, R le probabilità di assorbimento e I la permanenza negli stati estinti.
     }
 \end{frame}
 
-% SLIDE 10 — Heatmap Matrice P (N=3)
+% SLIDE 11 — Heatmap Matrice P (N=3)
 \begin{frame}{Struttura della Matrice $P$ ($N=3$, 10 Stati)}
     \begin{columns}[c]
         \begin{column}{0.52\textwidth}
@@ -419,63 +414,55 @@
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Stati Assorbenti Diagonali ($P_{ii}=1$)}
-                \footnotesize I 4 punti a valore massimo $1.0$ corrispondono a $(3,0,0), (2,0,1), (1,0,2), (0,0,3)$ con $I=0$: una volta estinto il virus, la probabilità di permanenza è del $100\%$.
+            \begin{block}{\footnotesize Stati Assorbenti ($P_{ii}=1$)}
+                \footnotesize I 4 stati con $I=0$ (in blu scuro con valore $1.00^*$) hanno probabilità di permanenza $1.0$ (diagonale identità).
             \end{block}
-            \begin{block}{\footnotesize Monotonicità e Struttura a Blocchi}
-                \footnotesize L'ampia regione a probabilità nulla (nera) riflette la monotonicità di $R_t$: il numero di rimossi non può mai diminuire, rendendo la catena aciclica.
+            \begin{block}{\footnotesize Struttura a Blocchi e Aciclicità}
+                \footnotesize L'ampia area bianca a probabilità nulla riflette il fatto che i rimossi $R_t$ non possono diminuire: la catena non ammette cicli.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        I punti sulla diagonale evidenziano gli stati assorbenti con $I=0$, in cui la probabilità di permanenza è 1.
-        La struttura triangolare a blocchi dimostra l'aciclicità della catena dovuta alla crescita monotona dei rimossi.
+        La mappa di calore visiva per N=3 mostra chiaramente i 4 stati assorbenti sulla diagonale e la struttura triangolare a blocchi.
     }
 \end{frame}
 
-% SLIDE 11 — Classificazione degli Stati
+% SLIDE 12 — Classificazione degli Stati
 \begin{frame}{Classificazione degli Stati e Teorema di Assorbimento}
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
-            \begin{block}{Stati Assorbenti $\mathcal{A}$}
-                \[ \mathcal{A} = \{(s, i, r) \in E : i = 0\} \]
-                \begin{itemize}
-                    \item Se $i=0$, $C_t = 0$ e $G_t = 0$ quasi certamente.
-                    \item $P((s,0,r), (s,0,r)) = 1$.
-                    \item Esistono $N+1$ stati assorbenti distinti.
-                \end{itemize}
-            \end{block}
-            \begin{block}{Stati Transitori $\mathcal{T}$}
-                \[ \mathcal{T} = \{(s, i, r) \in E : i > 0\} \]
-                \begin{itemize}
-                    \item Da ogni stato in $\mathcal{T}$ si raggiunge $\mathcal{A}$ in $\le N$ passi.
-                \end{itemize}
+            \begin{alertblock}{Teorema (Assorbimento Quasi Certo)}
+                Partendo da qualsiasi stato iniziale con infetti $I_0 > 0$, l'estinzione avviene in tempo finito con probabilità 1:
+                \[ \mathbb{P}(\tau < \infty) = 1, \quad \text{dove } \tau = \inf\{t \ge 0 : I_t = 0\} \]
+            \end{alertblock}
+            \vspace{0.1cm}
+            \begin{block}{\footnotesize Matrice Fondamentale}
+                \[ N_{\text{fund}} = (I - Q)^{-1} = \sum_{k=0}^\infty Q^k \]
+                Fornisce il numero medio di visite in ogni stato transitorio prima dell'estinzione.
             \end{block}
         \end{column}
         \begin{column}{0.48\textwidth}
-            \begin{alertblock}{Teorema (Assorbimento Quasi Certo)}
-                Per qualsiasi stato iniziale $X_0 \in \mathcal{T}$, l'estinzione avviene in tempo finito con probabilità 1:
-                \[ \mathbb{P}(\tau < \infty) = 1, \quad \text{dove } \tau = \inf\{t \ge 0 : I_t = 0\} \]
-            \end{alertblock}
-
             \begin{block}{Tempo Medio di Assorbimento}
-                Il vettore $\mathbf{t} = (\mathbb{E}_i[\tau])_{i \in \mathcal{T}}$ soddisfa:
-                \[ (I - Q)\mathbf{t} = \mathbf{1} \implies \mathbf{t} = (I-Q)^{-1}\mathbf{1} \]
-                \textit{Matrice fondamentale di assorbimento.}
+                Per First-Step Analysis, il vettore dei tempi medi $\mathbf{t} = (\mathbb{E}_i[\tau])_{i \in \mathcal{T}}$ soddisfa:
+                \[ \mathbf{t} = \mathbf{1} + Q \mathbf{t} \implies (I - Q)\mathbf{t} = \mathbf{1} \]
+                da cui:
+                \[ \mathbf{t} = (I - Q)^{-1}\mathbf{1} \]
+            \end{block}
+            \begin{block}{\footnotesize Probabilità di Assorbimento Finale}
+                La matrice $B = (I - Q)^{-1} R$ assegna la probabilità di assorbimento in ciascuno stato $(N-r, 0, r)$.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        La classificazione divide lo spazio E in due sottoinsiemi disgiunti:
-        gli stati assorbenti A (con I=0) e gli stati transitori T (con I>0).
-        Il Teorema di assorbimento garantisce che l'epidemia si estingue quasi certamente in tempo finito.
-        Inoltre, la teoria ci fornisce la formula del tempo medio di assorbimento risolvendo il sistema lineare (I-Q)t = 1.
+        La teoria ci dà due risultati chiave:
+        1) L'epidemia si estingue certamente in tempo finito (probabilità 1).
+        2) Il tempo medio di estinzione si calcola risolvendo il sistema lineare (I-Q)t = 1.
     }
 \end{frame}
 
-% SLIDE 12 — Algoritmo di simulazione
+% SLIDE 13 — Algoritmo di simulazione
 \begin{frame}{Algoritmo di Simulazione Monte Carlo}
     \begin{columns}[T]
         \begin{column}{0.52\textwidth}
@@ -518,7 +505,7 @@
     }
 \end{frame}
 
-% SLIDE 13 — Codice Python
+% SLIDE 14 — Codice Python
 \begin{frame}[fragile]{Implementazione Python (\texttt{src/model.py})}
 \begin{lstlisting}[language=Python]
 import numpy as np
@@ -547,7 +534,7 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     }
 \end{frame}
 
-% SLIDE 14 — Risultati Numerici Ufficiali
+% SLIDE 15 — Risultati Numerici Ufficiali
 \begin{frame}{Risultati Numerici della Simulazione ($M=1000$, Seed 42)}
     \begin{center}
     \begin{tabular}{lcccc}
@@ -590,7 +577,7 @@ def next_state(s: int, i: int, r: int, n: int = 100,
     }
 \end{frame}
 
-% SLIDE 15 — Singola Traiettoria
+% SLIDE 16 — Singola Traiettoria
 \begin{frame}{Singola Traiettoria Stocastica}
     \begin{columns}[c]
         \begin{column}{0.52\textwidth}
@@ -599,25 +586,27 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Dinamica Discreta di $S_t$}
-                \footnotesize La curva blu decresce a gradini discreti da $S_0=95$ fino a $S_\infty = 17$ per effetto dei contagi binomiali casuali.
+            \begin{block}{\footnotesize Traiettoria Campionaria (Seed 42)}
+                \footnotesize \begin{itemize}
+                    \item \textbf{Evoluzione a gradini}: salti discreti dovuti a contagi e guarigioni binomiali.
+                    \item \textbf{Picco}: $I_{\max} = 18$ infetti raggiunto a $t \approx 78$.
+                    \item \textbf{Tempo di estinzione}: $\tau = 124$ passi temporali.
+                    \item \textbf{Stato finale}: arresto nello stato assorbente $(17, 0, 83) \in \mathcal{A}$.
+                \end{itemize}
             \end{block}
-            \begin{block}{\footnotesize Latenza Stocastica e Picco $I_t$}
-                \footnotesize Dopo una fase iniziale di persistenza stocastica ($t < 50$), l'infezione accelera toccando il picco $I_{\max}=18$ a $t \approx 78$ ed estinguendosi a $\tau=124$.
-            \end{block}
-            \begin{block}{\footnotesize Attacco Finale e Assorbimento $R_t$}
-                \footnotesize La curva verde cresce monotonicamente fino al plateau finale $R_\infty = 83$ individui, raggiungendo lo stato assorbente $(17, 0, 83) \in \mathcal{A}$.
+            \begin{block}{\footnotesize Latenza Stocastica}
+                \footnotesize Evidenzia come a inizio epidemia il numero di infetti possa oscillare a lungo prima di espandersi o estinguersi.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        La traiettoria stocastica individuale evidenzia la natura discreta dei contagi e delle guarigioni.
-        Al raggiungimento di $I=0$, il processo si arresta definitivamente nello stato assorbente.
+        La singola traiettoria mostra l'andamento discreto tipico di una simulazione reale.
+        Si nota la fase di latenza iniziale, la crescita verso il picco e l'arresto definitivo a t=124 nello stato assorbente con 83 rimossi e 17 mai contagiati.
     }
 \end{frame}
 
-% SLIDE 16 — Traiettoria Media e Bande di Confidenza
+% SLIDE 17 — Traiettoria Media e Bande di Confidenza
 \begin{frame}{Traiettoria Media $\pm 1$ Deviazione Standard ($M=1000$)}
     \begin{columns}[c]
         \begin{column}{0.52\textwidth}
@@ -626,25 +615,25 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Incertezza e Dispersione $\pm 1\sigma$}
-                \footnotesize La fascia ombreggiata rossa evidenzia che la deviazione standard $\sigma$ è massima in corrispondenza del picco epidemico ($t \in [15, 35]$).
+            \begin{block}{\footnotesize Media Monte Carlo e Dispersione}
+                \footnotesize \begin{itemize}
+                    \item Media campionaria $\bar{I}_t = \frac{1}{M}\sum_{m=1}^M I_t^{(m)}$: stima il valore atteso $\mathbb{E}[I_t]$.
+                    \item Fascia ombreggiata: intervallo $\pm 1\sigma$ di dispersione tra traiettorie.
+                \end{itemize}
             \end{block}
-            \begin{block}{\footnotesize Regolarizzazione per Grandi Numeri}
-                \footnotesize Su $M=1000$ replicazioni le fluttuazioni casuali si compensano, delineando il valore atteso teorico $\mathbb{E}[X_t]$.
-            \end{block}
-            \begin{block}{\footnotesize Asintoto Finale $\bar{R}_\infty$}
-                \footnotesize L'attacco finale medio si stabilizza a $\bar{R}_\infty \approx 76.6 \pm 8.4$ individui immunizzati.
+            \begin{block}{\footnotesize Massima Incertezza al Picco}
+                \footnotesize La variabilità tra le diverse simulazioni è massima attorno alla fase di picco ($t \in [20, 35]$), per poi ridursi verso l'asintoto finale $\bar{R}_\infty \approx 76.6$.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        L'area ombreggiata quantifica l'incertezza campionaria, massima nella fase di picco.
-        La media Monte Carlo regolarizza le fluttuazioni, rivelando il valore atteso della dinamica.
+        Mediando su 1000 simulazioni, la curva media approssima il valore atteso teorico.
+        La fascia colorata quantifica la naturale variabilità tra epidemie diverse con gli stessi parametri di partenza.
     }
 \end{frame}
 
-% SLIDE 17 — Ritratto di Fase (S, I) nello Spazio degli Stati
+% SLIDE 18 — Ritratto di Fase (S, I) nello Spazio degli Stati
 \begin{frame}{Ritratto di Fase $(S, I)$ — Dinamica nello Spazio di Stato}
     \begin{columns}[c]
         \begin{column}{0.52\textwidth}
@@ -653,25 +642,28 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Simplesso Ammissibile 2D}
-                \footnotesize La regione triangolare azzurra rappresenta lo spazio di stato $S+I \le N$, con $R = N - S - I \ge 0$.
+            \begin{block}{\footnotesize Traiettoria nel Piano $(S, I)$}
+                \footnotesize Equazione analitica dell'orbita:
+                \[ I(S) = I_0 + (S_0 - S) + \frac{N}{R_0} \ln\left(\frac{S}{S_0}\right) \]
             \end{block}
-            \begin{block}{\footnotesize Bordo Assorbente $\mathcal{A}$ ($I=0$)}
-                \footnotesize L'asse orizzontale in basso ($I=0$) raccoglie tutti i punti di arresto su cui le traiettorie stocastiche (rosse) collassano definitivamente.
+            \begin{block}{\footnotesize Soglia Critica di Picco}
+                \footnotesize Il picco si verifica quando i suscettibili scendono al livello critico:
+                \[ S^* = \frac{N}{R_0} = \frac{100}{2} = 50 \text{ suscettibili} \]
             \end{block}
-            \begin{block}{\footnotesize Orbita Deterministica ODE}
-                \footnotesize La curva nera continua funge da traiettoria guida media attorno a cui oscillano le fluttuazioni campionarie.
+            \begin{block}{\footnotesize Bordo Assorbente}
+                \footnotesize Tutte le traiettorie stocastiche collassano sull'asse orizzontale $I=0$.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        Il ritratto di fase illustra la convergenza delle traiettorie stocastiche verso il bordo assorbente $I=0$ all'interno del simplesso triangolare.
-        L'orbita deterministica funge da attrattore medio del sistema.
+        Il ritratto di fase mostra l'evoluzione congiunta di suscettibili e infetti.
+        La teoria ci dice che il picco avviene esattamente quando S scende alla soglia critica N/R_0 = 50.
+        Dopodiché, la curva scende fino a intersecare l'asse I=0.
     }
 \end{frame}
 
-% SLIDE 18 — Istogramma del Tempo di Estinzione
+% SLIDE 19 — Istogramma del Tempo di Estinzione
 \begin{frame}{Distribuzione del Tempo di Estinzione $\tau$}
     \begin{columns}[c]
         \begin{column}{0.52\textwidth}
@@ -680,18 +672,24 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Tempo Medio di Assorbimento $\bar{\tau}$}
-                \footnotesize La linea tratteggiata rossa individua la media Monte Carlo $\bar{\tau} = 86.66$, stima numerica della soluzione teorica $(I-Q)\mathbf{t}=\mathbf{1}$.
+            \begin{block}{\footnotesize Tempo di Estinzione $\tau$}
+                \footnotesize Definito come il tempo di primo ingresso in $\mathcal{A}$:
+                \[ \tau = \inf\{t \ge 0 : I_t = 0\} \]
             \end{block}
-            \begin{block}{\footnotesize Asimmetria Positiva (Coda Destra)}
-                \footnotesize La distribuzione presenta una coda allungata ($\tau > 120$) generata da traiettorie stocastiche a persistenza prolungata con pochi infetti.
+            \begin{block}{\footnotesize Stime Monte Carlo ($M=1000$)}
+                \footnotesize \begin{itemize}
+                    \item Media campionaria: $\bar{\tau} = \mathbf{86.66}$ passi (stima di $\mathbb{E}[\tau] = (I-Q)^{-1}\mathbf{1}$).
+                    \item Deviazione standard: $\sigma_\tau = \mathbf{22.81}$ passi.
+                \end{itemize}
+            \end{block}
+            \begin{block}{\footnotesize Asimmetria a Destra}
+                \footnotesize Coda allungata dovuta a scenari in cui l'infezione persiste a lungo con pochissimi infetti prima di spegnersi.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        La distribuzione dei tempi di estinzione presenta asimmetria positiva con coda allungata a destra.
-        La media empirica approssima il valore atteso teorico derivato dalla First-Step Analysis.
+        L'istogramma del tempo di estinzione mostra una media di circa 87 passi, con una tipica asimmetria positiva a destra causata da traiettorie a lunga persistenza.
     }
 \end{frame}
 
@@ -704,18 +702,24 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Concentrazione di Massa ($\bar{R}_\infty = 76.59$)}
-                \footnotesize In regime sovracritico ($R_0=2.0$), circa il $77\%$ della popolazione contrae l'infezione prima dell'arresto per immunità di gregge.
+            \begin{block}{\footnotesize Attacco Finale $R_\infty$}
+                \footnotesize Rappresenta il totale degli individui colpiti dal virus al momento dell'estinzione ($R_\tau$).
+            \end{block}
+            \begin{block}{\footnotesize Confronto con la Previsione Asintotica}
+                \footnotesize \begin{itemize}
+                    \item \textbf{Media Monte Carlo}: $\bar{R}_\infty = \mathbf{76.59} \pm 8.41$ individui ($76.6\%$).
+                    \item \textbf{Limite Teorico Deterministico}: $r_\infty = 1 - s_0 e^{-R_0 r_\infty} \implies \approx 79.7\%$.
+                \end{itemize}
             \end{block}
             \begin{block}{\footnotesize Stati Terminali Assorbenti}
-                \footnotesize Ciascuna barra dell'istogramma stima la probabilità di assorbimento in uno specifico stato $(N-R_\infty, 0, R_\infty) \in \mathcal{A}$.
+                \footnotesize Le barre stimano la probabilità di assorbimento in ciascuno stato $(N-R_\infty, 0, R_\infty) \in \mathcal{A}$.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        L'istogramma descrive la distribuzione di probabilità dell'attacco finale sugli stati assorbenti distinti $(N-r, 0, r)$.
-        In regime sovracritico la massa si concentra attorno al 76-77% della popolazione.
+        L'attacco finale misura quante persone si sono infettate prima che il virus scomparisse.
+        La media simulata del 76.6% è in ottimo accordo con il valore asintotico deterministico di circa l'80%.
     }
 \end{frame}
 
@@ -729,17 +733,20 @@ def next_state(s: int, i: int, r: int, n: int = 100,
         \end{column}
         \begin{column}{0.46\textwidth}
             \begin{block}{\footnotesize Effetto di Taglia Finita ($N=100$)}
-                \footnotesize Il picco deterministico ODE ($\sim 30\%$) sovrastima la media stocastica ($\sim 22\%$): la varianza e le estinzioni parziali attenuano il picco reale.
+                \footnotesize \begin{itemize}
+                    \item \textbf{Curva ODE (tratteggiata)}: picco analitico continuo a $\approx 18.3\%$ ($t \approx 26$).
+                    \item \textbf{Media MC (rossa $\pm 1\sigma$)}: picco medio a $\approx 16.4\%$ con variabilità attorno al massimo.
+                    \item \textbf{Perché la differenza?} Lo sfasamento temporale tra singole traiettorie attenua il picco della media campionaria.
+                \end{itemize}
             \end{block}
-            \begin{block}{\footnotesize Convergenza di Fase Asintotica}
-                \footnotesize Nelle fasi iniziale ($t < 10$) e finale ($t > 80$) la media stocastica segue fedelmente il comportamento asintotico delle ODE.
+            \begin{block}{\footnotesize Accordo Asintotico}
+                \footnotesize All'inizio ($t<10$) e in coda ($t>80$), la traiettoria media stocastica ricalca perfettamente la soluzione differenziale.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        Il confronto con l'equazione differenziale evidenzia l'effetto di taglia finita:
-        la variabilità stocastica a $N=100$ riduce l'ampiezza del picco medio rispetto all'asintotica continua.
+        Confrontando la simulazione stocastica con l'equazione differenziale, notiamo che la curva deterministica nera tratteggiata sovrastima leggermente il picco medio rispetto alla media stocastica rossa a causa dello sfasamento temporale tra le singole epidemie.
     }
 \end{frame}
 
@@ -752,20 +759,26 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Regime Subcritico ($R_0 = 0.8 \le 1$)}
-                \footnotesize La curva blu in basso mostra l'assenza di onda epidemica: l'infezione decresce subito e si estingue in media in $\tau \approx 18$ passi.
+            \begin{block}{\footnotesize Impatto di $\beta$ e $\gamma$ sulla Curva}
+                \footnotesize \begin{itemize}
+                    \item \textbf{Arancione ($R_0 = 4.0$)}: $\beta=0.20, \gamma=0.05 \implies$ ondata violenta con picco a $\approx 39\%$ ($t \approx 25$).
+                    \item \textbf{Verde ($R_0 = 2.5$)}: $\beta=0.25, \gamma=0.10 \implies$ picco a $\approx 24\%$.
+                    \item \textbf{Rosso ($R_0 = 2.0$)}: benchmark con picco a $\approx 18\%$.
+                    \item \textbf{Azzurro / Viola ($R_0 \approx 1.3-1.5$)}: curve fortemente appiattite con picchi $< 9\%$.
+                \end{itemize}
             \end{block}
-            \begin{block}{\footnotesize Dinamica Sovracritica ($R_0 > 1$)}
-                \footnotesize All'aumentare di $R_0$ i picchi si innalzano e si anticipano nel tempo: per $R_0=5$ il picco tocca il $57\%$ in soli $9.8$ passi.
+            \begin{block}{\footnotesize Regola di Crescita Iniziale}
+                \footnotesize $\mathbb{E}[\Delta I_0] = \gamma I_0 \left( R_0 \frac{S_0}{N} - 1 \right)$: all'aumentare di $R_0$, il picco cresce e la curva si stringe.
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        L'analisi di sensibilità conferma la presenza della soglia critica $R_0=1$:
-        in regime subcritico il processo si estingue rapidamente senza ondata epidemica.
+        L'analisi di sensibilità mostra l'effetto dei parametri beta e gamma sulle 5 curve colorate:
+        la curva arancione con R0=4.0 raggiunge il picco massimo di circa 39 infetti, mentre riducendo R0 le curve si appiattiscono progressivamente fino a toccare valori minimi sotto il 9%.
     }
 \end{frame}
+
 
 % SLIDE 23 — Interpretazione dei Risultati
 \begin{frame}{Sintesi delle Evidenze Probabilistiche}

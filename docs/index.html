@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIR Markov Chain | Esame Modelli Probabilistici</title>
+    <title>SIR Markov Chain | Modelli Probabilistici</title>
     <link rel="stylesheet" href="./style.css">
     <!-- MathJax per renderizzare le formule LaTeX nativamente -->
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -13,244 +13,364 @@
 </head>
 <body>
 
-    <!-- Sidebar Navigation -->
-    <nav class="side-nav">
-        <ul>
-            <li><a href="#hero" title="Intro" aria-label="Intro"></a></li>
-            <li><a href="#model" title="Il Modello" aria-label="Il Modello"></a></li>
-            <li><a href="#dynamics" title="Dinamica" aria-label="Dinamica"></a></li>
-            <li><a href="#fluid" title="Limite Fluido" aria-label="Limite Fluido"></a></li>
-            <li><a href="#analysis" title="Analisi Finale" aria-label="Analisi Finale"></a></li>
-            <li><a href="#playground" title="Interactive Playground" aria-label="Playground"></a></li>
-        </ul>
-    </nav>
+    <div class="app-container">
 
-    <div class="presentation-container" id="presentation">
-
-        <!-- SLIDE 1: HERO (Copertina) -->
-        <section id="hero" class="slide hero-slide">
-            <div class="slide-content">
-                <div class="badge animate-on-scroll">Progetto Accademico — A.A. 2025/2026</div>
-                <h1 class="slide-title animate-on-scroll delay-1">Simulazione SIR come<br>Catena di Markov Discreta</h1>
-                <p class="slide-subtitle animate-on-scroll delay-2">Un approccio stocastico rigoroso alla modellizzazione epidemiologica compartimentale.</p>
-                
-                <div class="meta-info animate-on-scroll delay-3">
-                    <div class="meta-item">
-                        <span>Corso</span>
-                        <strong>Modelli Probabilistici</strong>
-                    </div>
-
-                    <div class="meta-item">
-                        <span>Candidato</span>
-                        <strong>Francesco Castaldi</strong>
-                    </div>
-                </div>
-
-                <div class="cta-container animate-on-scroll delay-3" style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap;">
-                    <a href="presentazione.pdf" target="_blank" class="btn-primary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #2563eb; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);">
-                        📽️ Slide Beamer (27 Slide PDF)
-                    </a>
-                    <a href="relazione.pdf" target="_blank" class="btn-primary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #475569; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(71, 85, 105, 0.4);">
-                        📑 Relazione PDF (14 pag.)
-                    </a>
-                    <a href="relazione.html" class="btn-secondary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #d97706; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4);">
-                        📜 Relazione Web & Teoremi
-                    </a>
-                    <a href="guida_orale.html" class="btn-secondary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #10b981; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);">
-                        🎯 Guida Orale & Tooltip
-                    </a>
-                    <a href="dispense.html" class="btn-secondary" style="display: inline-block; padding: 0.75rem 1.4rem; background: #8b5cf6; color: white; border-radius: 2rem; text-decoration: none; font-weight: 600; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
-                        📖 Dispense Complete
-                    </a>
-                </div>
-
-                <div class="scroll-hint animate-on-scroll delay-3">
-                    <span style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px;">Scorri per esplorare</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
+        <!-- Top Header & Breadcrumbs Nav Bar -->
+        <header class="top-navbar">
+            <div class="brand-section">
+                <span class="brand-badge">DTMC SIR</span>
+                <span class="brand-title">Modelli Probabilistici</span>
             </div>
-        </section>
 
-        <!-- SLIDE 2: IL MODELLO MATEMATICO -->
-        <section id="model" class="slide">
-            <div class="slide-header">
-                <h2>Il Modello Stocastico</h2>
+            <!-- Breadcrumbs / Page Tabs -->
+            <nav class="breadcrumbs-nav" aria-label="Breadcrumbs">
+                <button class="crumb-btn active" data-page="0">
+                    <span class="crumb-num">01</span> Intro
+                </button>
+                <button class="crumb-btn" data-page="1">
+                    <span class="crumb-num">02</span> Modello & Matrice P
+                </button>
+                <button class="crumb-btn" data-page="2">
+                    <span class="crumb-num">03</span> Dinamica MC
+                </button>
+                <button class="crumb-btn" data-page="3">
+                    <span class="crumb-num">04</span> Limite Fluido ODE
+                </button>
+                <button class="crumb-btn" data-page="4">
+                    <span class="crumb-num">05</span> Analisi Statistica
+                </button>
+                <button class="crumb-btn" data-page="5">
+                    <span class="crumb-num">06</span> Playground
+                </button>
+            </nav>
+
+            <!-- Action Buttons: GitHub Repo + Presentazione PDF -->
+            <div class="header-actions">
+                <a href="https://github.com/FrancescoCastaldi/sir-markov-chain" target="_blank" class="action-pill" title="Codice Sorgente su GitHub">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -2px; margin-right: 4px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+                <a href="presentazione.pdf" target="_blank" class="action-pill primary" title="Slide Presentazione PDF (27 Slide)">
+                    📽️ Presentazione PDF
+                </a>
             </div>
-            <div class="slide-content">
-                <div class="two-col">
-                    <div class="animate-on-scroll delay-1">
-                        <p class="text-large" style="margin-bottom: 1.5rem;">
-                            A differenza delle approssimazioni fluide basate su ODE, in questa simulazione trattiamo l'epidemia come un <strong>Processo Stocastico Discreto</strong> su un numero finito di individui \(N\).
-                        </p>
-                        <p class="text-large">
-                            La transizione di stato tra i compartimenti Suscettibili (S), Infetti (I) e Rimossi (R) è governata da estrazioni casuali basate su distribuzioni binomiali condizionate allo stato precedente.
-                        </p>
+        </header>
+
+        <!-- Main Viewport (Isolated Pages) -->
+        <main class="page-viewport" id="viewport">
+
+            <!-- PAGE 0: HERO INTRO -->
+            <section class="page-view active" id="view-0" data-index="0">
+                <div class="page-content-wrapper hero-wrapper">
+                    <div class="hero-tag">
+                        <span>🏛️ Università di Bologna &bull; A.A. 2025/2026</span>
                     </div>
-                    <div class="glass-box animate-on-scroll delay-2">
-                        <h3 class="beamer-block-title">Spazio degli Stati Fisici</h3>
-                        <div class="equation">
-                            \[E = \{ (S, I, R) \in \mathbb{N}^3 : S+I+R = N \}\]
+                    <h1 class="hero-title">Simulazione SIR come<br>Catena di Markov Discreta</h1>
+                    <p class="hero-subtitle">
+                        Modellizzazione stocastica compartimentale a tempo discreto (DTMC): dinamiche finite, spazio degli stati invariante, assorbimento quasi certo e convergenza al limite fluido continuo.
+                    </p>
+
+                    <div class="hero-cta-grid">
+                        <a href="presentazione.pdf" target="_blank" class="action-pill primary" style="padding: 0.85rem 2rem; font-size: 1.05rem; border-radius: 12px;">
+                            📽️ Scarica Presentazione PDF (27 Slide)
+                        </a>
+                        <a href="https://github.com/FrancescoCastaldi/sir-markov-chain" target="_blank" class="action-pill" style="padding: 0.85rem 1.8rem; font-size: 1.05rem; border-radius: 12px;">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: -3px; margin-right: 6px;"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                            Repository GitHub
+                        </a>
+                    </div>
+
+                    <div class="hero-meta-row">
+                        <div class="hero-meta-item">
+                            <div class="hero-meta-label">Corso</div>
+                            <div class="hero-meta-val">Modelli Probabilistici (518512)</div>
                         </div>
-                        <p style="text-align: center; color: var(--text-secondary); margin-top: 1rem;">
-                            La conservazione della massa è garantita strutturalmente. Se \(I_t = 0\), il sistema raggiunge lo <strong>Stato Assorbente</strong>.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SLIDE 3: DINAMICA DI BASE -->
-        <section id="dynamics" class="slide">
-            <div class="slide-header">
-                <h2>La Dinamica Epidemica (\(N=100\))</h2>
-            </div>
-            <div class="slide-content">
-                <div class="two-col">
-                    <div class="glass-box animate-on-scroll delay-1">
-                        <div class="badge">Traiettoria Singola</div>
-                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Osserviamo il forte rumore stocastico tipico delle piccole popolazioni. La curva non è liscia ma soggetta alle fluttuazioni dei contagi individuali.</p>
-                        <div class="plot-frame js-modal-trigger" data-img="./img/single_trajectory.png">
-                            <img src="./img/single_trajectory.png" alt="Single Trajectory">
+                        <div class="hero-meta-item">
+                            <div class="hero-meta-label">Docente</div>
+                            <div class="hero-meta-val">Prof. Salvatore Federico</div>
                         </div>
-                    </div>
-                    <div class="glass-box animate-on-scroll delay-2">
-                        <div class="badge">Traiettoria Media (Monte Carlo)</div>
-                        <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">Iterando migliaia di estrazioni indipendenti, la Legge dei Grandi Numeri stabilizza la media verso il comportamento atteso teorico.</p>
-                        <div class="plot-frame js-modal-trigger" data-img="./img/mean_trajectory.png">
-                            <img src="./img/mean_trajectory.png" alt="Mean Trajectory">
+                        <div class="hero-meta-item">
+                            <div class="hero-meta-label">Candidato</div>
+                            <div class="hero-meta-val">Francesco Castaldi</div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- SLIDE 4: FLUID LIMIT E ODE -->
-        <section id="fluid" class="slide">
-            <div class="slide-header">
-                <h2>Limite Fluido: ODE vs Stocastico</h2>
-            </div>
-            <div class="slide-content">
-                <div class="two-col">
-                    <div class="animate-on-scroll delay-1">
-                        <h3 class="serif" style="font-size: 2rem; margin-bottom: 1.5rem;">Validazione del Modello</h3>
-                        <p class="text-large" style="margin-bottom: 1.5rem;">
-                            Confrontando le traiettorie generate stocasticamente con le curve continue risolte tramite integrazione <strong>Runge-Kutta (RK4)</strong> sulle classiche equazioni differenziali ordinarie.
-                        </p>
-                        <ul class="text-large" style="margin-left: 1.5rem; color: var(--text-secondary);">
-                            <li style="margin-bottom: 1rem;">La media stocastica approssima quasi perfettamente il modello ODE.</li>
-                            <li style="margin-bottom: 1rem;">Per popolazioni \(N \to \infty\) la varianza collassa a zero.</li>
-                        </ul>
+            <!-- PAGE 1: IL MODELLO & MATRICE P -->
+            <section class="page-view" id="view-1" data-index="1">
+                <div class="page-content-wrapper">
+                    <div class="view-header">
+                        <span class="view-tag">02. Fondamenti Teorici & Spazio di Probabilità</span>
+                        <h2 class="view-title">Il Modello DTMC & Matrice di Transizione \(P\)</h2>
+                        <p class="view-desc">Formalizzazione su spazio finito \(E\), indipendenza condizionata delle estrazioni binomiali e forma canonica a blocchi.</p>
                     </div>
-                    <div class="plot-frame animate-on-scroll delay-2 js-modal-trigger" data-img="./img/ode_comparison.png">
-                        <img src="./img/ode_comparison.png" alt="ODE Comparison">
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- SLIDE 5: DISTRIBUZIONI FINALI -->
-        <section id="analysis" class="slide">
-            <div class="slide-header">
-                <h2>Analisi Statistica Avanzata & Assorbimento</h2>
-            </div>
-            <div class="slide-content">
-                <div class="two-col" style="margin-bottom: 1.5rem;">
-                    <div class="glass-box animate-on-scroll delay-1">
-                        <div class="badge">Ritratto di Fase (S, I)</div>
-                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Dinamica nel simplesso \(S+I \le N\). Traiettorie stocastiche che impattano sull'asse assorbente \(I=0\).</p>
-                        <div class="plot-frame js-modal-trigger" data-img="./img/phase_portrait.png">
-                            <img src="./img/phase_portrait.png" alt="Phase Portrait (S, I)">
+                    <div class="grid-2col">
+                        <div class="m-card">
+                            <h3 class="card-title">📐 Formalizzazione Matematica & Dinamica Condizionata</h3>
+                            <p class="card-text">
+                                Definito sullo spazio di probabilità \((\Omega, \mathcal{F}, \mathbb{P})\), il processo \(\{X_t\}_{t \in \mathbb{N}_0}\) con \(X_t = (S_t, I_t, R_t)\) evolve sullo spazio degli stati:
+                            </p>
+                            <div class="formula-box">
+                                \[E = \left\{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \right\}, \quad |E| = \frac{(N+1)(N+2)}{2} = \binom{N+2}{2}\]
+                            </div>
+                            <p class="card-text">
+                                Il passo \(X_t \to X_{t+1}\) è generato da due variabili binomiali <strong>condizionatamente indipendenti</strong>:
+                                \[C_t \mid X_t \sim \text{Bin}\left(S_t, \frac{\beta I_t}{N}\right), \quad G_t \mid X_t \sim \text{Bin}(I_t, \gamma)\]
+                                \[S_{t+1} = S_t - C_t, \quad I_{t+1} = I_t + C_t - G_t, \quad R_{t+1} = R_t + G_t\]
+                                La probabilità di transizione congiunta \(P(x, y) = \mathbb{P}(X_{t+1}=y \mid X_t=x)\) per \(y=(s-c, i+c-g, r+g)\) è:
+                                \[P(x, y) = \binom{s}{c}\left(\frac{\beta i}{N}\right)^c \left(1-\frac{\beta i}{N}\right)^{s-c} \cdot \binom{i}{g}\gamma^g (1-\gamma)^{i-g}\]
+                            </p>
                         </div>
-                    </div>
-                    <div class="glass-box animate-on-scroll delay-2">
-                        <div class="badge">Attacco Finale (\(R_\infty\))</div>
-                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Distribuzione empirica della dimensione finale dell'epidemia su \(M=1000\) simulazioni (\(76.59 \pm 8.41\)).</p>
-                        <div class="plot-frame js-modal-trigger" data-img="./img/r_infinity_histogram.png">
-                            <img src="./img/r_infinity_histogram.png" alt="R_infinity Histogram">
+
+                        <div class="m-card">
+                            <h3 class="card-title">🧩 Struttura della Matrice \(P\) (\(N=3\), 10 Stati)</h3>
+                            <p class="card-text">
+                                Partizione in stati transitori \(\mathcal{T} = \{i > 0\}\) (\(d_T = 6\)) e assorbenti \(\mathcal{A} = \{i = 0\}\) (\(d_A = 4\)). La matrice è in <strong>forma canonica</strong>:
+                                \[P = \begin{pmatrix} Q & R \\ 0 & I_{|\mathcal{A}|} \end{pmatrix}\]
+                            </p>
+                            <div class="plot-card js-modal-trigger" data-img="./img/transition_heatmap.png">
+                                <img src="./img/transition_heatmap.png" alt="Transition Heatmap N=3">
+                                <span class="plot-zoom-hint">🔍 Clicca per ingrandire</span>
+                            </div>
+                            <p class="card-text" style="font-size: 0.85rem;">
+                                • <strong>Celle Blu Scuro (\(1.00^*\))</strong>: stati assorbenti con permanenza certa \(P_{ii}=1.0\).<br>
+                                • <strong>Aree Bianche (\(0.00\))</strong>: transizioni impossibili per la monotonicità di \(R_t\) (\(R_{t+1} \ge R_t\)).
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="two-col">
-                    <div class="glass-box animate-on-scroll delay-1">
-                        <div class="badge">Tempo di Assorbimento (\(\tau\))</div>
-                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Distribuzione empirica del tempo necessario affinché \(I = 0\) (\(\bar{\tau} = 86.66\)). Estinzione quasi certa in tempo finito.</p>
-                        <div class="plot-frame js-modal-trigger" data-img="./img/tau_histogram.png">
-                            <img src="./img/tau_histogram.png" alt="Tau Histogram">
+            </section>
+
+            <!-- PAGE 2: DINAMICA MC -->
+            <section class="page-view" id="view-2" data-index="2">
+                <div class="page-content-wrapper">
+                    <div class="view-header">
+                        <span class="view-tag">03. Simulazione Stocastica & Drift Epidemico</span>
+                        <h2 class="view-title">Evoluzione Temporale & Scomposizione Martingala</h2>
+                        <p class="view-desc">Dinamica del drift locale \(\mathbb{E}[\Delta I_t \mid \mathcal{F}_t]\), rumore demografico e convergenza della media campionaria.</p>
+                    </div>
+
+                    <div class="grid-2col">
+                        <div class="m-card">
+                            <h3 class="card-title">📈 Singola Traiettoria (Seed 42) & Rumore Finito</h3>
+                            <p class="card-text">
+                                Il drift locale del compartimento infetti è:
+                                \[\mathbb{E}[\Delta I_t \mid \mathcal{F}_t] = \mathbb{E}[C_t - G_t \mid \mathcal{F}_t] = I_t \left( \beta \frac{S_t}{N} - \gamma \right) = \gamma I_t \left( R_0 \frac{S_t}{N} - 1 \right)\]
+                                Per la <em>scomposizione di Doob</em>, \(I_t = I_0 + M_t + A_t\), dove \(M_t\) è una martingala locale a media nulla e \(A_t\) è il compensatore deterministico prevedibile.
+                            </p>
+                            <div class="plot-card js-modal-trigger" data-img="./img/single_trajectory.png">
+                                <img src="./img/single_trajectory.png" alt="Singola Traiettoria">
+                                <span class="plot-zoom-hint">🔍 Ingrandisci</span>
+                            </div>
+                            <p class="card-text" style="font-size: 0.85rem;">
+                                Traiettoria benchmark: latenza iniziale fino a \(t=50\), picco a \(18\) infetti a \(t=78\), assorbimento a \(\tau=124\) in \((17,0,83)\).
+                            </p>
+                        </div>
+
+                        <div class="m-card">
+                            <h3 class="card-title">📊 Traiettoria Media Monte Carlo (\(M=1000\) run)</h3>
+                            <p class="card-text">
+                                Per la <em>Legge Forte dei Grandi Numeri</em>, lo stimatore Monte Carlo converge puntualmente:
+                                \[\bar{X}_M(t) = \frac{1}{M}\sum_{m=1}^M X_t^{(m)} \xrightarrow[M \to \infty]{\text{q.c.}} \mathbb{E}[X_t]\]
+                            </p>
+                            <div class="plot-card js-modal-trigger" data-img="./img/mean_trajectory.png">
+                                <img src="./img/mean_trajectory.png" alt="Traiettoria Media">
+                                <span class="plot-zoom-hint">🔍 Ingrandisci</span>
+                            </div>
+                            <p class="card-text" style="font-size: 0.85rem;">
+                                Le fasce ombreggiate indicano le bande di dispersione \(\pm 1\sigma(t)\). La varianza è massima nella finestra \(t \in [20, 35]\) per via delle fluttuazioni stocastiche nei tempi di contagio.
+                            </p>
                         </div>
                     </div>
-                    <div class="glass-box animate-on-scroll delay-2">
-                        <div class="badge">Sensibilità a \(R_0\)</div>
-                        <p style="margin-bottom: 0.8rem; color: var(--text-secondary);">Transizione di fase attorno alla soglia critica \(R_0 = 1\). Esplosione dell'attacco finale per \(R_0 > 1\).</p>
-                        <div class="plot-frame js-modal-trigger" data-img="./img/sensitivity_comparison.png">
-                            <img src="./img/sensitivity_comparison.png" alt="Sensitivity Comparison">
+                </div>
+            </section>
+
+            <!-- PAGE 3: LIMITE FLUIDO ODE -->
+            <section class="page-view" id="view-3" data-index="3">
+                <div class="page-content-wrapper">
+                    <div class="view-header">
+                        <span class="view-tag">04. Teorema di Kurtz & Limite Fluido</span>
+                        <h2 class="view-title">Confronto Limite Continuo ODE vs Catena Discreta</h2>
+                        <p class="view-desc">Teorema funzionale di convergenza asintotica per \(N \to \infty\) e desincronizzazione a taglia finita.</p>
+                    </div>
+
+                    <div class="grid-2col">
+                        <div class="m-card">
+                            <h3 class="card-title">🔬 Teorema di Kurtz (1970) & Sistema Differenziale</h3>
+                            <p class="card-text">
+                                Definita la frazione normalizzata \(x^{(N)}(t) = \frac{X_t}{N} = (s(t), i(t), r(t))\), per \(N \to \infty\) si ha:
+                            </p>
+                            <div class="formula-box">
+                                \[\sup_{t \in [0, T]} \left\| x^{(N)}(t) - x(t) \right\| \xrightarrow[N \to \infty]{\text{q.c.}} 0\]
+                            </div>
+                            <p class="card-text">
+                                dove \(x(t)\) è la soluzione unica del sistema di <em>Kermack-McKendrick (1927)</em>:
+                                \[\frac{ds}{dt} = -\beta s i, \quad \frac{di}{dt} = \beta s i - \gamma i, \quad \frac{dr}{dt} = \gamma i\]
+                                • <strong>Picco ODE Deterministico</strong>: picco continuo a \(\approx 18.3\%\) (\(t \approx 26\)).<br>
+                                • <strong>Media Campionaria MC</strong>: picco medio a \(\approx 16.4\%\). La differenza è dovuta alla desincronizzazione temporale tra singole traiettorie (la media di curve sfasate nel tempo risulta più piatta del picco istantaneo medio).
+                            </p>
+                        </div>
+
+                        <div class="m-card">
+                            <h3 class="card-title">📉 Validazione Numerica & Confronto Grafico</h3>
+                            <div class="plot-card js-modal-trigger" data-img="./img/ode_comparison.png">
+                                <img src="./img/ode_comparison.png" alt="Confronto ODE vs MC">
+                                <span class="plot-zoom-hint">🔍 Ingrandisci</span>
+                            </div>
+                            <p class="card-text" style="font-size: 0.85rem;">
+                                Accordo asintotico perfetto in fase iniziale (\(t < 10\)) e in coda (\(t > 80\)). La curva stocastica cattura in modo esatto l'estinzione finita che le ODE non possono descrivere.
+                            </p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- SLIDE 6: INTERACTIVE PLAYGROUND -->
-        <section id="playground" class="slide">
-            <div class="slide-header">
-                <h2>Interactive Playground</h2>
-            </div>
-            <div class="slide-content">
-                <p class="slide-subtitle animate-on-scroll" style="margin-top: 1rem;">Modella l'epidemia in tempo reale manipolando le derivate del Modello ODE (Limite Fluido).</p>
-                
-                <div class="playground-layout animate-on-scroll delay-1">
-                    <!-- Controlli -->
-                    <div class="controls glass-box">
-                        <h3 class="beamer-block-title">Parametri Modello Fluido</h3>
-                        
-                        <div class="control-group">
-                            <label for="sliderBeta">
-                                Tasso di Infezione (\(\beta\))
-                                <span id="valBeta" class="val-badge">0.30</span>
-                            </label>
-                            <input type="range" id="sliderBeta" min="0.05" max="1.0" step="0.01" value="0.30">
-                        </div>
-                        
-                        <div class="control-group">
-                            <label for="sliderGamma">
-                                Tasso di Guarigione (\(\gamma\))
-                                <span id="valGamma" class="val-badge">0.10</span>
-                            </label>
-                            <input type="range" id="sliderGamma" min="0.05" max="0.5" step="0.01" value="0.10">
-                        </div>
-
-                        <div class="control-group">
-                            <label for="sliderN">
-                                Popolazione Totale (\(N\))
-                                <span id="valN" class="val-badge">1000</span>
-                            </label>
-                            <input type="range" id="sliderN" min="100" max="10000" step="100" value="1000">
-                        </div>
-
-                        <div class="control-group">
-                            <label for="sliderI0">
-                                Infetti Iniziali (\(I_0\))
-                                <span id="valI0" class="val-badge">10</span>
-                            </label>
-                            <input type="range" id="sliderI0" min="1" max="100" step="1" value="10">
-                        </div>
-
-                        <div class="r0-indicator">
-                            <span class="r0-label">Riproduzione Base (\(R_0\))</span>
-                            <span id="valR0" class="r0-value">3.00</span>
-                        </div>
+            <!-- PAGE 4: ANALISI STATISTICA & RITRATTO DI FASE -->
+            <section class="page-view" id="view-4" data-index="4">
+                <div class="page-content-wrapper">
+                    <div class="view-header">
+                        <span class="view-tag">05. Teoria dell'Assorbimento & Spazio di Fase</span>
+                        <h2 class="view-title">First-Step Analysis, Tempo di Estinzione \(\tau\) & Attacco Finale</h2>
+                        <p class="view-desc">Risoluzione analitica del sistema lineare \((I-Q)\mathbf{t} = \mathbf{1}\), orbita analitica \(I(S)\) ed equazione trascendente di \(R_\infty\).</p>
                     </div>
 
-                    <!-- Grafico Interattivo -->
-                    <div class="chart-container glass-box">
-                        <canvas id="playgroundChart"></canvas>
+                    <div class="grid-3col">
+                        <div class="m-card">
+                            <h3 class="card-title" style="font-size: 1rem;">🌀 Ritratto di Fase & Orbita \(I(S)\)</h3>
+                            <div class="plot-card js-modal-trigger" data-img="./img/phase_portrait.png">
+                                <img src="./img/phase_portrait.png" alt="Phase Portrait">
+                                <span class="plot-zoom-hint">🔍 Ingrandisci</span>
+                            </div>
+                            <p class="card-text" style="font-size: 0.82rem;">
+                                Eliminando il tempo (\(\frac{di}{ds} = -1 + \frac{1}{R_0 s}\)), l'orbita analitica è:
+                                \[I(S) = I_0 + (S_0 - S) + \frac{N}{R_0}\ln\left(\frac{S}{S_0}\right)\]
+                                Il massimo avviene rigorosamente alla soglia critica:
+                                \[\frac{dI}{dS} = 0 \iff S^* = \frac{N}{R_0} = \frac{100}{2} = 50\]
+                            </p>
+                        </div>
+
+                        <div class="m-card">
+                            <h3 class="card-title" style="font-size: 1rem;">⏱️ Teorema di Assorbimento \(\tau\)</h3>
+                            <div class="plot-card js-modal-trigger" data-img="./img/tau_histogram.png">
+                                <img src="./img/tau_histogram.png" alt="Tau Histogram">
+                                <span class="plot-zoom-hint">🔍 Ingrandisci</span>
+                            </div>
+                            <p class="card-text" style="font-size: 0.82rem;">
+                                Per la <em>First-Step Analysis</em>, il tempo medio \(\mathbf{t} = (\mathbb{E}_i[\tau])_{i \in \mathcal{T}}\) risolve:
+                                \[\mathbf{t} = \mathbf{1} + Q\mathbf{t} \iff (I - Q)\mathbf{t} = \mathbf{1}\]
+                                Media empirica su 1000 run: \(\bar{\tau} = 86.67 \pm 25.83\) passi con distribuzione asimmetrica a destra.
+                            </p>
+                        </div>
+
+                        <div class="m-card">
+                            <h3 class="card-title" style="font-size: 1rem;">🎯 Attacco Finale \(R_\infty\)</h3>
+                            <div class="plot-card js-modal-trigger" data-img="./img/r_infinity_histogram.png">
+                                <img src="./img/r_infinity_histogram.png" alt="R_infinity Histogram">
+                                <span class="plot-zoom-hint">🔍 Ingrandisci</span>
+                            </div>
+                            <p class="card-text" style="font-size: 0.82rem;">
+                                La frazione finale asintotica \(r_\infty = \lim_{t\to\infty} \frac{R_t}{N}\) soddisfa l'equazione trascendente:
+                                \[1 - r_\infty - s_0 e^{-R_0 r_\infty} = 0 \implies r_\infty \approx 79.7\%\]
+                                Media MC: \(\bar{R}_\infty \approx 76.6\%\) (con estinzioni precoci a \(R \le 15\)).
+                            </p>
+                        </div>
                     </div>
                 </div>
+            </section>
+
+            <!-- PAGE 5: PLAYGROUND -->
+            <section class="page-view" id="view-5" data-index="5">
+                <div class="page-content-wrapper">
+                    <div class="view-header">
+                        <span class="view-tag">Laboratorio Interattivo</span>
+                        <h2 class="view-title">Interactive Model Playground</h2>
+                        <p class="view-desc">Simula l'evoluzione in tempo reale manipolando i parametri epidemiologici fondamentali.</p>
+                    </div>
+
+                    <div class="playground-grid">
+                        <div class="m-card">
+                            <h3 class="card-title">🎛️ Parametri di Controllo</h3>
+
+                            <div class="control-item">
+                                <label class="control-label" for="sliderBeta">
+                                    <span>Tasso di Infezione (\(\beta\))</span>
+                                    <span id="valBeta" class="val-pill">0.30</span>
+                                </label>
+                                <input type="range" id="sliderBeta" min="0.05" max="1.0" step="0.01" value="0.30">
+                            </div>
+
+                            <div class="control-item">
+                                <label class="control-label" for="sliderGamma">
+                                    <span>Tasso di Guarigione (\(\gamma\))</span>
+                                    <span id="valGamma" class="val-pill">0.10</span>
+                                </label>
+                                <input type="range" id="sliderGamma" min="0.05" max="0.5" step="0.01" value="0.10">
+                            </div>
+
+                            <div class="control-item">
+                                <label class="control-label" for="sliderN">
+                                    <span>Popolazione (\(N\))</span>
+                                    <span id="valN" class="val-pill">1000</span>
+                                </label>
+                                <input type="range" id="sliderN" min="100" max="5000" step="100" value="1000">
+                            </div>
+
+                            <div class="control-item">
+                                <label class="control-label" for="sliderI0">
+                                    <span>Infetti Iniziali (\(I_0\))</span>
+                                    <span id="valI0" class="val-pill">10</span>
+                                </label>
+                                <input type="range" id="sliderI0" min="1" max="100" step="1" value="10">
+                            </div>
+
+                            <div class="r0-card">
+                                <div>
+                                    <div style="font-size: 0.75rem; color: var(--c-muted); text-transform: uppercase;">Numero di Riproduzione</div>
+                                    <div style="font-size: 1.1rem; font-weight: 700; color: var(--c-light);">\(R_0 = \beta / \gamma\)</div>
+                                </div>
+                                <span id="valR0" class="r0-val-display">3.00</span>
+                            </div>
+                        </div>
+
+                        <div class="canvas-card">
+                            <canvas id="playgroundChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Bottom Navigation & Status Bar -->
+        <footer class="bottom-footer">
+            <button class="footer-btn" id="prevBtn" disabled>
+                &larr; Precedente
+            </button>
+
+            <div class="footer-dots" id="dotsContainer">
+                <span class="dot active" data-page="0"></span>
+                <span class="dot" data-page="1"></span>
+                <span class="dot" data-page="2"></span>
+                <span class="dot" data-page="3"></span>
+                <span class="dot" data-page="4"></span>
+                <span class="dot" data-page="5"></span>
             </div>
-        </section>
+
+            <div style="display: flex; gap: 0.8rem; align-items: center;">
+                <span style="font-size: 0.75rem; color: var(--c-muted); font-family: var(--font-mono);">
+                    Usa i tasti freccia &larr; &rarr;
+                </span>
+                <button class="footer-btn" id="nextBtn">
+                    Successivo &rarr;
+                </button>
+            </div>
+        </footer>
 
     </div>
 
-    <!-- Modale per Espansione Immagini (Focus per Discussione Professore) -->
+    <!-- Modal per ingrandimento grafici -->
     <div id="imageModal" class="modal">
         <button class="modal-close" id="closeModal">&times;</button>
         <div class="modal-content">

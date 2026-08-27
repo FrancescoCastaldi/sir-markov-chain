@@ -1,7 +1,6 @@
-﻿// docs/simulator.js
+// docs/simulator.js - Dark Mode Minimalist Palette #10 Playground
 
 document.addEventListener('DOMContentLoaded', () => {
-    // === 1. Element References ===
     const sliderBeta = document.getElementById('sliderBeta');
     const valBeta = document.getElementById('valBeta');
     
@@ -15,12 +14,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const valI0 = document.getElementById('valI0');
     
     const valR0 = document.getElementById('valR0');
-    const ctx = document.getElementById('playgroundChart').getContext('2d');
-
+    const chartCanvas = document.getElementById('playgroundChart');
+    if (!chartCanvas) return;
+    
+    const ctx = chartCanvas.getContext('2d');
     let sirChart;
 
-    // === 2. Math Engine: Euler Method per SIR ODE ===
-    function simulateSIR(N, I0, beta, gamma, days = 100, dt = 0.1) {
+    // === Math Engine: Euler Method per SIR ODE ===
+    function simulateSIR(N, I0, beta, gamma, days = 120, dt = 0.1) {
         const steps = Math.floor(days / dt);
         let S = N - I0;
         let I = I0;
@@ -31,7 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const historyR = [];
         const time = [];
 
-        // Salviamo i dati ogni 1 giorno (non ad ogni dt)
         const saveInterval = Math.floor(1 / dt);
 
         for (let step = 0; step <= steps; step++) {
@@ -42,12 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 time.push(step * dt);
             }
 
-            // Derivate
             const dS = -beta * S * I / N;
             const dI = (beta * S * I / N) - gamma * I;
             const dR = gamma * I;
 
-            // Aggiornamento Euler
             S += dS * dt;
             I += dI * dt;
             R += dR * dt;
@@ -56,21 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
         return { time, S: historyS, I: historyI, R: historyR };
     }
 
-    // === 3. Chart Integration ===
     function updateSimulator() {
-        // Leggi i parametri correnti
+        if (!sliderBeta || !sliderGamma || !sliderN || !sliderI0) return;
+
         const beta = parseFloat(sliderBeta.value);
         const gamma = parseFloat(sliderGamma.value);
         const N = parseInt(sliderN.value, 10);
         let I0 = parseInt(sliderI0.value, 10);
 
-        // Limita I0 a N
         if (I0 > N) {
             I0 = N;
             sliderI0.value = I0;
         }
 
-        // Calcola e aggiorna UI badge
         valBeta.textContent = beta.toFixed(2);
         valGamma.textContent = gamma.toFixed(2);
         valN.textContent = N.toString();
@@ -79,27 +75,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const R0 = beta / gamma;
         valR0.textContent = R0.toFixed(2);
         
-        // Colore R0 (rosso se > 1)
         if (R0 > 1) {
-            valR0.style.color = '#ef4444'; // red-500
+            valR0.style.color = '#f87171'; // Red highlight
         } else {
-            valR0.style.color = '#3b82f6'; // blue-500
+            valR0.style.color = '#38bdf8'; // Blue highlight
         }
 
-        // Esegui Simulazione
         const data = simulateSIR(N, I0, beta, gamma, 120, 0.1);
 
-        // Aggiorna o Crea Chart
         if (sirChart) {
             sirChart.data.labels = data.time;
             sirChart.data.datasets[0].data = data.S;
             sirChart.data.datasets[1].data = data.I;
             sirChart.data.datasets[2].data = data.R;
-            sirChart.update('none'); // Update fluido senza animazione brutale
+            sirChart.update('none');
         } else {
-            // Chart.js global defaults per light mode (Madrid)
-            Chart.defaults.color = '#4b5563';
-            Chart.defaults.font.family = 'Inter, sans-serif';
+            Chart.defaults.color = '#9D9BA2';
+            Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
 
             sirChart = new Chart(ctx, {
                 type: 'line',
@@ -109,32 +101,32 @@ document.addEventListener('DOMContentLoaded', () => {
                         {
                             label: 'Suscettibili (S)',
                             data: data.S,
-                            borderColor: '#3b82f6', // blue
-                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                            borderWidth: 3,
+                            borderColor: '#38bdf8',
+                            backgroundColor: 'rgba(56, 189, 248, 0.12)',
+                            borderWidth: 2.5,
                             pointRadius: 0,
                             fill: true,
-                            tension: 0.4
+                            tension: 0.3
                         },
                         {
                             label: 'Infetti (I)',
                             data: data.I,
-                            borderColor: '#ef4444', // red
-                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                            borderWidth: 3,
+                            borderColor: '#f87171',
+                            backgroundColor: 'rgba(248, 113, 113, 0.15)',
+                            borderWidth: 2.5,
                             pointRadius: 0,
                             fill: true,
-                            tension: 0.4
+                            tension: 0.3
                         },
                         {
                             label: 'Rimossi (R)',
                             data: data.R,
-                            borderColor: '#10b981', // green
-                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                            borderWidth: 3,
+                            borderColor: '#34d399',
+                            backgroundColor: 'rgba(52, 211, 153, 0.12)',
+                            borderWidth: 2.5,
                             pointRadius: 0,
                             fill: true,
-                            tension: 0.4
+                            tension: 0.3
                         }
                     ]
                 },
@@ -149,26 +141,32 @@ document.addEventListener('DOMContentLoaded', () => {
                         legend: {
                             position: 'top',
                             labels: {
+                                color: '#EBEAEC',
                                 usePointStyle: true,
-                                boxWidth: 8
+                                boxWidth: 8,
+                                font: { size: 12, weight: '600' }
                             }
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(0,0,0,0.8)',
-                            titleFont: { size: 14 },
-                            bodyFont: { size: 14 },
+                            backgroundColor: 'rgba(60, 49, 61, 0.95)',
+                            titleColor: '#EBEAEC',
+                            bodyColor: '#EBEAEC',
+                            borderColor: '#55535B',
+                            borderWidth: 1,
                             padding: 10,
                             cornerRadius: 8
                         }
                     },
                     scales: {
                         x: {
-                            title: { display: true, text: 'Tempo (Giorni)' },
-                            grid: { color: 'rgba(0,0,0,0.1)' }
+                            title: { display: true, text: 'Tempo (Passi / Giorni)', color: '#9D9BA2' },
+                            grid: { color: 'rgba(157, 155, 162, 0.12)' },
+                            ticks: { color: '#9D9BA2' }
                         },
                         y: {
-                            title: { display: true, text: 'Popolazione' },
-                            grid: { color: 'rgba(0,0,0,0.1)' },
+                            title: { display: true, text: 'Individui', color: '#9D9BA2' },
+                            grid: { color: 'rgba(157, 155, 162, 0.12)' },
+                            ticks: { color: '#9D9BA2' },
                             beginAtZero: true
                         }
                     }
@@ -177,32 +175,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // === 4. Event Listeners ===
+    // Esporta per invocazione globale al cambio tab
+    window.updatePlayground = () => {
+        if (sirChart) {
+            sirChart.resize();
+        }
+        updateSimulator();
+    };
+
     [sliderBeta, sliderGamma, sliderN, sliderI0].forEach(el => {
-        el.addEventListener('input', updateSimulator);
+        if (el) el.addEventListener('input', updateSimulator);
     });
 
-    // Inizializzazione
     updateSimulator();
-
-
-    // === 5. Sidebar Navigation Logic ===
-    const sections = document.querySelectorAll('.slide');
-    const navLinks = document.querySelectorAll('.side-nav a');
-    
-    // Fallback: se stiamo usando JS, possiamo usare IntersectionObserver anche per la navbar
-    const navObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                // Rimuovi active da tutti
-                navLinks.forEach(link => link.classList.remove('active'));
-                // Aggiungi active a quello corrente
-                const currentLink = document.querySelector(`.side-nav a[href="#${id}"]`);
-                if (currentLink) currentLink.classList.add('active');
-            }
-        });
-    }, { threshold: 0.5 }); // 50% della slide visibile
-    
-    sections.forEach(sec => navObserver.observe(sec));
 });
+

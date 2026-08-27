@@ -33,8 +33,9 @@
             <a href="index.html" class="back-link">&larr; Torna alla Dashboard</a>
             <h2 style="font-size: 1.3rem; margin: 0; color: white;">Relazione Ufficiale di Studio Orale</h2>
         </div>
-        <div style="display: flex; gap: 0.8rem;">
-            <a href="relazione.pdf" target="_blank" style="background: #10b981; color: white; padding: 0.4rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">📥 Scarica PDF (14 pag.)</a>
+        <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+            <a href="guida_studio_slide.pdf" target="_blank" style="background: #059669; color: white; padding: 0.4rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">🎓 Guida Studio PDF (32 pag.)</a>
+            <a href="relazione.pdf" target="_blank" style="background: #10b981; color: white; padding: 0.4rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">📥 Relazione PDF (14 pag.)</a>
             <a href="presentazione.pdf" target="_blank" style="background: #3b82f6; color: white; padding: 0.4rem 0.9rem; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600;">📽️ Slide Beamer (27 Slide)</a>
         </div>
     </header>
@@ -100,52 +101,55 @@
             <section id="sec-modello">
                 <h2 class="section-title">3. Formalizzazione Matematica della Catena</h2>
                 
-                <h3 class="subsection-title">3.1 Spazio degli Stati</h3>
+                <h3 class="subsection-title">3.1 Spazio di Probabilità e Spazio degli Stati</h3>
                 <p>
-                    In una popolazione chiusa di taglia $N \in \mathbb{N}$, ad ogni istante discreto $t \in \mathbb{N}_0$, lo stato è descritto dal vettore $X_t = (S_t, I_t, R_t) \in \mathbb{N}_0^3$ soggetto al vincolo di conservazione della massa:
+                    Sia $(\Omega, \mathcal{F}, \mathbb{P})$ uno spazio di probabilità con filtrazione naturale $\mathbb{F} = (\mathcal{F}_t)_{t \ge 0}$ generata dalle osservazioni del processo. Per una popolazione chiusa di taglia $N \in \mathbb{N}$, ad ogni istante discreto $t \in \mathbb{N}_0$, lo stato del sistema è il vettore tridimensionale $X_t = (S_t, I_t, R_t) \in \mathbb{N}_0^3$ vincolato dalla conservazione:
                 </p>
                 <div class="info-box definizione">
                     <h4>Definizione dello Spazio degli Stati</h4>
                     <p>
                         $$E = \left\{ (s, i, r) \in \mathbb{N}_0^3 : s + i + r = N \right\}$$
-                        La cardinalità dello spazio è data dal numero di combinazioni con ripetizione (o composizioni deboli con separatori):
+                        La cardinalità di $E$ corrisponde al numero di combinazioni con ripetizione di 3 elementi su $N$:
                         $$|E| = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2}$$
+                        Per $N=100$, lo spazio degli stati conta $|E| = 5151$ configurazioni distinte.
                     </p>
                 </div>
 
-                <h3 class="subsection-title">3.2 Dinamica a Transizioni Binomiali</h3>
+                <h3 class="subsection-title">3.2 Dinamica a Transizioni Binomiali Condizionatamente Indipendenti</h3>
                 <p>
-                    Il passaggio dallo stato al tempo $t$ allo stato al tempo $t+1$ è governato da due estrazioni binomiali condizionatamente indipendenti:
+                    La transizione $X_t \to X_{t+1}$ è definita dal bilancio di massa tra i nuovi contagi $C_t$ e le nuove guarigioni $G_t$:
                 </p>
                 <ul>
-                    <li><strong>Nuovi Contagi</strong>: $C_t \mid (S_t=s, I_t=i) \sim \text{Bin}\left(s, \; \frac{\beta i}{N}\right)$</li>
-                    <li><strong>Nuove Guarigioni</strong>: $G_t \mid (I_t=i) \sim \text{Bin}(i, \; \gamma)$</li>
+                    <li><strong>Nuovi Contagi</strong>: $C_t \mid \mathcal{F}_t \sim \text{Bin}\left(S_t, \; p_{\mathrm{SI}}(t)\right)$, con $p_{\mathrm{SI}}(t) = \beta \frac{I_t}{N} \in [0, 1]$.</li>
+                    <li><strong>Nuove Guarigioni</strong>: $G_t \mid \mathcal{F}_t \sim \text{Bin}\left(I_t, \; \gamma\right)$, con $\gamma \in (0, 1]$.</li>
                 </ul>
                 <p>
-                    L'aggiornamento dello stato avviene secondo:
-                    $$\begin{cases} S_{t+1} = S_t - C_t \\ I_{t+1} = I_t + C_t - G_t \\ R_{t+1} = R_t + G_t \end{cases}$$
+                    Dato che $C_t \perp G_t \mid \mathcal{F}_t$, la probabilità di transizione a un passo $P(x, y) = \mathbb{P}(X_{t+1}=y \mid X_t=x)$ con $x=(s,i,r)$ e $y=(s-c, i+c-g, r+g)$ vale in forma chiusa:
+                    $$P(x, y) = \binom{s}{c}\left(\frac{\beta i}{N}\right)^c \left(1-\frac{\beta i}{N}\right)^{s-c} \cdot \binom{i}{g}\gamma^g (1-\gamma)^{i-g}$$
                 </p>
 
                 <div class="info-box teorema">
-                    <h4>Proposizione — Proprietà di Markov</h4>
+                    <h4>Proprietà di Markov & Struttura Martingala</h4>
                     <p>
-                        Il processo stocastico $\{X_t\}_{t \ge 0}$ soddisfa la proprietà di Markov:
-                        $$\mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t, X_{t-1} = x_{t-1}, \dots, X_0 = x_0) = \mathbb{P}(X_{t+1} = x_{t+1} \mid X_t = x_t)$$
-                        <em>Dimostrazione</em>: La legge di $(C_t, G_t)$ dipende solo dai valori attuali $(s_t, i_t)$, rendendo la distribuzione futura condizionatamente indipendente dall'intera storia passata.
+                        Il processo $\{X_t\}_{t \ge 0}$ è una catena di Markov omogenea. Il drift locale del compartimento infetti è:
+                        $$\mathbb{E}[\Delta I_t \mid \mathcal{F}_t] = \mathbb{E}[C_t - G_t \mid \mathcal{F}_t] = I_t \left( \beta \frac{S_t}{N} - \gamma \right) = \gamma I_t \left( R_0 \frac{S_t}{N} - 1 \right)$$
+                        Per la <em>decomposizione di Doob</em> per semimartingale discrete:
+                        $$I_t = I_0 + M_t + A_t$$
+                        dove $A_t = \sum_{k=0}^{t-1} \mathbb{E}[\Delta I_k \mid \mathcal{F}_k]$ è il compensatore deterministico prevedibile e $M_t$ è una martingala locale a media nulla.
                     </p>
                 </div>
             </section>
 
             <!-- 4. ESEMPIO N=3 -->
             <section id="sec-n3">
-                <h2 class="section-title">4. Esempio Analitico per Popolazione Piccola ($N=3$)</h2>
+                <h2 class="section-title">4. Esempio Analitico e Struttura Matriciale ($N=3$)</h2>
                 <p>
-                    Per $N=3$, lo spazio $E$ conta $|E| = \frac{4 \times 5}{2} = 10$ stati. Ordinando prima gli stati assorbenti ($I=0$) e poi quelli transitori ($I > 0$), la matrice $P$ assume la forma canonica a blocchi:
-                    $$P = \begin{pmatrix} I_{4 \times 4} & 0_{4 \times 6} \\ R_{6 \times 4} & Q_{6 \times 6} \end{pmatrix}$$
+                    Per $N=3$, $|E| = 10$. Partizioniamo lo spazio negli stati assorbenti $\mathcal{A} = \{(s,0,r) \in E\}$ ($d_A = 4$) e transitori $\mathcal{T} = \{(s,i,r) \in E : i > 0\}$ ($d_T = 6$). La matrice stocastica $P \in \mathbb{R}^{10 \times 10}$ assume la forma canonica a blocchi:
+                    $$P = \begin{pmatrix} Q_{6 \times 6} & R_{6 \times 4} \\ 0_{4 \times 6} & I_{4 \times 4} \end{pmatrix}$$
                 </p>
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./img/transition_heatmap.png" alt="Heatmap Matrice P" style="max-width: 80%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;"><em>Figura 2: Heatmap della matrice di transizione $P$ ($10 \times 10$ per $N=3$). Si noti il blocco identità $I_{4 \times 4}$ per gli stati assorbenti.</em></p>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;"><em>Figura 2: Heatmap della matrice di transizione $P$ ($N=3$, colormap Blues). I 4 stati assorbenti $(3,0,0)^*, (2,0,1)^*, (1,0,2)^*, (0,0,3)^*$ sono evidenziati in blu scuro con valore 1.00 sulla diagonale; le aree bianche indicano transizioni a probabilità nulla (aciclicità: $R_{t+1} \ge R_t$).</em></p>
                 </div>
             </section>
 
@@ -153,79 +157,94 @@
             <section id="sec-mc">
                 <h2 class="section-title">5. Simulazione Monte Carlo e Risultati Numerici</h2>
                 <p>
-                    Con $N=100$, $\beta=0.20$, $\gamma=0.10$, $I_0=5$ e $M=1000$ replicazioni (seed 42), si ottengono le seguenti evidenze quantitative:
+                    Con i parametri di benchmark $N=100$, $\beta=0.20$, $\gamma=0.10$ ($R_0 = 2.0$), $I_0=5$ e $M=1000$ replicazioni con seed riproducibile 42, si ottengono le evidenze empiriche validate:
                 </p>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
                     <div>
                         <img src="./img/single_trajectory.png" alt="Single Trajectory" style="width: 100%; border-radius: 8px;">
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Traiettoria Singola (Rumore Stocastico)</em></p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Traiettoria Singola: picco $I=18$ al giorno $78$, estinzione a $\tau=124$.</em></p>
                     </div>
                     <div>
                         <img src="./img/mean_trajectory.png" alt="Mean Trajectory" style="width: 100%; border-radius: 8px;">
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Media Monte Carlo $\pm 1\sigma$</em></p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Media Monte Carlo $\mathbb{E}[X_t] \pm 1\sigma$ su 1000 simulazioni.</em></p>
                     </div>
                 </div>
 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;">
                     <div>
                         <img src="./img/phase_portrait.png" alt="Phase Portrait" style="width: 100%; border-radius: 8px;">
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Ritratto di Fase $(S, I)$ nel Simplesso</em></p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Ritratto di Fase $(S, I)$ con soglia analitica $S^* = N/R_0 = 50$.</em></p>
                     </div>
                     <div>
                         <img src="./img/r_infinity_histogram.png" alt="R Infinity Histogram" style="width: 100%; border-radius: 8px;">
-                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Distribuzione Dimensione Finale $R_\infty$</em></p>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); text-align: center;"><em>Distribuzione Attacco Finale $R_\infty$ (Media $76.6\%$).</em></p>
                     </div>
                 </div>
             </section>
 
             <!-- 6. ANALISI TEORICA -->
             <section id="sec-teoria">
-                <h2 class="section-title">6. Analisi Teorica & Teoremi</h2>
+                <h2 class="section-title">6. Analisi Teorica: Teorema di Assorbimento & First-Step Analysis</h2>
 
                 <div class="info-box teorema">
-                    <h4>Teorema — Estinzione Quasi Certa</h4>
+                    <h4>Teorema — Assorbimento Quasi Certo in Tempo Finito</h4>
                     <p>
-                        Partendo da qualsiasi stato $x_0 \in E$, il tempo di assorbimento $\tau = \min\{t \ge 0 : I_t = 0\}$ è quasi certamente finito:
-                        $$\mathbb{P}_{x_0}(\tau < \infty) = 1$$
-                        <em>Dimostrazione</em>: Lo spazio $E$ è finito e ogni stato con $I > 0$ è transitorio con probabilità positiva di transizione diretta verso $\mathcal{A}$ ad ogni passo. Il numero di visite complessive a $\mathcal{T}$ è quasi certamente finito, forzando l'assorbimento in $\mathcal{A}$.
+                        Sia $\tau = \inf\{t \ge 0 : X_t \in \mathcal{A}\} = \inf\{t \ge 0 : I_t = 0\}$ il tempo di primo ingresso nello spazio assorbente. Allora:
+                        $$\mathbb{P}_i(\tau < \infty) = 1, \quad \forall i \in \mathcal{T}$$
+                        <em>Dimostrazione</em>: Poiché $E$ è finito e tutti gli stati in $\mathcal{T}$ sono transitori ($\rho(Q) < 1$), la serie delle probabilità di permanenza converge: $\sum_{t=0}^\infty \mathbb{P}_i(X_t \in \mathcal{T}) = \sum_{t=0}^\infty (Q^t \mathbf{1})_i = ((I-Q)^{-1}\mathbf{1})_i < \infty$. Per il Lemma di Borel-Cantelli, il numero di visite a $\mathcal{T}$ è quasi certamente finito, garantendo $\tau < \infty$ q.c.
                     </p>
                 </div>
 
                 <div class="info-box spiegazione">
-                    <h4>Calcolo del Tempo Medio di Assorbimento</h4>
+                    <h4>First-Step Analysis per il Tempo Medio di Estinzione</h4>
                     <p>
-                        Sia $k(x) = \mathbb{E}_x[\tau]$. Condizionando al primo passo (First-Step Analysis):
-                        $$k(x) = 1 + \sum_{y \in \mathcal{T}} P(x, y) k(y) \iff \mathbf{k} = \mathbf{1} + Q \mathbf{k} \iff \mathbf{k} = (I - Q)^{-1} \mathbf{1}$$
+                        Sia $\mathbf{t} = (\mathbb{E}_i[\tau])_{i \in \mathcal{T}}$ il vettore dei tempi medi. Condizionando al primo passo:
+                        $$t_i = 1 + \sum_{j \in \mathcal{T}} Q(i,j) t_j + \sum_{k \in \mathcal{A}} R(i,k) \cdot 0 \iff \mathbf{t} = \mathbf{1} + Q \mathbf{t} \iff (I - Q)\mathbf{t} = \mathbf{1}$$
+                        da cui si ricava la soluzione esatta mediante la <strong>matrice fondamentale</strong> $N_{\text{fund}} = (I-Q)^{-1} = \sum_{k=0}^\infty Q^k$:
+                        $$\mathbf{t} = (I - Q)^{-1} \mathbf{1}$$
+                        La matrice delle probabilità di assorbimento nello stato $k \in \mathcal{A}$ partendo da $i \in \mathcal{T}$ è data da:
+                        $$B = (I - Q)^{-1} R \in \mathbb{R}^{d_T \times d_A}$$
                     </p>
                 </div>
             </section>
 
             <!-- 7. LIMITE FLUIDO -->
             <section id="sec-ode">
-                <h2 class="section-title">7. Limite Fluido Continuo (ODE Kermack-McKendrick)</h2>
+                <h2 class="section-title">7. Teorema del Limite Fluido Continuo (Kurtz 1970)</h2>
                 <p>
-                    Per $N \to \infty$, normalizzando le frazioni di popolazione $s(t) = S_t/N, i(t) = I_t/N, r(t) = R_t/N$, il processo stocastico converge al sistema deterministico continuo di Kermack-McKendrick (1927):
-                    $$\begin{cases} \dot{s}(t) = -\beta s i \\ \dot{i}(t) = (\beta s - \gamma) i \\ \dot{r}(t) = \gamma i \end{cases}$$
+                    Riscalando il processo stocastico mediante $x^{(N)}(t) = \frac{X_t}{N} = (s(t), i(t), r(t))$, per il <em>Teorema del Limite Funzionale di Kurtz (1970)</em>, per ogni orizzonte $T > 0$:
+                    $$\sup_{t \in [0, T]} \left\| x^{(N)}(t) - x(t) \right\| \xrightarrow[N \to \infty]{\text{q.c.}} 0$$
+                    dove $x(t) = (s(t), i(t), r(t))$ è l'unica soluzione del sistema continuo di Kermack-McKendrick:
+                    $$\begin{cases} \dot{s}(t) = -\beta s i \\ \dot{i}(t) = (\beta s - \gamma) i = \gamma (R_0 s - 1) i \\ \dot{r}(t) = \gamma i \end{cases}$$
                 </p>
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./img/ode_comparison.png" alt="Confronto ODE" style="max-width: 80%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;"><em>Figura 3: Limite fluido continuo vs Media Monte Carlo ($N=100$). Notare l'effetto di taglia finita che abbassa il picco stocastico.</em></p>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;"><em>Figura 3: Limite fluido continuo (ODE) vs Media Monte Carlo ($N=100$). Il picco continuo è a $18.3\%$, mentre la media MC campionaria è a $16.4\%$ a causa della desincronizzazione temporale.</em></p>
                 </div>
+                
+                <h3 class="subsection-title">7.1 Integrazione Analitica nel Piano delle Fasi</h3>
+                <p>
+                    Eliminando la variabile temporale $t$ mediante rapporto di derivate:
+                    $$\frac{di}{ds} = \frac{\beta s i - \gamma i}{-\beta s i} = -1 + \frac{\gamma}{\beta s} = -1 + \frac{1}{R_0 s}$$
+                    Integrando con condizione iniziale $(s_0, i_0)$:
+                    $$i(s) = i_0 + (s_0 - s) + \frac{1}{R_0}\ln\left(\frac{s}{s_0}\right)$$
+                    Il massimo infetti si ottiene annullando la derivata: $\frac{di}{ds} = 0 \iff s^* = \frac{1}{R_0} \implies S^* = \frac{N}{R_0}$.
+                </p>
             </section>
 
             <!-- 8. SENSIBILITÀ R0 -->
             <section id="sec-sensibilita">
-                <h2 class="section-title">8. Sensibilità e Soglia Critica $R_0$</h2>
+                <h2 class="section-title">8. Sensibilità Parametrica & Soglia Epidemica $R_0$</h2>
                 <div style="text-align: center; margin: 2rem 0;">
                     <img src="./img/sensitivity_comparison.png" alt="Sensibilità R0" style="max-width: 80%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
                 </div>
                 <p>
-                    La soglia $R_0 = \beta / \gamma = 1$ governa la transizione di fase:
+                    Il numero di riproduzione di base $R_0 = \beta / \gamma$ governa la biforcazione:
                 </p>
                 <ul>
-                    <li><strong>Regime Subcritico ($R_0 \le 1$)</strong>: L'epidemia decresce monotonicamente fin dal passo iniziale; $\mathbb{E}[R_\infty] \approx I_0$.</li>
-                    <li><strong>Regime Sovracritico ($R_0 > 1$)</strong>: Il tasso di contagio supera quello di rimozione, formando un'ondata epidemica macroscopica con attacco finale fino al $98\%$.</li>
+                    <li><strong>Regime Subcritico ($R_0 \le 1$)</strong>: $\mathbb{E}[\Delta I_0] \le 0$, il virus decade monotonicamente e si estingue rapidamente senza formare alcuna ondata epidemica.</li>
+                    <li><strong>Regime Sovracritico ($R_0 > 1$)</strong>: $\mathbb{E}[\Delta I_0] > 0$, l'epidemia cresce esponenzialmente nella fase iniziale fino a raggiungere il picco quando $S_t$ scende sotto la soglia critica $S^* = N/R_0$.</li>
                 </ul>
             </section>
 
@@ -236,7 +255,7 @@
                 <div class="info-box hint">
                     <h4>❓ Domanda: Perché la catena non ammette un'unica misura stazionaria invariante?</h4>
                     <p>
-                        <strong>Risposta</strong>: Poiché la catena non è irriducibile e contiene molteplici stati assorbenti disgiunti (tutti quelli con $I=0$), ogni vettore $\delta_{(s, 0, r)}$ è una misura stazionaria. Esistono infinite misure stazionarie date da combinazioni convesse di stati assorbenti.
+                        <strong>Risposta</strong>: Poiché la catena non è irriducibile e possiede $N+1$ stati assorbenti disgiunti (tutti quelli con $I=0$). Ogni vettore della base canonica $\delta_{(s, 0, r)}$ con $s+r=N$ è una misura invariante ($P \delta_x = \delta_x$). L'insieme delle misure stazionarie è il simplesso convesso generato da questi $N+1$ stati assorbenti.
                     </p>
                 </div>
 
@@ -244,7 +263,7 @@
                     <h4>❓ Domanda: Come si dimostra alla lavagna la First-Step Analysis per il tempo medio?</h4>
                     <p>
                         $$k(x) = \mathbb{E}_x[\tau] = \sum_{y \in E} P(x, y) \mathbb{E}_x[\tau \mid X_1 = y] = \sum_{y \in E} P(x, y) [1 + k(y)] = 1 + \sum_{y \in \mathcal{T}} P(x, y) k(y)$$
-                        dove abbiamo sfruttato che $k(y) = 0$ per ogni stato assorbente $y \in \mathcal{A}$.
+                        sfruttando il fatto che per $y \in \mathcal{A}$, $k(y) = \mathbb{E}_y[\tau] = 0$. In notazione matriciale compatta: $\mathbf{t} = \mathbf{1} + Q\mathbf{t} \iff (I-Q)\mathbf{t} = \mathbf{1}$.
                     </p>
                 </div>
             </section>

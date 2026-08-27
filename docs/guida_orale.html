@@ -33,35 +33,41 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
     <style>
-        /* Stili avanzati per la Guida Orale Semplificata */
+        /* Stili avanzati per la Guida Orale con Palette #10 */
         :root {
-            --emerald-bg: #ecfdf5;
-            --emerald-border: #10b981;
-            --emerald-text: #065f46;
+            --c-light: #EBEAEC;
+            --c-muted: #9D9BA2;
+            --c-slate: #55535B;
+            --c-aubergine: #3C313D;
+            --c-dark: #18141D;
+
+            --emerald-bg: rgba(52, 211, 153, 0.1);
+            --emerald-border: #34d399;
+            --emerald-text: #a7f3d0;
             
-            --amber-bg: #fffbeb;
-            --amber-border: #f59e0b;
-            --amber-text: #92400e;
+            --amber-bg: rgba(251, 191, 36, 0.1);
+            --amber-border: #fbbf24;
+            --amber-text: #fde68a;
             
-            --purple-bg: #f5f3ff;
-            --purple-border: #8b5cf6;
-            --purple-text: #5b21b6;
+            --purple-bg: rgba(167, 139, 250, 0.1);
+            --purple-border: #a78bfa;
+            --purple-text: #ddd6fe;
             
-            --rose-bg: #fff1f2;
-            --rose-border: #f43f5e;
-            --rose-text: #9f1239;
+            --rose-bg: rgba(248, 113, 113, 0.1);
+            --rose-border: #f87171;
+            --rose-text: #fecaca;
             
-            --blue-bg: #eff6ff;
-            --blue-border: #3b82f6;
-            --blue-text: #1e40af;
+            --blue-bg: rgba(56, 189, 248, 0.1);
+            --blue-border: #38bdf8;
+            --blue-text: #bae6fd;
         }
 
         .guida-header {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
-            color: white;
-            padding: 2.5rem 2rem;
-            border-bottom: 3px solid #60a5fa;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: rgba(24, 20, 29, 0.95);
+            color: var(--c-light);
+            padding: 2rem;
+            border-bottom: 1px solid rgba(157, 155, 162, 0.25);
+            backdrop-filter: blur(16px);
         }
         .guida-header-inner {
             max-width: 1400px;
@@ -73,14 +79,14 @@
             gap: 1.5rem;
         }
         .guida-header h1 {
-            font-size: 2rem;
-            margin-bottom: 0.4rem;
-            color: #ffffff;
-            font-family: var(--font-sans);
+            font-size: 2.2rem;
+            margin: 0.3rem 0;
+            color: var(--c-light);
+            letter-spacing: -0.03em;
         }
         .guida-header p {
-            color: #dbeafe;
-            font-size: 1.05rem;
+            color: var(--c-muted);
+            font-size: 1rem;
             margin: 0;
         }
         .nav-badges {
@@ -92,20 +98,19 @@
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            padding: 0.5rem 1.1rem;
-            border-radius: 9999px;
-            font-size: 0.85rem;
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            font-size: 0.82rem;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.2s;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            backdrop-filter: blur(4px);
+            background: rgba(60, 49, 61, 0.6);
+            color: var(--c-light);
+            border: 1px solid rgba(157, 155, 162, 0.25);
         }
         .badge-link:hover {
-            background: white;
-            color: #1e3a8a;
+            background: var(--c-slate);
+            color: white;
             transform: translateY(-2px);
         }
 
@@ -113,24 +118,16 @@
         .tooltip-term {
             position: relative;
             display: inline-block;
-            cursor: pointer;
+            cursor: help;
+            border-bottom: 1.5px dashed var(--blue-border);
+            color: var(--c-light);
             font-weight: 600;
-            color: #2563eb;
-            border-bottom: 2px dashed #93c5fd;
-            transition: all 0.2s;
-        }
-        .tooltip-term:hover {
-            color: #1d4ed8;
-            border-bottom-color: #2563eb;
-            background-color: rgba(219, 234, 254, 0.4);
-            border-radius: 3px;
         }
         .tooltip-term .tooltip-text {
             visibility: hidden;
-            opacity: 0;
             width: 280px;
-            background-color: #1f2937;
-            color: #f3f4f6;
+            background-color: var(--c-aubergine);
+            color: var(--c-light);
             text-align: left;
             border-radius: 8px;
             padding: 0.8rem 1rem;
@@ -139,11 +136,13 @@
             bottom: 125%;
             left: 50%;
             transform: translateX(-50%);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+            opacity: 0;
+            transition: opacity 0.2s, transform 0.2s;
             font-size: 0.85rem;
-            line-height: 1.4;
             font-weight: 400;
-            transition: opacity 0.3s, visibility 0.3s, transform 0.2s;
+            line-height: 1.4;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border: 1px solid var(--c-slate);
             pointer-events: none;
         }
         .tooltip-term .tooltip-text::after {
@@ -312,11 +311,17 @@
                 <p>Concetti chiave, intuizioni mentali "senza formule astruse", domande tipiche del Prof. Federico e dimostrazioni alla lavagna.</p>
             </div>
             <div class="nav-badges">
+                <a href="guida_studio_slide.pdf" target="_blank" class="badge-link" style="background: #059669; border-color: #34d399;">
+                    🎓 Guida Studio PDF (32 pag.)
+                </a>
+                <a href="presentazione.pdf" target="_blank" class="badge-link" style="background: #2563eb; border-color: #60a5fa;">
+                    📽️ Slide Beamer (27 Slide)
+                </a>
                 <a href="index.html" class="badge-link">
-                    &larr; Presentazione Slide
+                    &larr; Dashboard
                 </a>
                 <a href="dispense.html" class="badge-link">
-                    📖 Dispense Originali Complete
+                    📖 Dispense Originali
                 </a>
             </div>
         </div>
