@@ -63,7 +63,7 @@
 \title[SIR come Catena di Markov]{Modello SIR come Catena di Markov a Tempo Discreto}
 \subtitle{Progetto per il corso di Modelli Probabilistici (518512)}
 \author{Francesco Castaldi}
-\institute[Unibo]{Università di Bologna — Dipartimento di Matematica\\Docente: Prof. Salvatore Federico}
+\institute[Unibo]{Università di Bologna — Laurea in Informatica}
 \date{A.A. 2025/2026}
 
 % ============================================================
@@ -272,23 +272,23 @@
     \[ E = \bigl\{(s, i, r) \in \mathbb{N}_0^3 : s + i + r = N\bigr\} \]
 
     \begin{columns}[T]
-        \begin{column}{0.52\textwidth}
+        \begin{column}{0.48\textwidth}
             \textbf{Cardinalità combinatoria}:
-            \[ |E| = \binom{N+3-1}{3-1} = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2} \]
+            \[ |E| = \binom{N+2}{2} = \frac{(N+1)(N+2)}{2} \]
             
             \textbf{Esempi numerici}:
             \begin{itemize}
-                \item $N = 3 \implies |E| = \mathbf{10}$ stati (trattabile a mano).
-                \item $N = 100 \implies |E| = \mathbf{5151}$ stati (trattabile con Monte Carlo).
+                \item $N = 3 \implies |E| = \mathbf{10}$ stati.
+                \item $N = 100 \implies |E| = \mathbf{5151}$ stati.
             \end{itemize}
         \end{column}
-        \begin{column}{0.46\textwidth}
+        \begin{column}{0.50\textwidth}
             \begin{block}{Partizione dello Spazio $E$}
                 \begin{itemize}
                     \item \textbf{Stati Assorbenti $\mathcal{A}$} ($I=0$):
-                    \[ \mathcal{A} = \{(s, 0, r) \in E\}, \quad |\mathcal{A}| = N+1 \]
+                    \[ \mathcal{A} = \{(s, 0, r) \in E\}, \; |\mathcal{A}| = N+1 \]
                     \item \textbf{Stati Transitori $\mathcal{T}$} ($I>0$):
-                    \[ \mathcal{T} = \{(s, i, r) \in E : i>0\}, \quad |\mathcal{T}| = \frac{N(N+1)}{2} \]
+                    \[ \mathcal{T} = \{(s, i, r) : i>0\}, \; |\mathcal{T}| = \frac{N(N+1)}{2} \]
                 \end{itemize}
             \end{block}
         \end{column}
