@@ -74,7 +74,6 @@ sir-markov-chain/
 ├── report/                   # Deliverable accademici e sorgenti tipografiche
 │   ├── relazione.tex         # Relazione tecnica in LaTeX (documento scientifico principale)
 │   ├── presentazione.tex     # Slide Beamer (16:9, tema Madrid con grafica vettoriale TikZ)
-│   ├── presentazione_stampabile_A4.tex # Formato compatto per stampa (2 slide per pagina A4)
 │   ├── presentazione.md      # Copione di esposizione orale slide-by-slide
 │   ├── distribuzioni_fondamentali.tex  # Compendio formale sulle distribuzioni probabilistiche
 │   └── capitoli/             # Moduli teorici dettagliati dei singoli capitoli del corso

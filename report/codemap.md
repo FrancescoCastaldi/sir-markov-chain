@@ -3,7 +3,7 @@
 ## Responsibility
 
 **Documentation & Presentation Layer**: contiene tutti i materiali destinati alla
-discussione orale dell'esame — relazione accademica, presentazione Beamer (27 slide), formato stampabile A4 (14 pagine), copione e note per l'orale.
+discussione orale dell'esame — relazione accademica, presentazione Beamer (27 slide), copione e note per l'orale.
 
 ---
 
@@ -11,7 +11,6 @@ discussione orale dell'esame — relazione accademica, presentazione Beamer (27 
 
 - La relazione (`relazione.tex` / `.pdf`) usa la classe `article` LaTeX (14 pag., 11pt, A4) con pacchetti scientifici standard (`amsmath`, `booktabs`, `listings`, `hyperref`, `babel` italiano).
 - La presentazione (`presentazione.tex` / `.pdf`) usa la classe `beamer` LaTeX con tema `Madrid` (27 slide, 16:9), diagrammi TikZ ($S \to I \to R$), illustrazioni concettuali, ritratto di fase $(S,I)$, matrice canonica e box informativi accademici per l'esposizione.
-- La versione stampabile (`presentazione_stampabile_A4.tex` / `.pdf`) impagina 2 slide per foglio A4 (14 pagine totali con margini e cornici) ideale per la consultazione cartacea del docente.
 - Il copione orale (`presentazione.md`) contiene il discorso sincronizzato frame-by-frame, traccia lavagna e Q&A preparatori.
 - Le figure referenziate nella relazione e nelle presentazioni si trovano in `../img/` (path relativo).
 
@@ -22,12 +21,10 @@ discussione orale dell'esame — relazione accademica, presentazione Beamer (27 
 | File | Formato | Dimensione | Stato | Note |
 |---|---|---|---|---|
 | `relazione.tex` | LaTeX (article) | ~500 righe | ✅ Completo | 14 pagine A4 con prove, teoremi e grafici |
-| `relazione.pdf` | PDF | ~350 KB | ✅ Compilato | Relazione ufficiale pronta per la consegna |
+| `relazione.pdf` | PDF | ~350 KB | ✅ Completo | Relazione ufficiale pronta per la consegna |
 | `presentazione.tex` | LaTeX (beamer) | ~900 righe | ✅ Completo | 27 slide Beamer Madrid (16:9) con TikZ e tooltips |
-| `presentazione.pdf` | PDF | ~2.5 MB | ✅ Compilato | Presentazione proiettabile all'orale |
-| `presentazione_stampabile_A4.tex` | LaTeX (pdfpages) | ~40 righe | ✅ Completo | Layout 2-up per stampa A4 (14 fogli) |
-| `presentazione_stampabile_A4.pdf` | PDF | ~2.5 MB | ✅ Compilato | Formato cartaceo per il docente |
-| `presentazione.md` | Markdown | ~1350 righe | ✅ Completo | Copione parlato, traccia lavagna e risposte Q&A |
+| `presentazione.pdf` | PDF | ~2.5 MB | ✅ Completo | Presentazione proiettabile all'orale |
+| `presentazione.md` | Markdown | ~320 righe | ✅ Completo | Copione parlato, traccia lavagna e risposte Q&A |
 | `relazione.md` | Markdown | ~240 righe | 🟡 Legacy | Bozza iniziale testuale |
 | `Lecture/` | Directory | — | ℹ️ Ignorato | Cartella locale dispense (protetta da .gitignore) |
 

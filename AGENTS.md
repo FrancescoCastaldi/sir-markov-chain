@@ -37,7 +37,6 @@ Per lavoro approfondito su una directory specifica, leggi anche il `codemap.md` 
 
 - **Relazione Ufficiale**: [`report/relazione.pdf`](report/relazione.pdf) (14 pag., LaTeX article, A4)
 - **Presentazione Orale**: [`report/presentazione.pdf`](report/presentazione.pdf) (27 slide, Beamer Madrid 16:9 con TikZ e tooltips)
-- **Presentazione Stampabile A4**: [`report/presentazione_stampabile_A4.pdf`](report/presentazione_stampabile_A4.pdf) (14 pag., 2 slide per foglio A4)
 - **Copione & Q&A Orale**: [`report/presentazione.md`](report/presentazione.md) (guida parlata slide-by-slide + traccia lavagna)
 
 ---
