@@ -1,3 +1,4 @@
+# Python & Ambienti
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -7,18 +8,55 @@ build/
 .env
 venv/
 .venv/
-plots/*.png
-plots/*.pdf
+plots/
 
-# AI & Local Agent artifacts (private / not for public repo)
+# File di contesto, agenti e tracking interno
 .opencode/
 .agents/
 thoughts/
+AGENTS.md
+*codemap.md
+CODEBASE_HEALTH_REPORT.md
 EXAM_INFO.md
 PROJECT_STATUS.md
-*guida_studio_slide*
+build.ps1
+CITATION.cff
+
+# Relazione (documenti e pagine HTML/PDF associati)
+*relazione*
+report/relazione*
+docs/relazione*
+
+# Note di studio private, dispense ed estratti orali
+references/
+*guida_studio*
 *schema_conformita*
-*tutti_i_teoremi_esame*
+*teoremi*
+*dimostrazioni*
+*domande_teoriche*
+*distribuzioni_fondamentali*
+i_16_teoremi_puri*
+tutti_i_teoremi*
+formulario_dimostrazioni_secche.pdf
+risposte_domande_teoriche.pdf
+domande_teoriche.pdf
+
+# README ausiliari delle sottocartelle e documentazione interna
+src/README.md
+tests/README.md
+img/README.md
+docs/img/README.md
+docs/README.md
+docs/ARCHITECTURE.md
+docs/dispense.html
+docs/guida_orale.html
+notebooks/README.md
+report/README.md
+report/Lecture/
+report/i_16_teoremi_puri*
+report/tutti_i_teoremi*
+report/distribuzioni_fondamentali*
+report/capitoli/
 
 # LaTeX build outputs
 *.aux
@@ -34,22 +72,7 @@ PROJECT_STATUS.md
 *.snm
 *.vrb
 
-# Data & Model Checkpoints (Git LFS or Zenodo target)
-*.h5
-*.pt
-*.ckpt
-*.onnx
-*.parquet
-report/Lecture/*.pdf
-
-# References: ignore private references & study sheets
-references/
-formulario_dimostrazioni_secche.pdf
-risposte_domande_teoriche.pdf
-domande_teoriche.pdf
-
-# OS files
+# OS
 .DS_Store
 Thumbs.db
-
 fix.py

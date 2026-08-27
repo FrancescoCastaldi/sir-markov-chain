@@ -93,22 +93,20 @@ sir-markov-chain/
 │   ├── sensitivity.py        # Studio parametrico su R0
 │   └── plotting.py           # Routine di visualizzazione (Matplotlib)
 ├── tests/                    # Test di unità e verifica invarianti (pytest)
-├── report/                   # Deliverable LaTeX
-│   ├── relazione.tex         # Relazione accademica (PDF 14 pag.)
-│   ├── presentazione.tex     # Slide Beamer (16:9)
-│   └── guida_studio_slide.md # Guida studio e note per la lavagna
+│   └── test_model.py         # 16 test formali su invarianti stocastici
+├── report/                   # Presentazione LaTeX Beamer
+│   ├── presentazione.tex     # Sorgente slide Beamer (16:9)
+│   └── presentazione.pdf     # Slide compilate
 ├── docs/                     # Dashboard Web distribuita su GitHub Pages
-├── notebooks/                # Jupyter notebook per analisi esplorativa
-└── img/                      # Grafici e figure scientifiche
+├── notebooks/                # Jupyter notebook per simulazioni ed esplorazione
+└── img/                      # Grafici e figure scientifiche ad alta risoluzione
 ```
 
 ---
 
-## 5. Deliverable Accademici
+## 5. Deliverable
 
-- **Presentazione Beamer**: [`report/presentazione.pdf`](report/presentazione.pdf)
-- **Relazione Ufficiale**: [`report/relazione.pdf`](report/relazione.pdf)
-- **Guida Studio per l'Orale**: [`report/guida_studio_slide.md`](report/guida_studio_slide.md)
+- **Presentazione Beamer (27 Slide)**: [`report/presentazione.pdf`](report/presentazione.pdf)
 - **Dashboard Web & Playground Interattivo**: [GitHub Pages](https://francescocastaldi.github.io/sir-markov-chain/)
 
 ---
