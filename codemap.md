@@ -1,6 +1,6 @@
 # Repository Atlas: `sir-markov-chain`
 
-> **Generato**: 2026-08-18 | **Versione**: 1.1.0 | **Linguaggio**: Python 3.10+
+> **Versione**: 1.1.0 | **Linguaggio**: Python 3.10+
 
 ---
 
