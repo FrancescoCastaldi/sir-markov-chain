@@ -441,13 +441,14 @@
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
             \begin{alertblock}{Teorema (Assorbimento Quasi Certo)}
-                Partendo da qualsiasi stato iniziale con infetti $I_0 > 0$, l'estinzione avviene in tempo finito con probabilità 1:
-                \[ \mathbb{P}(\tau < \infty) = 1, \quad \text{dove } \tau = \inf\{t \ge 0 : I_t = 0\} \]
+                Partendo da qualsiasi stato con infetti $I_0 > 0$, l'estinzione avviene in tempo finito con probabilità 1:
+                \[ \mathbb{P}(\tau < \infty) = 1, \quad \tau = \inf\{t \ge 0 : I_t = 0\} \]
+                \footnotesize \textbf{Dim.}: da ogni stato in $\mathcal{T}$ si raggiunge $\mathcal{A}$ con probabilità $\ge \gamma^I > 0$ (sole guarigioni).
             \end{alertblock}
-            \vspace{0.1cm}
+            \vspace{0.05cm}
             \begin{block}{\footnotesize Matrice Fondamentale}
                 \[ N_{\text{fund}} = (I - Q)^{-1} = \sum_{k=0}^\infty Q^k \]
-                Fornisce il numero medio di visite in ogni stato transitorio prima dell'estinzione.
+                \footnotesize Numero medio di visite in ogni stato transitorio prima dell'estinzione.
             \end{block}
         \end{column}
         \begin{column}{0.48\textwidth}
@@ -465,7 +466,7 @@
 
     \note{
         La teoria ci dà due risultati chiave:
-        1) L'epidemia si estingue certamente in tempo finito (probabilità 1).
+        1) L'epidemia si estingue certamente in tempo finito (probabilità 1) perché da ogni stato c'è un cammino di sole guarigioni con probabilità positiva.
         2) Il tempo medio di estinzione si calcola risolvendo il sistema lineare (I-Q)t = 1.
     }
 \end{frame}
