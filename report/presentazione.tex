@@ -338,35 +338,39 @@
 
 % SLIDE 9 — Esempio N=3
 \begin{frame}{Esempio Analitico: $N=3$, $\beta=0.5$, $\gamma=0.3$}
-    Consideriamo lo stato di partenza \textbf{$(2, 1, 0)$} ($S=2, I=1, R=0$):
-    \begin{itemize}
-        \item Probabilità di contagio per suscettibile: $p_{\mathrm{SI}} = 0.5 \times \frac{1}{3} = \frac{1}{6} \approx 0.167$.
-        \item Probabilità di guarigione per infetto: $\gamma = 0.3$.
-    \end{itemize}
+    Nello stato \textbf{$(S=2, I=1, R=0)$}, il numero di transizioni possibili è dato dal prodotto cartesiano dei possibili contagi e guarigioni:
+    \[
+    \text{Transizioni possibili} = (S+1) \times (I+1) = (2+1) \times (1+1) = \mathbf{6} \text{ combinazioni}
+    \]
+    con $C \in \{0, 1, 2\}$ e $G \in \{0, 1\}$. La probabilità congiunta è:
+    \[
+    \mathbb{P}(C=c, G=g) = \binom{2}{c} \left(\tfrac{1}{6}\right)^c \left(\tfrac{5}{6}\right)^{2-c} \cdot \binom{1}{g} (0.3)^g (0.7)^{1-g}
+    \]
 
-    \vspace{0.2cm}
+    \vspace{-0.15cm}
     \begin{center}
+    \resizebox{0.92\textwidth}{!}{
     \begin{tabular}{ccccc}
     \toprule
     $C$ (contagi) & $G$ (guarigioni) & Stato arrivo $(s',i',r')$ & Formula analitica & Probabilità \\
     \midrule
-    0 & 0 & $(2, 1, 0)$ & $(1-1/6)^2 \cdot (1-0.3)$ & $\mathbf{0.4861}$ \\
-    0 & 1 & $(2, 0, 1)$ \textsuperscript{(*)} & $(1-1/6)^2 \cdot 0.3$ & $\mathbf{0.2083}$ \\
-    1 & 0 & $(1, 2, 0)$ & $2(1/6)(5/6) \cdot (1-0.3)$ & $\mathbf{0.1944}$ \\
+    0 & 0 & $(2, 1, 0)$ & $(5/6)^2 \cdot 0.7$ & $\mathbf{0.4861}$ \\
+    0 & 1 & $(2, 0, 1)$ \textsuperscript{(*)} & $(5/6)^2 \cdot 0.3$ & $\mathbf{0.2083}$ \\
+    1 & 0 & $(1, 2, 0)$ & $2(1/6)(5/6) \cdot 0.7$ & $\mathbf{0.1944}$ \\
     1 & 1 & $(1, 1, 1)$ & $2(1/6)(5/6) \cdot 0.3$ & $\mathbf{0.0833}$ \\
-    2 & 0 & $(0, 3, 0)$ & $(1/6)^2 \cdot (1-0.3)$ & $\mathbf{0.0194}$ \\
+    2 & 0 & $(0, 3, 0)$ & $(1/6)^2 \cdot 0.7$ & $\mathbf{0.0194}$ \\
     2 & 1 & $(0, 2, 1)$ & $(1/6)^2 \cdot 0.3$ & $\mathbf{0.0083}$ \\
     \bottomrule
     \end{tabular}
+    }
     \end{center}
-    \vspace{0.1cm}
-    \textbf{Verifica di stocasticità}: $\sum P((2,1,0), \cdot) = 0.4861 + 0.2083 + 0.1944 + 0.0833 + 0.0194 + 0.0083 = \mathbf{1.0000}$ \checkmark
+    \vspace{-0.05cm}
+    \footnotesize \textbf{Verifica stocasticità}: $\sum P((2,1,0), \cdot) = 0.4861 + 0.2083 + 0.1944 + 0.0833 + 0.0194 + 0.0083 = \mathbf{1.0000}$ \checkmark
 
     \note{
-        Questo esempio pratico per N=3 mostra il calcolo riga per riga:
-        partendo da (2,1,0), ci sono 6 possibili stati di arrivo.
-        La somma delle probabilità è esattamente 1.
-        Notiamo che lo stato (2,0,1) è assorbente poiché ha I=0.
+        Il numero di possibili transizioni partendo da (S,I) è esattamente (S+1)(I+1) = (2+1)(1+1) = 6 combinazioni.
+        Ciascuna probabilità è calcolata tramite la formula congiunta Binomiale(Contagi) x Binomiale(Guarigioni).
+        La somma di tutte le 6 transizioni è esattamente 1 (riga stocastica della matrice P).
     }
 \end{frame}
 

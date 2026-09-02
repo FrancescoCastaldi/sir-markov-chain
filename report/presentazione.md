@@ -118,10 +118,13 @@
 
 ## SLIDE 9 — Esempio Analitico: $N=3, \beta=0.5, \gamma=0.3$
 > **Testo parlato**:  
-> "Per toccare con mano la costruzione algebrica della matrice $P$, consideriamo $N=3$ e lo stato di partenza $(2,1,0)$.  
-> Con 2 suscettibili e 1 infetto, la probabilità di contagio individuale è $0.5 \times 1/3 = 1/6$, mentre la probabilità di guarigione è $0.3$.  
-> I contagi possibili sono $c \in \{0,1,2\}$ e le guarigioni $g \in \{0,1\}$.  
-> Moltiplicando le rispettive densità binomiali otteniamo le probabilità esatte dei 6 stati di arrivo. Sommando queste probabilità otteniamo esattamente 1.0000, a conferma che la riga è stocastica. Notiamo anche che lo stato $(2,0,1)$ ha $I=0$ ed è uno stato assorbente."
+> "Per comprendere la costruzione della matrice, consideriamo uno stato concreto: $(S=2, I=1, R=0)$ con $N=3$, $\beta=0.5$ e $\gamma=0.3$.  
+> Il numero di transizioni possibili è dato dal prodotto cartesiano dei possibili contagi e guarigioni:  
+> $$\text{Transizioni possibili} = (S+1) \times (I+1) = (2+1) \times (1+1) = 6 \text{ combinazioni}$$  
+> poiché i nuovi contagi $C \in \{0, 1, 2\}$ e le guarigioni $G \in \{0, 1\}$.  
+> Ciascuna delle 6 probabilità è calcolata tramite la formula congiunta Binomiale(Contagi) $\times$ Binomiale(Guarigioni):  
+> $$\mathbb{P}(C=c, G=g) = \binom{2}{c}\left(\frac{1}{6}\right)^c\left(\frac{5}{6}\right)^{2-c} \cdot \binom{1}{g}(0.3)^g(0.7)^{1-g}$$  
+> La somma delle 6 probabilità è esattamente $1.0000$, formando la riga della matrice stocastica associata a $(2,1,0)$. Notiamo anche che lo stato $(2,0,1)$ ha $I=0$ ed è uno stato assorbente."
 
 ---
 
