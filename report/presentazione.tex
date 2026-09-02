@@ -658,84 +658,98 @@ def next_state(s: int, i: int, r: int, n: int = 100,
             \end{center}
         \end{column}
         \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Traiettoria nel Piano $(S, I)$}
-                \footnotesize Equazione analitica dell'orbita:
-                \[ I(S) = I_0 + (S_0 - S) + \frac{N}{R_0} \ln\left(\frac{S}{S_0}\right) \]
+            \begin{block}{\footnotesize Orbita Analitica e Soglia Critica}
+                \footnotesize \begin{itemize}
+                    \item \textbf{Curva nera}: orbita limite ODE
+                    \[ I(S) = I_0 + (S_0 - S) + \frac{N}{R_0} \ln\left(\frac{S}{S_0}\right) \]
+                    \item \textbf{Linea tratteggiata ($S^* = 50$)}: soglia critica $S^* = N/R_0$ dove il tasso netto si inverte:
+                    \[ R_{\text{eff}}(t) = R_0 \frac{S_t}{N} = 1 \quad \text{(immunità di gregge)} \]
+                \end{itemize}
             \end{block}
-            \begin{block}{\footnotesize Soglia Critica di Picco}
-                \footnotesize Il picco si verifica quando i suscettibili scendono al livello critico:
-                \[ S^* = \frac{N}{R_0} = \frac{100}{2} = 50 \text{ suscettibili} \]
-            \end{block}
-            \begin{block}{\footnotesize Bordo Assorbente}
-                \footnotesize Tutte le traiettorie stocastiche collassano sull'asse orizzontale $I=0$.
+            \begin{block}{\footnotesize Dinamica Stocastica e Assorbimento}
+                \footnotesize \begin{itemize}
+                    \item \textbf{Moto da destra a sinistra}: $\Delta S \le 0$ (assenza reinfezione), partenza da $(95, 5)$.
+                    \item \textbf{Collasso su $\mathcal{A}$}: i fasci stocastici fluttuano e terminano sull'asse assorbente $I=0$, determinando la dispersione di $R_\infty = N - S_\infty$.
+                \end{itemize}
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        Il ritratto di fase mostra l'evoluzione congiunta di suscettibili e infetti.
-        La teoria ci dice che il picco avviene esattamente quando S scende alla soglia critica N/R_0 = 50.
-        Dopodiché, la curva scende fino a intersecare l'asse I=0.
+        Il ritratto di fase nel piano (S, I) mostra l'evoluzione congiunta dei due compartimenti liberi.
+        Si nota il moto unidirezionale da destra verso sinistra.
+        La curva nera rappresenta l'orbita continua, mentre i fasci colorati mostrano le fluttuazioni stocastiche.
+        Il picco si colloca esattamente sulla soglia critica S* = N/R0 = 50, dove il numero di riproduzione effettivo R_t diventa pari a 1.
+        Infine tutte le traiettorie atterrano sull'asse assorbente I=0.
     }
 \end{frame}
 
 % SLIDE 19 — Istogramma del Tempo di Estinzione
 \begin{frame}{Distribuzione del Tempo di Estinzione $\tau$}
     \begin{columns}[c]
-        \begin{column}{0.52\textwidth}
+        \begin{column}{0.50\textwidth}
             \begin{center}
                 \includegraphics[width=\textwidth]{../img/tau_histogram.png}
             \end{center}
         \end{column}
-        \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Tempo di Estinzione $\tau$}
-                \footnotesize Definito come il tempo di primo ingresso in $\mathcal{A}$:
-                \[ \tau = \inf\{t \ge 0 : I_t = 0\} \]
-            \end{block}
-            \begin{block}{\footnotesize Stime Monte Carlo ($M=1000$)}
-                \footnotesize \begin{itemize}
-                    \item Media campionaria: $\bar{\tau} = \mathbf{86.66}$ passi (stima di $\mathbb{E}[\tau] = (I-Q)^{-1}\mathbf{1}$).
-                    \item Deviazione standard: $\sigma_\tau = \mathbf{22.81}$ passi.
+        \begin{column}{0.48\textwidth}
+            \begin{block}{\footnotesize Definizione e Media Campionaria}
+                \footnotesize \begin{itemize}\setlength{\itemsep}{1pt}
+                    \item \textbf{Tempo di estinzione} (primo istante $I_t=0$):
+                    \vspace{-0.1cm}\[ \tau = \inf\{t \ge 0 : I_t = 0\} \]\vspace{-0.2cm}
+                    \item \textbf{Media campionaria} (linea rossa su $M=1000$):
+                    \vspace{-0.1cm}\[ \bar{\tau} = \frac{1}{M}\sum_{m=1}^M \tau^{(m)} = \mathbf{86.66} \pm \mathbf{22.81} \]\vspace{-0.2cm}
+                    \item \textbf{Valore atteso teorico} ($(I-Q)^{-1}\mathbf{1}$ su riga $X_0$):
+                    \vspace{-0.1cm}\[ \mathbb{E}[\tau \mid X_0] = \left[(I - Q)^{-1}\mathbf{1}\right]_{X_0} \]\vspace{-0.1cm}
                 \end{itemize}
             \end{block}
-            \begin{block}{\footnotesize Asimmetria a Destra}
-                \footnotesize Coda allungata dovuta a scenari in cui l'infezione persiste a lungo con pochissimi infetti prima di spegnersi.
+            \begin{block}{\footnotesize Morfologia della Distribuzione}
+                \footnotesize \begin{itemize}\setlength{\itemsep}{1pt}
+                    \item \textbf{Estinzione precoce} ($\min \tau = 18$): i 5 infetti iniziali guariscono prima dell'ondata.
+                    \item \textbf{Coda lunga destra} ($\max \tau = 195$): persistenza stocastica quando restano 1--2 infetti.
+                \end{itemize}
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        L'istogramma del tempo di estinzione mostra una media di circa 87 passi, con una tipica asimmetria positiva a destra causata da traiettorie a lunga persistenza.
+        L'istogramma del tempo di estinzione tau mostra il tempo di primo ingresso nello spazio assorbente A.
+        La linea rossa tratteggiata indica la media empirica di 86.66 passi, che stima la componente [(I-Q)^-1 1] per lo stato iniziale X0.
+        La distribuzione non è simmetrica: presenta una forte asimmetria positiva a destra con una coda di persistenza fino a 195 passi, ma anche casi di estinzione precoce a sinistra.
     }
 \end{frame}
 
-% SLIDE 20 — Distribuzione dell'Attacco Finale R_inf
 \begin{frame}{Distribuzione dell'Attacco Finale $R_\infty$}
     \begin{columns}[c]
-        \begin{column}{0.52\textwidth}
+        \begin{column}{0.50\textwidth}
             \begin{center}
                 \includegraphics[width=\textwidth]{../img/r_infinity_histogram.png}
             \end{center}
         \end{column}
-        \begin{column}{0.46\textwidth}
-            \begin{block}{\footnotesize Attacco Finale $R_\infty$}
-                \footnotesize Rappresenta il totale degli individui colpiti dal virus al momento dell'estinzione ($R_\tau$).
-            \end{block}
-            \begin{block}{\footnotesize Confronto con la Previsione Asintotica}
-                \footnotesize \begin{itemize}
-                    \item \textbf{Media Monte Carlo}: $\bar{R}_\infty = \mathbf{76.59} \pm 8.41$ individui ($76.6\%$).
-                    \item \textbf{Limite Teorico Deterministico}: $r_\infty = 1 - s_0 e^{-R_0 r_\infty} \implies \approx 79.7\%$.
+        \begin{column}{0.48\textwidth}
+            \begin{block}{\footnotesize Confronto: Stocastico vs Deterministico (ODE)}
+                \footnotesize \begin{itemize}\setlength{\itemsep}{1pt}
+                    \item \textbf{Stocastico (Markov $N=100$)}: media campionaria
+                    \[ \bar{R}_\infty = \mathbf{76.59} \pm \mathbf{8.41} \text{ individui } (76.6\%) \]
+                    \item \textbf{Deterministico ($N \to \infty$)}: equazione asintotica
+                    \vspace{-0.1cm}\[ r_\infty = 1 - s_0 e^{-R_0 r_\infty} \implies \mathbf{79.7\%} \text{ (79.7 ind.)} \]\vspace{-0.1cm}
+                    \item \textbf{Effetto taglia finita}: la media stocastica è minore perché include l'estinzione precoce e l'arresto esatto a $I_t=0$ (nelle ODE $I(t)>0 \;\forall t$).
                 \end{itemize}
             \end{block}
-            \begin{block}{\footnotesize Stati Terminali Assorbenti}
-                \footnotesize Le barre stimano la probabilità di assorbimento in ciascuno stato $(N-R_\infty, 0, R_\infty) \in \mathcal{A}$.
+            \begin{block}{\footnotesize Significato Markoviano degli Stati Assorbenti}
+                \footnotesize \begin{itemize}\setlength{\itemsep}{1pt}
+                    \item Ciascuno stato terminale appartiene ad $\mathcal{A}$: $(N-R_\infty, 0, R_\infty)$.
+                    \item Le barre stimano la matrice di assorbimento:
+                    \vspace{-0.1cm}\[ B_{X_0, k} = \left[(I - Q)^{-1} R\right]_{X_0, k} \]\vspace{-0.1cm}
+                \end{itemize}
             \end{block}
         \end{column}
     \end{columns}
 
     \note{
-        L'attacco finale misura quante persone si sono infettate prima che il virus scomparisse.
-        La media simulata del 76.6% è in ottimo accordo con il valore asintotico deterministico di circa l'80%.
+        L'attacco finale R_inf misura quanti individui hanno contratto il virus prima dell'estinzione.
+        Il confronto con il limite deterministico mostra che la media stocastica (76.6%) è leggermente inferiore alla previsione continua (79.7%): questo è il classico effetto di taglia finita, dovuto all'arresto esatto a zero e alla varianza campionaria.
+        Ogni barra dell'istogramma rappresenta la stima empirica di una componente della matrice di assorbimento B = (I-Q)^-1 R.
     }
 \end{frame}
 
