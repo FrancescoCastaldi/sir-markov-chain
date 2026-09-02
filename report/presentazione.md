@@ -129,11 +129,12 @@
 
 ## SLIDE 10 — Matrice di Transizione $P$ e Forma Canonica
 > **Testo parlato**:  
-> "L'elemento generico $P(x,y)$ della matrice di transizione si ottiene sommando su tutte le coppie $(c,g)$ compatibili con lo stato di destinazione.  
-> Essendo una catena assorbente, possiamo ordinare gli stati posizionando prima i transitori $\mathcal{T}$ e poi gli assorbenti $\mathcal{A}$.  
-> La matrice assume la forma canonica a blocchi $P = \begin{pmatrix} Q & R \\ 0 & I \end{pmatrix}$, dove $Q$ descrive le transizioni interne tra stati transitori, $R$ descrive i salti verso gli assorbenti, e $I$ è la matrice identità sugli stati assorbenti."
-
----
+> "La formula generale per qualsiasi coppia di stati si ottiene direttamente moltiplicando la probabilità di osservare $c = s - s'$ nuovi contagi per la probabilità di osservare $g = r' - r$ nuove guarigioni:  
+> $$P\bigl((s,i,r),\, (s',i',r')\bigr) = \mathbb{P}(C = s - s') \cdot \mathbb{P}(G = r' - r)$$  
+> sotto la condizione di conservazione sul compartimento infetti.  
+> Se ordiniamo lo spazio degli stati raggruppando prima tutti i transitori $\mathcal{T}$ (con $I>0$) e poi tutti gli assorbenti $\mathcal{A}$ (con $I=0$), la matrice assume la classica **forma canonica a blocchi**:  
+> $$P = \begin{pmatrix} Q & R \\ \mathbf{0} & I \end{pmatrix}$$  
+> dove $Q$ governa la dinamica interna tra transitori, $R$ contiene le probabilità di transizione verso l'assorbimento, $\mathbf{0}$ garantisce che dagli stati assorbenti non si possa uscire, e $I$ è la matrice identità."
 
 ## SLIDE 11 — Struttura della Matrice $P$ ($N=3$, Heatmap)
 > **Testo parlato**:  

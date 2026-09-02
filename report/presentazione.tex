@@ -377,14 +377,19 @@
 % SLIDE 10 — Matrice di transizione P
 \begin{frame}{Matrice di Transizione $P$ e Forma Canonica}
     \textbf{Formula di Transizione per Elemento}:
-    \[ P\bigl((s,i,r),\, (s',i',r')\bigr) = \sum_{c=0}^s \sum_{g=0}^i \text{Bin}\left(s, c, \frac{\beta i}{N}\right) \cdot \text{Bin}(i, g, \gamma) \cdot \mathbf{1}_{\{s'=s-c,\, i'=i+c-g,\, r'=r+g\}} \]
+    \[
+    P\bigl((s,i,r),\, (s',i',r')\bigr) = \underbrace{\mathbb{P}(C = s - s')}_{\text{Nuovi Contagi } c} \;\times\; \underbrace{\mathbb{P}(G = r' - r)}_{\text{Nuove Guarigioni } g}
+    \]
+    \footnotesize con vincolo di bilancio $i' = i + (s - s') - (r' - r)$ (altrimenti $P = 0$).
+    \normalsize
 
+    \vspace{0.15cm}
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
             \begin{block}{Proprietà della Matrice $P$}
                 \begin{itemize}
                     \item $P$ è \textbf{stocastica per righe}: $\sum_y P(x,y) = 1$.
-                    \item \textbf{Triangolare a blocchi} per via della monotonicità non-decrescente di $R_t$.
+                    \item \textbf{Triangolare a blocchi}: i rimossi $R_t$ non possono diminuire (assenza di cicli).
                     \item Gli stati con $i=0$ sono assorbenti ($P_{ii}=1$).
                 \end{itemize}
             \end{block}
@@ -392,7 +397,7 @@
         \begin{column}{0.48\textwidth}
             \begin{block}{Forma Canonica Assorbente}
                 Ordinando prima i transitori $\mathcal{T}$ e poi gli assorbenti $\mathcal{A}$:
-                \[ P = \begin{pmatrix} Q & R \\ 0 & I \end{pmatrix} \]
+                \[ P = \begin{pmatrix} Q & R \\ \mathbf{0} & I \end{pmatrix} \]
                 \begin{itemize}
                     \item $Q$: transizioni interne tra stati con virus attivo ($\mathcal{T} \to \mathcal{T}$).
                     \item $R$: transizioni verso l'estinzione ($\mathcal{T} \to \mathcal{A}$).
@@ -403,8 +408,8 @@
     \end{columns}
 
     \note{
-        La matrice P può essere ordinata nella forma canonica standard per catene assorbenti:
-        il blocco Q gestisce le transizioni tra stati transitori, R le probabilità di assorbimento e I la permanenza negli stati estinti.
+        La probabilità di transizione tra due stati si calcola direttamente identificando il numero di contagi c = s - s' e di guarigioni g = r' - r.
+        La matrice P viene riordinata nella forma canonica standard per catene assorbenti con i 4 blocchi Q, R, 0, I.
     }
 \end{frame}
 
