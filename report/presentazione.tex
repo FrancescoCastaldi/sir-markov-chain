@@ -489,7 +489,8 @@
             \end{enumerate}
         \end{column}
         \begin{column}{0.45\textwidth}
-            \begin{block}{Parametri di Simulazione}
+            \begin{block}{Parametri Ufficiali}
+                \resizebox{\textwidth}{!}{
                 \begin{tabular}{ll}
                 \toprule
                 Parametro & Valore \\
@@ -503,14 +504,20 @@
                 Seed riproducibilità & \textbf{42} \\
                 \bottomrule
                 \end{tabular}
+                }
             \end{block}
         \end{column}
     \end{columns}
 
+    \vspace{0.15cm}
+    \begin{block}{\footnotesize Motivazione Computazionale del Metodo Monte Carlo}
+        \footnotesize Per $N=100$, lo spazio ha $|E|=\mathbf{5151}$ stati ($P$ ha $>2.6 \times 10^7$ entrate). Il campionamento stocastico evita l'inversione esplicita di matrici enormi, stimando medie, varianze e distribuzioni empiriche in modo rapido e accurato.
+    \end{block}
+
     \note{
         L'algoritmo Monte Carlo implementa fedelmente il campionamento dalla catena.
+        Perché Monte Carlo? Perché con N=100 lo spazio ha 5151 stati e la matrice avrebbe oltre 26 milioni di entrate: il campionamento stocastico è computazionalmente molto più efficiente.
         Fissiamo il seed a 42 per garantire la totale riproducibilità dei risultati.
-        Con R_0 = 2, ci troviamo in un regime sovracritico in cui l'epidemia si espande significativamente.
     }
 \end{frame}
 

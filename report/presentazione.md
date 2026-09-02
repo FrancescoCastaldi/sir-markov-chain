@@ -157,10 +157,11 @@
 
 ## SLIDE 13 — Algoritmo di Simulazione Monte Carlo
 > **Testo parlato**:  
-> "Per esplorare il comportamento del sistema su scala $N=100$, abbiamo implementato un algoritmo di simulazione Monte Carlo.  
-> Partendo da $S_0=95, I_0=5, R_0=0$, ad ogni passo campioniamo contagi e guarigioni binomiali fino al raggiungimento di $I_t=0$.  
-> Ripetiamo la procedura per $M=1000$ replicazioni indipendenti con seed fissato a 42 per garantire la totale riproducibilità scientifica.  
-> Con $\beta=0.20$ e $\gamma=0.10$, il parametro $R_0 = \beta / \gamma = 2.0$ si trova in regime sovracritico."
+> "Perché passiamo alla simulazione Monte Carlo?  
+> Per $N=100$, lo spazio degli stati conta 5151 stati e la matrice $P$ avrebbe oltre 26 milioni di entrate: calcolarne l'inversa $(I-Q)^{-1}$ richiederebbe un costo computazionale elevato.  
+> La simulazione Monte Carlo ci permette di campionare direttamente le traiettorie stocastiche estraendo a ogni passo temporale due variabili binomiali indipendenti: $C_t \sim \text{Bin}(S_t, \beta I_t/N)$ e $G_t \sim \text{Bin}(I_t, \gamma)$.  
+> Se $I_t=0$, la catena si arresta avendo raggiunto l'assorbimento ($\tau=t$).  
+> Eseguiamo $M=1000$ repliche indipendenti con seed fissato a 42 per garantire la totale riproducibilità scientifica, su una popolazione $N=100$ con $I_0=5$, $\beta=0.20$ e $\gamma=0.10$ ($R_0=2.00$)."
 
 ---
 
