@@ -200,24 +200,32 @@
 
 ## SLIDE 18 — Ritratto di Fase $(S, I)$ nello Spazio degli Stati
 > **Testo parlato**:  
-> "Questa visualizzazione nel piano di fase $(S, I)$ è particolarmente illuminante.  
-> L'area azzurra rappresenta il simplesso degli stati ammissibili $S + I \le N$.  
-> Le traiettorie stocastiche partono dal punto blu $(95, 5)$, salgono verso l'alto a sinistra e poi ricadono verso l'asse orizzontale in basso $I=0$, che rappresenta la linea assorbente $\mathcal{A}$.  
-> La curva nera rappresenta l'orbita teorica continua ODE, attorno alla quale le traiettorie stocastiche fluttuano."
+> "Questa visualizzazione nel piano di fase $(S, I)$ mostra l'evoluzione congiunta di suscettibili e infetti, eliminando la variabile tempo.  
+> Notiamo subito che il moto è unidirezionale da destra verso sinistra: partiamo dal punto iniziale $(95, 5)$ e $S_t$ può solo decrescere.  
+> La curva nera rappresenta l'orbita continua teorica ODE, mentre i fasci colorati mostrano le fluttuazioni stocastiche campionarie attorno ad essa.  
+> La linea verticale tratteggiata identifica la soglia critica $S^* = N/R_0 = 50$: qui il numero di riproduzione effettivo $R_{\text{eff}}(t) = R_0 \frac{S_t}{N}$ diventa pari a 1 (soglia di immunità di gregge). Finché $S > 50$ il virus cresce; appena $S < 50$, il tasso si inverte e la curva è costretta a scendere.  
+> Infine, tutte le traiettorie collassano sull'asse orizzontale assorbente $I=0$."
 
 ---
 
 ## SLIDE 19 — Distribuzione del Tempo di Estinzione $\tau$
 > **Testo parlato**:  
-> "L'istogramma del tempo di estinzione $\tau$ mostra una distribuzione asimmetrica a destra (skew-positive): la maggior parte delle epidemie si estingue attorno al passo 80-90, ma esiste una coda lunga dovuta a traiettorie in cui l'infezione persiste con pochi individui prima di spegnersi."
+> "L'istogramma mostra la distribuzione del tempo di estinzione $\tau$, definito formalmente come il tempo di primo ingresso nello spazio assorbente: $\tau = \inf\{t \ge 0 : I_t = 0\}$.  
+> La linea rossa tratteggiata indica la media campionaria su 1000 repliche, pari a $\bar{\tau} = 86.66 \pm 22.81$ passi, che stima empiricamente la componente teorica $[(I - Q)^{-1}\mathbf{1}]_{X_0}$ data dalla matrice fondamentale.  
+> La distribuzione è fortemente asimmetrica a destra (right-skewed):  
+> - A sinistra osserviamo casi di estinzione precoce (minimo a 18 passi), in cui i 5 infetti guariscono subito prima di innescare l'ondata;  
+> - A destra troviamo una coda lunga di persistenza stocastica fino a 195 passi, dove 1 o 2 infetti residui mantengono viva la trasmissione al lumicino prima dello spegnimento."
 
 ---
 
 ## SLIDE 20 — Distribuzione dell'Attacco Finale $R_\infty$
 > **Testo parlato**:  
-> "L'istogramma dell'attacco finale $R_\infty$ mostra la distribuzione del numero totale di individui immunizzati al termine dell'epidemia.  
-> La media si attesta a 76.59 individui.  
-> Dal punto di vista della teoria di Markov, ciascuna barra di questo istogramma rappresenta la probabilità di assorbimento in uno specifico stato terminale $(N-r, 0, r) \in \mathcal{A}$."
+> "L'istogramma dell'attacco finale $R_\infty = R_\tau$ misura il totale cumulativo di individui immunizzati al termine dell'epidemia.  
+> In termini markoviani, ciascuna barra dell'istogramma rappresenta la stima campionaria della probabilità di assorbimento $B_{X_0, k} = [(I - Q)^{-1} R]_{X_0, k}$ nello specifico stato assorbente $(N-k, 0, k) \in \mathcal{A}$.  
+> Mettendo a confronto i due modelli:  
+> - La media stocastica su 1000 simulazioni è pari a $\bar{R}_\infty = 76.59 \pm 8.41$ individui ($76.6\%$, con range tra 5 e 94);  
+> - Il limite teorico continuo di Kermack-McKendrick, risolvendo l'equazione asintotica $r_\infty = 1 - s_0 e^{-R_0 r_\infty}$, prevede il $79.7\%$.  
+> La media stocastica risulta leggermente inferiore per il classico 'effetto di taglia finita': la quantizzazione discreta a zero e le estinzioni precoci arrestano l'epidemia prima rispetto a un fluido continuo infinito."
 
 ---
 
