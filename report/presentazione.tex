@@ -303,7 +303,7 @@
 
 % SLIDE 8 — Probabilità di transizione
 \begin{frame}{Probabilità di Transizione ed Equazioni di Aggiornamento}
-    Ad ogni passo temporale $t \to t+1$, operano due variabili binomiali \textbf{indipendenti}:
+    Per passare dallo stato attuale $(S_t, I_t)$ allo stato futuro $(S_{t+1}, I_{t+1})$, operano due variabili binomiali:
 
     \begin{columns}[T]
         \begin{column}{0.48\textwidth}
@@ -320,20 +320,19 @@
         \end{column}
     \end{columns}
 
-    \vspace{0.2cm}
-    \textbf{Aggiornamento dello stato}:
-    \begin{align*}
-        S_{t+1} &= S_t - C_t \\
-        I_{t+1} &= I_t + C_t - G_t \\
-        R_{t+1} &= R_t + G_t
-    \end{align*}
-    
-    Poiché $(C_t, G_t)$ dipendono solo dallo stato $(S_t, I_t)$, il processo $\{X_t\}_{t \ge 0}$ è una \textbf{catena di Markov omogenea}.
+    \vspace{0.15cm}
+    \textbf{Probabilità Congiunta di Transizione (Indipendenza Condizionale)}:
+    \footnotesize
+    \[
+    \mathbb{P}(C_t = c, \, G_t = g \mid S_t, I_t) = \underbrace{\mathbb{P}(C_t = c \mid S_t, I_t)}_{\text{Marginale Contagi}} \cdot \underbrace{\mathbb{P}(G_t = g \mid I_t)}_{\text{Marginale Guarigioni}}
+    \]
+    \normalsize
+
+    \textbf{Aggiornamento dello stato}: $S_{t+1} = S_t - C_t$, \quad $I_{t+1} = I_t + C_t - G_t$, \quad $R_{t+1} = R_t + G_t$.
 
     \note{
-        Le transizioni sono descritte da due estrazioni binomiali indipendenti:
-        il numero di contagi C_t e il numero di guarigioni G_t.
-        L'aggiornamento è lineare e preserva la somma N.
+        Per passare dallo stato attuale a quello futuro calcoliamo la probabilità congiunta di avere simultaneamente c contagi e g guarigioni.
+        Grazie all'indipendenza condizionale tra contagio e guarigione nello stesso passo temporale, la probabilità congiunta è il prodotto esatto delle due probabilità marginali binomiali.
     }
 \end{frame}
 

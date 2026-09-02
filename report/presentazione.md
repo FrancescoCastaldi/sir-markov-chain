@@ -107,11 +107,12 @@
 
 ## SLIDE 8 — Probabilità di Transizione ed Equazioni di Aggiornamento
 > **Testo parlato**:  
-> "La transizione temporale da $t$ a $t+1$ è governata da due variabili aleatorie binomiali mutuamente indipendenti:  
-> 1. Il numero di contagi $C_t \mid (S_t=s, I_t=i) \sim \text{Bin}(s, \beta i / N)$, poiché ogni suscettibile ha probabilità $\beta i / N$ di essere contagiato incontrando un infetto;  
-> 2. Il numero di guarigioni $G_t \mid I_t=i \sim \text{Bin}(i, \gamma)$, con parametro $\gamma$ costante per ciascun infetto.  
-> L'aggiornamento è lineare: $S_{t+1} = S_t - C_t$, $I_{t+1} = I_t + C_t - G_t$, $R_{t+1} = R_t + G_t$.  
-> Poiché i parametri delle Binomiali dipendono unicamente dallo stato corrente $(s,i)$, la proprietà di Markov è pienamente soddisfatta."
+> "Per passare dallo stato attuale $(S_t, I_t)$ allo stato futuro $(S_{t+1}, I_{t+1})$, operano due variabili binomiali:  
+> - I nuovi contagi $C_t \sim \text{Bin}(S_t, \beta I_t / N)$ tra i suscettibili;  
+> - Le nuove guarigioni $G_t \sim \text{Bin}(I_t, \gamma)$ tra gli infetti.  
+> Poiché i due processi biologici sono condizionatamente indipendenti dato lo stato presente, la **probabilità congiunta di transizione** è esattamente il **prodotto delle due probabilità marginali binomiali**:  
+> $$\mathbb{P}(C_t = c, G_t = g \mid S_t, I_t) = \mathbb{P}(C_t = c \mid S_t, I_t) \cdot \mathbb{P}(G_t = g \mid I_t)$$  
+> L'aggiornamento dello stato è lineare: $S_{t+1}=S_t-C_t$, $I_{t+1}=I_t+C_t-G_t$, $R_{t+1}=R_t+G_t$."
 
 ---
 

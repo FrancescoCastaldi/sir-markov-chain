@@ -30,16 +30,18 @@ docs/relazione*
 # Note di studio private, dispense ed estratti orali
 references/
 *guida_studio*
+*guida_orale*
 *schema_conformita*
 *teoremi*
 *dimostrazioni*
 *domande_teoriche*
 *distribuzioni_fondamentali*
+*bigliettino*
 i_16_teoremi_puri*
 tutti_i_teoremi*
-formulario_dimostrazioni_secche.pdf
-risposte_domande_teoriche.pdf
-domande_teoriche.pdf
+formulario_dimostrazioni_secche*
+risposte_domande_teoriche*
+domande_teoriche*
 
 # README ausiliari delle sottocartelle e documentazione interna
 src/README.md
